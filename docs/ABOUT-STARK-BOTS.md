@@ -145,4 +145,30 @@ More desks (Arcus, Lighter, Nado, Mint, Portfolio, Nimbus, Profit Taking, Bound,
 
 *Built for builders and traders who want tools they can inspect — and hosted desks that stay unlocked by holding, not by hope.*
 
+
+
+---
+
+## What we have already shipped
+
+- Public GitHub teasers under [StaRKCrypto](https://github.com/StaRKCrypto) (hub: [stark-tools](https://github.com/StaRKCrypto/stark-tools))
+- Brand account [@StaRKCryptoBots](https://x.com/StaRKCryptoBots) with demo threads (S/R, Arcus, Lighter, Nado, Mint Sniper, Portfolio, and more rolling)
+- Paper / demo desks clearly labeled — not live fills
+- This overview doc for newcomers
+
+## Future plans
+
+1. Finish remaining desk demo drops (Nimbus weather, Profit Taking, Bound, Monk, …)
+2. One public landing page (single front door for tools + GitHub + X)
+3. Hosted unlock: connect wallet, hold ~0.5% of official coin
+4. Coin launch **last** — CA only on official channels (brand X, GitHub, landing)
+5. Keep iterating desks in public without exposing live keys
+
+## How to follow / verify
+
+- Star & browse: https://github.com/StaRKCrypto/stark-tools  
+- Brand X: https://x.com/StaRKCryptoBots  
+- Personal: https://x.com/_Starkcrypto  
+- First demo (S/R): https://x.com/StaRKCryptoBots/status/2100351594118410397  
+
 © 2026 StaRKCrypto · MIT on public teasers · NFA
