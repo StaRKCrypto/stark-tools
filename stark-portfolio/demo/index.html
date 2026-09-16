@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stark Portfolio — DEMO STUB</title>
+  <style>
+    :root { --bg:#0b0f14; --card:#141b24; --accent:#7c5cff; --ok:#3dd68c; --muted:#8b9bb4; --text:#e8eef8; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, sans-serif; background:var(--bg); color:var(--text); }
+    header { padding:1.25rem 1.5rem; border-bottom:1px solid #1e2836; display:flex; justify-content:space-between; align-items:center; }
+    header strong { letter-spacing:.04em; }
+    .badge { font-size:.75rem; background:#2a1f55; color:#cbb8ff; padding:.25rem .6rem; border-radius:999px; }
+    main { max-width:920px; margin:1.5rem auto; padding:0 1rem; }
+    .hero { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .card { background:var(--card); border:1px solid #1e2836; border-radius:14px; padding:1.25rem; }
+    .label { color:var(--muted); font-size:.8rem; text-transform:uppercase; letter-spacing:.06em; }
+    .big { font-size:2rem; font-weight:700; margin:.35rem 0; }
+    .ok { color:var(--ok); }
+    table { width:100%; border-collapse:collapse; margin-top:1rem; }
+    th, td { text-align:left; padding:.65rem .4rem; border-bottom:1px solid #1e2836; font-size:.95rem; }
+    th { color:var(--muted); font-weight:500; font-size:.75rem; text-transform:uppercase; }
+    footer { margin:2rem auto; max-width:920px; padding:0 1rem 2rem; color:var(--muted); font-size:.85rem; line-height:1.5; }
+    a { color:var(--accent); }
+    @media (max-width:640px){ .hero{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+  <header>
+    <div><strong>Stark Portfolio</strong> · demo stub</div>
+    <span class="badge">TEASER · NOT LIVE</span>
+  </header>
+  <main>
+    <div class="hero">
+      <div class="card">
+        <div class="label">Total equity (demo)</div>
+        <div class="big" id="equity">—</div>
+        <div class="label">Hardcoded sample · USD</div>
+      </div>
+      <div class="card">
+        <div class="label">Day PnL (demo)</div>
+        <div class="big ok" id="dpnl">—</div>
+        <div class="label" id="asof">—</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:1rem;">
+      <div class="label">Positions</div>
+      <table>
+        <thead><tr><th>Symbol</th><th>Side</th><th>Size</th><th>Entry</th><th>Mark</th><th>uPnL</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </main>
+  <footer>
+    <p><strong>Hold to access.</strong> Hosted tools require holding ~0.5% of the official coin
+    (<code>YOUR_TOKEN_CA_HERE</code> — CA added after launch). Public repo = authenticity samples + docs teaser.
+    Full hosted access is gated. Source samples are NOT the full product.</p>
+    <p>Brand: <a href="https://x.com/starkcryptollc">@starkcryptollc</a> · <a href="https://x.com/_Starkcrypto">@_Starkcrypto</a></p>
+  </footer>
+  <script>
+    fetch('stats.json').then(r => r.json()).then(d => {
+      document.getElementById('equity').textContent = '$' + d.total_equity.toLocaleString(undefined,{minimumFractionDigits:2});
+      document.getElementById('dpnl').textContent = '+$' + d.day_pnl.toLocaleString(undefined,{minimumFractionDigits:2}) + ' (' + d.day_pnl_pct + '%)';
+      document.getElementById('asof').textContent = 'as of ' + d.as_of + ' · ' + d.note;
+      const tb = document.getElementById('rows');
+      d.positions.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${p.symbol}</td><td>${p.side}</td><td>${p.size}</td><td>${p.entry}</td><td>${p.mark}</td><td>${p.u_pnl.toFixed(2)}</td>`;
+        tb.appendChild(tr);
+      });
+    });
+  </script>
+</body>
+</html>

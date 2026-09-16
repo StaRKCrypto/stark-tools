@@ -1,0 +1,97 @@
+# === stark-tools public teaser — strong deny-list ===
+# Never commit secrets, wallets, env files, or live product brains.
+
+# Environment & secrets
+.env
+.env.*
+*.env
+!.env.example
+lighter-*.env
+**/lighter-*.env
+secrets/
+**/secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+*.keystore
+
+# API / wallet dumps
+wallets.txt
+**/wallets.txt
+*_private*
+*private_key*
+*api_key*
+*secret_key*
+*seed*
+*mnemonic*
+credentials.json
+service-account*.json
+auth.json
+token.json
+.secrets/
+
+# Keys & hex dumps that look like secrets
+*.secret
+*.tok
+*.jwt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/
+
+# Node / front-end
+node_modules/
+.npm/
+.next/
+.nuxt/
+.cache/
+coverage/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-store/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Local data & dumps
+*.sqlite
+*.db
+*.csv.bak
+data/live/
+exports/
+tmp/
+temp/
+.local/
+
+# Archives that may contain product source
+*.tar.gz
+*.zip
+*.7z
+
+# Explicit product-brain paths (never land here)
+sr-bot-src/
+nimbus/
+taking-profits/
+lighter-venv/

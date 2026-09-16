@@ -1,0 +1,15 @@
+{
+  "demo": true,
+  "label": "Stark Portfolio — DEMO ONLY",
+  "as_of": "2026-09-17T03:17:00+05:30",
+  "currency": "USD",
+  "total_equity": 128450.00,
+  "day_pnl": 2140.55,
+  "day_pnl_pct": 1.69,
+  "positions": [
+    { "symbol": "DEMO-BTC", "side": "long", "size": 0.85, "entry": 64200, "mark": 65110, "u_pnl": 773.50 },
+    { "symbol": "DEMO-ETH", "side": "long", "size": 12.0, "entry": 3120, "mark": 3188, "u_pnl": 816.00 },
+    { "symbol": "DEMO-SOL", "side": "flat", "size": 0, "entry": 0, "mark": 148.2, "u_pnl": 0 }
+  ],
+  "note": "Hardcoded teaser data. Not live. Not advice."
+}

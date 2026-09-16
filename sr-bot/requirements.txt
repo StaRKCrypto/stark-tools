@@ -1,0 +1,2 @@
+# sr-bot public teaser — stdlib only.
+# No exchange SDKs. No API keys. Intentionally empty runtime deps.

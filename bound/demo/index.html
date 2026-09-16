@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bound — DD Checklist DEMO</title>
+  <style>
+    :root { --bg:#0a1018; --card:#121a24; --accent:#22d3ee; --muted:#8b9bb4; --text:#e8eef8; }
+    body { margin:0; font-family:ui-sans-serif,system-ui,sans-serif; background:var(--bg); color:var(--text); }
+    header { padding:1.25rem 1.5rem; border-bottom:1px solid #1e2836; display:flex; justify-content:space-between; }
+    .badge { font-size:.75rem; background:#083344; color:#a5f3fc; padding:.25rem .6rem; border-radius:999px; }
+    main { max-width:720px; margin:1.5rem auto; padding:0 1rem; }
+    .card { background:var(--card); border:1px solid #1e2836; border-radius:14px; padding:1.25rem; }
+    .score { font-size:2.4rem; font-weight:700; color:var(--accent); }
+    label.item { display:flex; gap:.75rem; align-items:flex-start; padding:.7rem 0; border-bottom:1px solid #1e2836; cursor:pointer; }
+    label.item:last-child { border-bottom:0; }
+    input[type=checkbox] { margin-top:.25rem; width:1.1rem; height:1.1rem; accent-color:var(--accent); }
+    .muted { color:var(--muted); font-size:.85rem; }
+    footer { max-width:720px; margin:2rem auto; padding:0 1rem 2rem; color:var(--muted); font-size:.85rem; line-height:1.5; }
+    a { color:var(--accent); }
+    input.ca { width:100%; margin:.75rem 0 1rem; padding:.65rem .8rem; border-radius:10px; border:1px solid #1e2836; background:#0b121a; color:var(--text); }
+  </style>
+</head>
+<body>
+  <header>
+    <div><strong>Bound</strong> · DD checklist stub</div>
+    <span class="badge">TEASER · NO LIVE APIs</span>
+  </header>
+  <main>
+    <div class="card">
+      <div class="muted">Paste coin CA (demo — not fetched)</div>
+      <input class="ca" id="ca" placeholder="YOUR_TOKEN_CA_HERE" />
+      <div class="muted">Demo score</div>
+      <div class="score" id="score">0%</div>
+      <div id="list"></div>
+    </div>
+  </main>
+  <footer>
+    <p><strong>Hold to access.</strong> Hosted tools require holding ~0.5% of the official coin
+    (<code>YOUR_TOKEN_CA_HERE</code> — CA added after launch). Public repo = authenticity samples + docs teaser.
+    Full hosted access is gated. Source samples are NOT the full product.</p>
+    <p><a href="https://x.com/starkcryptollc">@starkcryptollc</a> · <a href="https://x.com/_Starkcrypto">@_Starkcrypto</a></p>
+  </footer>
+  <script>
+    fetch('checklist.json').then(r=>r.json()).then(d=>{
+      document.getElementById('ca').placeholder = d.coin_placeholder;
+      const list = document.getElementById('list');
+      let checked = 0, total = 0;
+      d.items.forEach(it => {
+        total += it.weight;
+        const lab = document.createElement('label');
+        lab.className = 'item';
+        lab.innerHTML = `<input type="checkbox" data-w="${it.weight}" /><div><div>${it.label}</div><div class="muted">weight ${it.weight}</div></div>`;
+        lab.querySelector('input').addEventListener('change', e => {
+          checked += e.target.checked ? it.weight : -it.weight;
+          document.getElementById('score').textContent = Math.round(100*checked/total) + '%';
+        });
+        list.appendChild(lab);
+      });
+    });
+  </script>
+</body>
+</html>

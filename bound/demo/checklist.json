@@ -1,0 +1,14 @@
+{
+  "demo": true,
+  "title": "Bound DD Checklist — DEMO",
+  "coin_placeholder": "YOUR_TOKEN_CA_HERE",
+  "items": [
+    { "id": "ca_verify", "label": "Contract address matches official post", "weight": 20 },
+    { "id": "liq", "label": "Liquidity depth looks acceptable (manual check)", "weight": 15 },
+    { "id": "tax", "label": "Buy/sell tax reviewed", "weight": 10 },
+    { "id": "owner", "label": "Ownership / mint authority status noted", "weight": 20 },
+    { "id": "social", "label": "Official X + site cross-checked", "weight": 15 },
+    { "id": "unlock", "label": "Unlock / vesting cliffs scanned (manual)", "weight": 20 }
+  ],
+  "note": "UI stub only. No live APIs. Not financial advice."
+}

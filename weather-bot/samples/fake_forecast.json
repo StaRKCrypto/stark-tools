@@ -1,0 +1,21 @@
+{
+  "demo": true,
+  "product": "weather-bot",
+  "label": "FAKE FORECAST — TEASER ONLY",
+  "location": "DEMO-CITY",
+  "as_of": "2026-09-17T03:17:00+05:30",
+  "horizon_hours": 24,
+  "summary": "Mild, dry, light wind — illustrative copy only",
+  "metrics": {
+    "temp_c_high": 31.0,
+    "temp_c_low": 24.5,
+    "precip_prob": 0.12,
+    "wind_kph": 14
+  },
+  "edge_notes": [
+    "Sample note: compare forecast card vs market narrative (hosted).",
+    "This public JSON does not connect to any prediction venue."
+  ],
+  "gate": "Hold ~0.5% of YOUR_TOKEN_CA_HERE (after launch) for hosted Weather Bot.",
+  "brand": "@starkcryptollc / @_Starkcrypto"
+}
