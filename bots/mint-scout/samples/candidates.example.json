@@ -1,0 +1,25 @@
+{
+  "generated": "SAMPLE-ONLY",
+  "disclaimer": "Fake candidates for teaser UI — not live scan output",
+  "token_ca_placeholder": "YOUR_TOKEN_CA_HERE",
+  "candidates": [
+    {
+      "slug": "demo-free-mint-alpha",
+      "chain": "base",
+      "chainId": 8453,
+      "contract": "0x0000000000000000000000000000000000000000",
+      "mintPrice": "0",
+      "score": 0.72,
+      "notes": "placeholder — free public mint story"
+    },
+    {
+      "slug": "demo-fcfs-beta",
+      "chain": "robinhood",
+      "chainId": 4663,
+      "contract": "0x0000000000000000000000000000000000000000",
+      "mintPrice": "0",
+      "score": 0.61,
+      "notes": "placeholder — FCFS window story"
+    }
+  ]
+}

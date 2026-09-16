@@ -1,0 +1,29 @@
+{
+  "generated": "SAMPLE-ONLY",
+  "token_ca_placeholder": "YOUR_TOKEN_CA_HERE",
+  "rule": "illustrative: sell 50% of remaining bag at each 2x multiple of cost basis",
+  "bags": [
+    {
+      "chain": "base",
+      "symbol": "DEMO",
+      "contract": "0x0000000000000000000000000000000000000000",
+      "cost_basis_usd": 0.01,
+      "mark_usd": 0.08,
+      "remaining_pct": 25,
+      "next_tp_multiple": 16,
+      "next_tp_usd": 0.16,
+      "status": "PAPER"
+    },
+    {
+      "chain": "solana",
+      "symbol": "FAKE",
+      "mint": "So11111111111111111111111111111111111111112",
+      "cost_basis_usd": 0.002,
+      "mark_usd": 0.004,
+      "remaining_pct": 50,
+      "next_tp_multiple": 4,
+      "next_tp_usd": 0.008,
+      "status": "PAPER"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "generated": "SAMPLE-ONLY",
+  "token_ca_placeholder": "YOUR_TOKEN_CA_HERE",
+  "book_cap_usd": 100,
+  "cities": [
+    {
+      "name": "Demo City A",
+      "icao": "KDEM",
+      "bucket": "29–30°C",
+      "yes_ask": 0.42,
+      "model_edge_cents": 9,
+      "action": "PAPER — no order"
+    },
+    {
+      "name": "Demo City B",
+      "icao": "KFAK",
+      "bucket": "32°F or higher",
+      "yes_ask": 0.88,
+      "model_edge_cents": -3,
+      "action": "VETO story (≥85¢ late YES) — PAPER"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "generated": "SAMPLE-ONLY",
+  "watchlist": [
+    {
+      "slug": "demo-free-mint-alpha",
+      "reason": "teaser example — replace with your own research",
+      "armed": false
+    },
+    {
+      "slug": "demo-fcfs-beta",
+      "reason": "teaser example — never auto-arms in public samples",
+      "armed": false
+    }
+  ],
+  "token_ca_placeholder": "YOUR_TOKEN_CA_HERE"
+}

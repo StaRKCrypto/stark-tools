@@ -1,0 +1,7 @@
+[SAMPLE ALERT — NOT LIVE]
+collection: demo-fcfs-beta
+chainId: 4663 (Robinhood Chain story)
+window_start: 2099-01-01T00:00:00Z
+early_ms: 50
+status: PAPER — no tx sent, no session cookies present
+token_ca_placeholder: YOUR_TOKEN_CA_HERE
