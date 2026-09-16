@@ -95,3 +95,6 @@ sr-bot-src/
 nimbus/
 taking-profits/
 lighter-venv/
+
+# Nested per-bot repos (pushed separately)
+bots/*/.git/

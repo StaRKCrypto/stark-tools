@@ -1,11 +1,11 @@
 # stark-tools — Public Teaser Packs
 
 **StaRK Bots** · X [@starkcryptollc](https://x.com/starkcryptollc) · Personal [@_Starkcrypto](https://x.com/_Starkcrypto)  
-Org placeholder: **`stark-tools`** (or `starkcryptollc`)
+GitHub: [StaRKCrypto](https://github.com/StaRKCrypto)
 
 > **Hold to access.** Hosted tools require holding **~0.5%** of the official coin  
 > (`YOUR_TOKEN_CA_HERE` — contract address added after launch).  
-> This public org = **authenticity samples + docs teasers**.  
+> This public org/user = **authenticity samples + docs teasers**.  
 > Full hosted access is gated. Source samples are **NOT** the full product.
 
 ---
@@ -13,19 +13,36 @@ Org placeholder: **`stark-tools`** (or `starkcryptollc`)
 ## What this is
 
 A clean public layout of **small illustrative sample packs** for the StaRKCrypto /
-StaRK Bots coin launch. Each folder is ready to become its own GitHub repo under
-the org. Nothing here is a production trading brain.
+StaRK Bots coin launch. Each folder (or sibling repo) is a teaser under
+[StaRKCrypto](https://github.com/StaRKCrypto). Nothing here is a production trading brain.
 
 ## Sample packs (separate repos)
 
-| Folder → future repo | What you get here | Deliberately omitted |
+### Core desk / UX
+
+| Repo | What you get here | Deliberately omitted |
 |---|---|---|
-| [`stark-portfolio`](./stark-portfolio/) | Fake portfolio UI stub + hardcoded demo stats | Live wallets, exchange sync, PnL engines |
-| [`bound`](./bound/) | Due-diligence checklist UI stub | Live APIs, scoring backends, scrape pipelines |
-| [`sr-bot`](./sr-bot/) | Synthetic OHLCV + simple swing S/R demo | SMC, fibs, live charts, exchange keys, auto-trade |
-| [`sr-terminal`](./sr-terminal/) | Paper desk docs / mock screenshots | Live order routing, venue connectors |
-| [`weather-bot`](./weather-bot/) | Docs teaser + fake forecast sample | Polymarket keys, live market loops |
-| [`farmer`](./farmer/) | Strategy **notes** only | Live farm loop, signing, execution |
+| [`stark-portfolio`](https://github.com/StaRKCrypto/stark-portfolio) | Fake portfolio UI stub + hardcoded demo stats | Live wallets, exchange sync, PnL engines |
+| [`bound`](https://github.com/StaRKCrypto/bound) | Due-diligence checklist UI stub | Live APIs, scoring backends, scrape pipelines |
+| [`sr-bot`](https://github.com/StaRKCrypto/sr-bot) | Synthetic OHLCV + simple swing S/R demo | SMC, fibs, live charts, exchange keys, auto-trade |
+| [`sr-terminal`](https://github.com/StaRKCrypto/sr-terminal) | Paper desk docs / mock screenshots | Live order routing, venue connectors |
+| [`weather-bot`](https://github.com/StaRKCrypto/weather-bot) | Docs teaser + fake forecast sample | Polymarket keys, live market loops |
+| [`farmer`](https://github.com/StaRKCrypto/farmer) | Strategy **notes** only | Live farm loop, signing, execution |
+
+### Venue / trading bots (new teasers)
+
+| Repo | What you get here | Deliberately omitted |
+|---|---|---|
+| [`nado-bot`](https://github.com/StaRKCrypto/nado-bot) | Fake Nado book snapshot + farm/MM notes; MCP mentioned conceptually | Live farm loop, MCP keys, signing |
+| [`lighter-bot`](https://github.com/StaRKCrypto/lighter-bot) | Synthetic RH Lighter quotes + desk docs | Live keys (explicitly private), full MM/S/R loop |
+| [`arcus-sr`](https://github.com/StaRKCrypto/arcus-sr) | Paper S/R zone detector on synthetic candles | Live Arcus send, env keys, full `sr_loop` |
+| [`mint-scout`](https://github.com/StaRKCrypto/mint-scout) | Fake mint candidate JSON + watchlist example | Live scout/snipe, wallets, API keys |
+| [`rh-fcfs-sniper`](https://github.com/StaRKCrypto/rh-fcfs-sniper) | FCFS latency notes + fake alert sample | Session cookies, blast/pre-sign code |
+| [`monk-pair`](https://github.com/StaRKCrypto/monk-pair) | Synthetic BTC/ETH RS signal demo | Live pair loop, venue keys |
+| [`take-profits`](https://github.com/StaRKCrypto/take-profits) | Fake bag tracker JSON / ASCII stub | Wallet keys, live sell routers |
+| [`nimbus-desk`](https://github.com/StaRKCrypto/nimbus-desk) | Nimbus rebuild landing stub + fake city board | Full weather desk UI/engine, wallet vault |
+
+Local layout for bot teasers: [`bots/`](./bots/).
 
 ## Access model
 
