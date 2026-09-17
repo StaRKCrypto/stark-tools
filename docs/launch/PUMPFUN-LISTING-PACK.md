@@ -11,6 +11,8 @@
 
 **Locked ticker: `$BOTS`** (user pick). Name stays **StaRK Bots**.
 
+**Locked logo:** option 1 — BOTS cyan wordmark on dark circle (`docs/launch/BOTS-logo-official.png`).
+
 | Field | Recommendation | Why |
 |------|----------------|-----|
 | **Name** | `StaRK Bots` | Matches X + landing |
