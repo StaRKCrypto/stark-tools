@@ -9,11 +9,13 @@
 
 ## 1) Recommended listing
 
+**Locked ticker: `$BOTS`** (user pick). Name stays **StaRK Bots**.
+
 | Field | Recommendation | Why |
 |------|----------------|-----|
 | **Name** | `StaRK Bots` | Matches X + landing |
-| **Ticker** | `STARK` | Clean, brandable (check collisions on Solana) |
-| **Alt ticker** | `STKB` / `SRK` | If `STARK` is crowded/taken vibe |
+| **Ticker** | `BOTS` | Chosen — short, matches StaRK Bots product |
+| **Alt ticker** | `STARK` / `STKB` | Fallbacks only if needed |
 | **Image** | `stark-token-logo.png` (square) | Same Stark visual language |
 | **Chain** | Solana (pump.fun) | Per original plan |
 | **Framing** | Tool **access pass** | Not APR / not “will 10x” |
@@ -42,7 +44,7 @@ Not financial advice. Tools can break. Coin is an access pass — not a promised
 **Shorter bio (if character-limited):**
 
 ```
-StaRK Bots access pass. Open desks + public code. Hosted unlock ~0.5% hold. github.com/StaRKCrypto/stark-tools · x.com/StaRKCryptoBots · NFA
+StaRK Bots ($BOTS) access pass. Open desks + public code. Hosted unlock ~0.5% hold. github.com/StaRKCrypto/stark-tools · x.com/StaRKCryptoBots · NFA
 ```
 
 ---
