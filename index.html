@@ -31,7 +31,7 @@ a{color:var(--cyan);text-decoration:none} a:hover{text-decoration:underline}
 .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
 nav{display:flex;align-items:center;gap:12px;padding:14px 0;position:sticky;top:0;z-index:20;
   background:rgba(6,9,14,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.logo{font-weight:700;font-size:18px;letter-spacing:.01em}.logo i{color:var(--cyan);font-style:normal}
+.logo{font-weight:700;font-size:18px;letter-spacing:.01em;display:flex;align-items:center;gap:10px}.logo img{width:32px;height:32px;border-radius:6px;display:block}.logo i{color:var(--cyan);font-style:normal}
 .nav-links{margin-left:auto;display:flex;gap:16px;font-size:14px}
 .nav-links a{color:var(--mute)} .nav-links a:hover{color:var(--text);text-decoration:none}
 .menu-btn{display:none;margin-left:auto;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px 12px}
@@ -91,7 +91,7 @@ footer .row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px}
 <body>
 <div class="wrap">
   <nav>
-    <div class="logo">StaRK <i>Bots</i></div>
+    <div class="logo"><img src="assets/BOTS-logo-nav.png" alt="StaRK Bots hexagon mark"/>StaRK <i>Bots</i></div>
     <button class="menu-btn" id="menu" type="button" aria-label="Menu">Menu</button>
     <div class="nav-links" id="nav">
       <a href="#how">How</a>
