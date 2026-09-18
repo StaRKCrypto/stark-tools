@@ -1,35 +1,50 @@
 # TRUST PROOF — StaRK Crypto Bots (private preview)
 
 **Status:** Unlisted · `noindex` · **Do NOT announce on X**  
-**Built:** 2026-09-19 ~04:29 IST (Asia/Calcutta)  
-**Face:** REAL venue websites (`app.arcus.xyz` · `app.lighter.xyz` · `app.nado.xyz`) — not our HTML desks.
+**Built:** 2026-09-19 ~05:00 IST (Asia/Calcutta)  
+**Face:** REAL venue websites (`app.arcus.xyz` · `app.lighter.xyz` · `app.nado.xyz`) + OpenSea Mint Sniper — not fake HTML desks.
 
 ## Preview URLs
 
 | Asset | URL / path |
 |---|---|
 | **Trust page** | https://starkcrypto.github.io/stark-tools/trust/ |
-| **Film** | https://starkcrypto.github.io/stark-tools/trust/media/TRUST-PROOF.mp4 |
-| **Local film** | `/workspace/demo-capture/live-product-film/TRUST-PROOF.mp4` |
-| **Chat GIF** | `/workspace/demo-capture/live-product-film/TRUST-PROOF-preview.gif` |
+| **Primary film** | https://starkcrypto.github.io/stark-tools/trust/media/BOT-USES-REAL-VENUES.mp4 |
+| **Chat GIF** | https://starkcrypto.github.io/stark-tools/trust/media/BOT-USES-REAL-VENUES-preview.gif |
+| **Local film** | `/workspace/demo-capture/live-product-film/BOT-USES-REAL-VENUES.mp4` |
+| **Local GIF** | `/workspace/demo-capture/live-product-film/BOT-USES-REAL-VENUES-preview.gif` |
 
-## Film (~67s · 1080p)
+## Narrative (this is the point)
 
-| Segment | Source | Lower-third stats |
+StaRK bots run **ON the real venues** — not a fake UI.
+
+1. **Arcus** — size-aware S/R / maker flow on the real Arcus site; farms activity without spraying inventory (**without bleeding money**).
+2. **Lighter RH** — **volume farming** & **open interest farming** on the real Lighter desk; respects fee tier (prefer maker when taker costs); **keeps trading activity organic**.
+3. **Nado** — volume/OI/points-style farming per venue docs; post-only / fee-aware so you don’t bleed edge just to print volume. Behavior **depends on each perp DEX fee formula / docs** (maker free vs taker charged).
+4. **OpenSea Mint Sniper** — **OpenSea mint scanner 24/7 all chains**; auto-mints to wallets the user added (SeaDrop / public free only).
+5. **Close** — Organic activity. Fee-aware. Real venues. CA soon. $BOTS.
+
+## Film (~86s · 1080p)
+
+| Segment | Source | Lower-third |
 |---|---|---|
-| Cold open | terminal card | Arcus eq ~$80.2 · Lighter ~$66 · Nado MSI $23.71 RUNNING |
-| **Arcus PRIMARY** | `broll/arcus-REAL-website.mp4` (30s take) | `app.arcus.xyz · LIVE` · eq ~$80.2 · MU/TSLA/MSFT/DRAM/SPCX · W7/L22 |
-| Journal card | honest tape | 127 events · W7/L22 · WR 24.14% · realized −$10.50 |
-| Lighter | `broll/lighter-venue-live.mp4` | `app.lighter.xyz` · RH eq ~$66 · MSFT/ASTS |
-| Nado | `broll/nado-venue-live.mp4` | `app.nado.xyz` · MSI $23.71 WTI RUNNING · QQQ 14c 5.95→5.78 dd −2.88% |
-| End | card | Working desks · Journals · 24/7 · CA soon |
+| Open | title card | Bots run ON the real venues — not a fake UI |
+| Arcus | `broll/arcus-REAL-website.mp4` | `app.arcus.xyz · LIVE` · size-aware S/R · maker · no inventory bleed |
+| Lighter | `broll/lighter-venue-live.mp4` | `app.lighter.xyz · LIVE` · volume + OI farming · fee-tier · organic |
+| Nado | `broll/nado-venue-live.mp4` | `app.nado.xyz · LIVE` · volume/OI/points · post-only · fee-aware |
+| Nado dash | `trust-snaps/nado-live-dashboard.png` | Fee-aware farming per venue docs |
+| Mint | `cinematic/v3/raw/mint-sniper-raw.mp4` | OpenSea Mint Sniper · 24/7 · all chains · SeaDrop/public |
+| Close | end card | Organic · Fee-aware · Real venues · CA soon · $BOTS |
 
-## Exact stats burned in
+**VO:** edge-tts (`en-US-ChristopherNeural`, −8%) burned in. No invented PnL. No tweet.
 
-- **Arcus LIVE snap** (2026-09-19 04:18 IST): equity ≈ **$80.2** · opens **MU LONG, TSLA SHORT, MSFT SHORT, DRAM LONG, SPCX SHORT** · ARMED=1 LIVE=1
-- **Arcus journal** (`overnight/arcus-trades.jsonl`): **127** events · **W7/L22** · WR **24.14%** · realized **−$10.50**
-- **Lighter RH**: equity ≈ **$66** (equity_delta $66.71 at ASTS TP) · journal **MSFT/ASTS**
-- **Nado MSI** (`farm_status_live.json`): equity **$23.71** · WTI-PERP · **RUNNING**
-- **Nado QQQ farm log**: **14** cycles · eq **5.95→5.78** · dd **−2.8794%**
+## Key phrases burned in
+
+- volume farming
+- open interest farming
+- without bleeding money
+- depends on perp DEX fee formula / docs (maker free vs taker charged)
+- keeps trading activity organic
+- OpenSea mint scanner 24/7 all chains, auto mint to added wallets
 
 **Not tweeted.**
