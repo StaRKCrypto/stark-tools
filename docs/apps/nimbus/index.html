@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>StaRK Nimbus — Polymarket Weather · PAPER DEMO</title>
+<style>
+:root{
+  --bg:#0b0e11;--panel:#12161c;--panel2:#161b22;--border:#1e2530;
+  --text:#d1d4dc;--bright:#f0f3fa;--muted:#787b86;
+  --green:#26a69a;--red:#ef5350;--amber:#ff9800;--cyan:#3de7ff;
+  --accent:#2962ff;--paper:#7c5cff;--gold:#f0b90b;--sky:#4fc3f7;
+  --font:-apple-system,BlinkMacSystemFont,"Trebuchet MS",Roboto,Ubuntu,sans-serif;
+  --mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px}
+.topbar{display:flex;align-items:center;gap:10px;padding:0 14px;height:48px;background:var(--panel);border-bottom:1px solid var(--border);flex-shrink:0}
+.logo{font-weight:800;font-size:15px;color:var(--bright)}.logo span{color:var(--sky)}
+.badge{font-size:10px;padding:3px 8px;border-radius:3px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--border)}
+.badge-paper{background:rgba(124,92,255,.18);color:#c4b5fd;border-color:var(--paper);animation:pulse 1.4s ease-in-out infinite}
+.badge-nfa{color:var(--muted)}
+.badge-unlock{background:rgba(41,98,255,.12);color:#5b8def;border:1px solid rgba(41,98,255,.3)}
+.badge-scan{background:rgba(79,195,247,.12);color:var(--sky);border-color:rgba(79,195,247,.35)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(124,92,255,.35)}50%{box-shadow:0 0 0 4px rgba(124,92,255,0)}}
+.btn{border:none;border-radius:5px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.04em}
+.btn-scan{background:linear-gradient(135deg,#0277bd,#4fc3f7);color:#fff}
+.btn-scan:hover{box-shadow:0 0 14px rgba(79,195,247,.4)}
+.btn-scan:disabled{opacity:.55;cursor:wait}
+.btn-ticket{background:linear-gradient(135deg,#7c5cff,#2962ff);color:#fff;display:none}
+.btn-ticket.show{display:inline-block}
+.spacer{flex:1}
+.handle{color:var(--muted);font-size:11px}
+.main{display:grid;grid-template-columns:1fr 340px;height:calc(100vh - 48px);min-height:640px}
+.left{display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border)}
+.col-h{padding:10px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--panel);flex-shrink:0}
+.col-h .count{color:var(--sky);font-family:var(--mono)}
+.markets{flex:1;overflow-y:auto;padding:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;align-content:start;background:var(--bg)}
+.mcard{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .12s;position:relative}
+.mcard:hover{border-color:rgba(79,195,247,.45);transform:translateY(-1px)}
+.mcard.selected{border-color:var(--paper);box-shadow:0 0 0 1px rgba(124,92,255,.35),0 8px 24px rgba(0,0,0,.35)}
+.mcard.picking{animation:pickFlash .6s ease}
+@keyframes pickFlash{0%,100%{box-shadow:0 0 0 0 rgba(124,92,255,0)}40%{box-shadow:0 0 0 3px rgba(124,92,255,.55)}}
+.m-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.m-city{font-weight:800;font-size:15px;color:var(--bright)}
+.m-icao{font-family:var(--mono);font-size:11px;color:var(--sky);margin-top:2px}
+.m-pill{font-size:9px;padding:3px 7px;border-radius:999px;font-weight:700;letter-spacing:.04em;background:rgba(79,195,247,.12);color:var(--sky);border:1px solid rgba(79,195,247,.3);white-space:nowrap}
+.metar{font-family:var(--mono);font-size:10px;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 10px;line-height:1.45;margin-bottom:10px;word-break:break-all}
+.metar b{color:var(--text)}
+.conds{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{font-size:10px;padding:3px 8px;border-radius:4px;background:var(--panel2);border:1px solid var(--border);color:var(--text);font-family:var(--mono)}
+.chip.wx{color:var(--sky)}.chip.hot{color:var(--amber)}.chip.ok{color:var(--green)}
+.market-q{font-size:12px;color:var(--bright);font-weight:600;margin-bottom:8px;line-height:1.35}
+.bars{display:flex;flex-direction:column;gap:6px}
+.bar-row{display:grid;grid-template-columns:36px 1fr 44px;gap:8px;align-items:center;font-size:11px;font-family:var(--mono)}
+.bar-row .side-y{color:var(--green);font-weight:700}
+.bar-row .side-n{color:var(--red);font-weight:700}
+.track{height:8px;background:#0e1218;border-radius:999px;overflow:hidden;border:1px solid var(--border)}
+.fill-y{height:100%;background:linear-gradient(90deg,#1a7a70,var(--green));border-radius:999px;transition:width .5s ease}
+.fill-n{height:100%;background:linear-gradient(90deg,#b71c1c,var(--red));border-radius:999px;transition:width .5s ease}
+.pct{text-align:right;color:var(--muted)}
+.right{display:flex;flex-direction:column;background:var(--panel);overflow:hidden}
+.pnl-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px;border-bottom:1px solid var(--border)}
+.stat{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px}
+.stat .lbl{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px}
+.stat .val{font-size:16px;font-weight:700;font-family:var(--mono);color:var(--bright)}
+.stat .val.pos{color:var(--green)}.stat .val.neg{color:var(--red)}.stat .val.paper{color:#c4b5fd}
+.ticket-box{padding:12px;border-bottom:1px solid var(--border)}
+.ticket-box h3{font-size:12px;color:var(--bright);margin-bottom:8px}
+.ticket-preview{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.55;background:var(--bg);border:1px dashed var(--border);border-radius:6px;padding:10px;min-height:72px}
+.ticket-preview strong{color:var(--bright)}
+.log{flex:1;overflow-y:auto;font-family:var(--mono);font-size:11px}
+.log table{width:100%;border-collapse:collapse}
+.log th{text-align:left;padding:6px 10px;color:var(--muted);font-size:10px;text-transform:uppercase;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel)}
+.log td{padding:6px 10px;border-bottom:1px solid rgba(30,37,48,.5);vertical-align:top}
+.log .ok{color:var(--green)}.log .miss{color:var(--red)}.log .scan{color:var(--sky)}.log .info{color:var(--cyan)}.log .bet{color:#c4b5fd}
+.status{padding:8px 12px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;flex-wrap:wrap;gap:12px;background:var(--panel);flex-shrink:0}
+.status b{color:var(--text)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#161b22;border:1px solid var(--border);padding:10px 18px;border-radius:6px;font-size:12px;z-index:99;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+@media(max-width:900px){.main{grid-template-columns:1fr;height:auto}html,body{overflow:auto}}
+html.autodemo,html.autodemo *{cursor:none!important}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo"><span>StaRK</span> Nimbus · Weather Desk</div>
+  <span class="badge badge-paper">PAPER / DEMO</span>
+  <span class="badge badge-nfa">NFA</span>
+  <span class="badge badge-unlock">Dry-run · no live arm</span>
+  <span class="badge badge-scan" id="scanBadge">DRY-RUN</span>
+  <button class="btn btn-scan" id="btnScan" onclick="scanMarkets()">Scan Markets</button>
+  <button class="btn btn-ticket" id="btnTicket" onclick="placePaperTicket()">Paper Ticket</button>
+  <div class="spacer"></div>
+  <span class="handle">StaRK Bots · @StaRKCryptoBots</span>
+</div>
+<div class="main">
+  <div class="left">
+    <div class="col-h">Scans All Weather Markets · Prediction + Edge <span class="count" id="mCount">0</span></div>
+    <div class="markets" id="markets"></div>
+    <div class="status">
+      <span>Venue <b>Polymarket WX</b></span>
+      <span>Feed <b>METAR fed</b></span>
+      <span>Mode <b>DRY-RUN · no live arm</b></span>
+    </div>
+  </div>
+  <div class="right">
+    <div class="col-h">Prediction + Edge · PAPER</div>
+    <div class="pnl-grid">
+      <div class="stat"><div class="lbl">Equity</div><div class="val" id="eq">$10,000.00</div></div>
+      <div class="stat"><div class="lbl">Session P&amp;L</div><div class="val pos" id="pnl">+$0.00</div></div>
+      <div class="stat"><div class="lbl">Tickets</div><div class="val paper" id="tixN">0</div></div>
+      <div class="stat"><div class="lbl">Open Risk</div><div class="val" id="risk">$0.00</div></div>
+    </div>
+    <div class="ticket-box">
+      <h3>Prediction · Edge on Desk</h3>
+      <div class="ticket-preview" id="ticketPreview">Scan all weather markets — prediction + edge shown here. Dry-run · no live arm.</div>
+    </div>
+    <div class="col-h">Dry-run Signal Log · No Live Arm</div>
+    <div class="log"><table>
+      <thead><tr><th>Time</th><th>Event</th><th>Detail</th></tr></thead>
+      <tbody id="logBody"></tbody>
+    </table></div>
+    <div class="status">
+      <span>Events <b id="evN">0</b></span>
+      <span style="color:var(--paper)">Hosted ~0.5% unlock · PAPER · NFA</span>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+  const CITIES = [
+    {city:'Lucknow',icao:'VILK',lat:26.76,lon:80.89,q:'Will Lucknow see rain before 18:00 IST?',temp:34,dew:26,wind:'SW08KT',vis:'6SM',wx:'HZ',cloud:'FEW040 SCT100',yes:0.62},
+    {city:'Delhi',icao:'VIDP',lat:28.56,lon:77.10,q:'Will Delhi max temp exceed 40°C today?',temp:38,dew:22,wind:'NW12KT',vis:'4SM',wx:'HZ',cloud:'SCT035',yes:0.71},
+    {city:'Mumbai',icao:'VABB',lat:19.09,lon:72.87,q:'Will Mumbai rainfall exceed 10mm by midnight?',temp:29,dew:27,wind:'W10G18KT',vis:'5SM',wx:'-RA',cloud:'BKN018 OVC040',yes:0.48},
+    {city:'Bengaluru',icao:'VOBL',lat:13.20,lon:77.71,q:'Will Bengaluru stay under 28°C through evening?',temp:26,dew:18,wind:'E06KT',vis:'9999',wx:'',cloud:'FEW025',yes:0.55},
+    {city:'Jaipur',icao:'VIJP',lat:26.82,lon:75.81,q:'Will Jaipur dust advisory remain through 21:00?',temp:36,dew:14,wind:'SW15G22KT',vis:'3SM',wx:'BLDU',cloud:'SKC',yes:0.39},
+    {city:'Chennai',icao:'VOMM',lat:12.99,lon:80.18,q:'Will Chennai humidity stay above 80% at 15:00?',temp:33,dew:28,wind:'SE09KT',vis:'7SM',wx:'',cloud:'SCT020 BKN080',yes:0.67},
+  ];
+  let selected=null, scanning=false, equity=10000, pnl=0, tickets=0, risk=0, events=0;
+
+  function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+  function now(){return new Date().toLocaleTimeString('en-GB',{hour12:false})}
+  function money(n){return (n<0?'-':'')+'$'+Math.abs(n).toFixed(2)}
+  function metar(c){
+    const d=new Date();
+    const dd=String(d.getUTCDate()).padStart(2,'0');
+    const hh=String(d.getUTCHours()).padStart(2,'0');
+    const mm=String(d.getUTCMinutes()).padStart(2,'0');
+    const t=(c.temp>=0?'':'M')+String(Math.abs(c.temp)).padStart(2,'0');
+    const td=(c.dew>=0?'':'M')+String(Math.abs(c.dew)).padStart(2,'0');
+    return c.icao+' '+dd+hh+mm+'Z AUTO '+c.wind+' '+c.vis+(c.wx?' '+c.wx:'')+' '+c.cloud+' '+t+'/'+td+' Q1012';
+  }
+  function log(cls,event,detail){
+    events++;
+    document.getElementById('evN').textContent=events;
+    const tr=document.createElement('tr');
+    tr.innerHTML='<td>'+now()+'</td><td class="'+cls+'">'+event+'</td><td>'+detail+'</td>';
+    const tb=document.getElementById('logBody');
+    tb.insertBefore(tr,tb.firstChild);
+  }
+  function updatePnL(){
+    document.getElementById('eq').textContent=money(equity);
+    const p=document.getElementById('pnl');
+    p.textContent=(pnl>=0?'+':'')+money(pnl).replace('$-','-$');
+    p.className='val '+(pnl>=0?'pos':'neg');
+    document.getElementById('tixN').textContent=String(tickets);
+    document.getElementById('risk').textContent=money(risk);
+  }
+  function render(){
+    const box=document.getElementById('markets');
+    box.innerHTML='';
+    CITIES.forEach((c,i)=>{
+      const no=1-c.yes;
+      const el=document.createElement('div');
+      el.className='mcard'+(selected===i?' selected':'');
+      el.onclick=()=>select(i);
+      const wxChip=c.wx?('<span class="chip wx">'+c.wx+'</span>'):'<span class="chip ok">CAVOK-ish</span>';
+      el.innerHTML=
+        '<div class="m-top"><div><div class="m-city">'+c.city+'</div><div class="m-icao">'+c.icao+' · '+c.lat.toFixed(2)+'N '+c.lon.toFixed(2)+'E</div></div><span class="m-pill">WX MARKET</span></div>'+
+        '<div class="metar"><b>METAR</b> '+metar(c)+'</div>'+
+        '<div class="conds"><span class="chip hot">'+c.temp+'°C</span><span class="chip">Dew '+c.dew+'°C</span><span class="chip">'+c.wind+'</span>'+wxChip+'</div>'+
+        '<div class="market-q">'+c.q+'</div>'+
+        '<div class="bars">'+
+          '<div class="bar-row"><span class="side-y">YES</span><div class="track"><div class="fill-y" style="width:'+(c.yes*100).toFixed(1)+'%"></div></div><span class="pct">'+(c.yes*100).toFixed(0)+'¢</span></div>'+
+          '<div class="bar-row"><span class="side-n">NO</span><div class="track"><div class="fill-n" style="width:'+(no*100).toFixed(1)+'%"></div></div><span class="pct">'+(no*100).toFixed(0)+'¢</span></div>'+
+        '</div>';
+      box.appendChild(el);
+    });
+    document.getElementById('mCount').textContent=CITIES.length;
+  }
+  function select(i){
+    selected=i;
+    const c=CITIES[i];
+    document.getElementById('btnTicket').classList.add('show');
+    document.getElementById('ticketPreview').innerHTML=
+      '<strong>'+c.city+'</strong> · '+c.icao+'<br>'+
+      c.q+'<br>'+
+      'Prediction: <strong style="color:var(--green)">YES</strong> @ '+(c.yes*100).toFixed(0)+'¢ · Edge on desk<br>'+
+      'Polymarket WX · METAR fed · DRY-RUN · no live arm · NFA';
+    render();
+    log('info','SELECT',c.city+' · YES @ '+(c.yes*100).toFixed(0)+'¢');
+  }
+  window.scanMarkets=function(){
+    if(scanning)return;
+    scanning=true;
+    const btn=document.getElementById('btnScan');
+    btn.disabled=true;
+    document.getElementById('scanBadge').textContent='SCANNING ALL WX…';
+    toast('Scanning ALL weather markets · prediction + edge · DRY-RUN');
+    log('scan','SCAN','Polymarket WX markets refresh');
+    setTimeout(()=>{
+      CITIES.forEach(c=>{
+        const d=(Math.random()-0.5)*0.08;
+        c.yes=Math.min(0.92,Math.max(0.08,+(c.yes+d).toFixed(2)));
+        if(Math.random()<0.35) c.temp+=Math.floor(Math.random()*3)-1;
+      });
+      render();
+      if(selected!=null) select(selected);
+      scanning=false;
+      btn.disabled=false;
+      document.getElementById('scanBadge').textContent='DRY-RUN · METAR';
+      log('ok','SCAN OK',CITIES.length+' city markets · probs refreshed');
+      toast('Markets updated');
+    },850);
+  };
+  window.placePaperTicket=function(){
+    if(selected==null){toast('Select a market first');return}
+    const c=CITIES[selected];
+    const size=25;
+    const side='YES';
+    const px=c.yes;
+    tickets++;
+    risk+=size;
+    const mockEdge=(Math.random()-0.35)*8;
+    pnl+=mockEdge;
+    equity=10000+pnl;
+    updatePnL();
+    log('bet','PAPER TIX','#'+tickets+' '+c.city+' '+side+' @ '+(px*100).toFixed(0)+'¢ · $'+size.toFixed(2)+' · Δ '+(mockEdge>=0?'+':'')+mockEdge.toFixed(2));
+    toast('Dry-run signal · '+c.city+' · no live arm');
+    document.getElementById('ticketPreview').innerHTML=
+      '<strong style="color:#c4b5fd">FILLED (PAPER)</strong><br>'+
+      c.city+' · '+side+' @ '+(px*100).toFixed(0)+'¢ · $'+size.toFixed(2)+'<br>'+
+      'Ticket #'+tickets+' · mock mark-to-market · NFA';
+  };
+
+  function autodemo(){
+    log('info','AUTODEMO','continuous scan → pick → paper ticket loop');
+    toast('AUTODEMO · Nimbus · continuous');
+    let cycle=0;
+    function beat(){
+      cycle++;
+      scanMarkets();
+      setTimeout(()=>{
+        const idx=cycle%CITIES.length;
+        select(idx);
+        const cards=document.querySelectorAll('.mcard');
+        cards.forEach(c=>c.classList.remove('picking'));
+        if(cards[idx]) cards[idx].classList.add('picking');
+        log('scan','PICK',CITIES[idx].city+' WX market selected');
+      },900);
+      setTimeout(()=>{
+        placePaperTicket();
+        document.getElementById('scanBadge').textContent='DRY-RUN · METAR';
+        // soft PnL tick even between tickets
+      },1600);
+      setTimeout(beat,3200);
+    }
+    // gentle live clock + equity shimmer between cycles
+    setInterval(()=>{
+      if(Math.random()>0.35){
+        const d=(Math.random()-0.45)*1.2;
+        pnl+=d; equity=10000+pnl; updatePnL();
+      }
+      const el=document.getElementById('scanBadge');
+      if(el && !scanning) el.textContent='DRY-RUN · '+new Date().toLocaleTimeString('en-GB',{hour12:false});
+    },400);
+    beat();
+  }
+
+  render();
+  updatePnL();
+  log('info','BOOT','Nimbus online · DEMO / PAPER — NFA');
+  if(new URLSearchParams(location.search).get('autodemo')==='1'){
+    document.documentElement.classList.add('autodemo');
+    setTimeout(autodemo,300);
+  }
+})();
+</script>
+<script src="../assets/trial-gate.js" data-app-id="nimbus"></script>
+</body>
+</html>

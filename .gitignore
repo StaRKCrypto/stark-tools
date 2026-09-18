@@ -92,7 +92,7 @@ temp/
 
 # Explicit product-brain paths (never land here)
 sr-bot-src/
-nimbus/
+/nimbus/
 taking-profits/
 lighter-venv/
 
