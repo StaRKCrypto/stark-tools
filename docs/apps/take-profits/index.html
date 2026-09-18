@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>StaRK Take Profits — PAPER DEMO</title>
+<style>
+:root{
+  --bg:#0b0e11;--panel:#12161c;--panel2:#161b22;--border:#1e2530;
+  --text:#d1d4dc;--bright:#f0f3fa;--muted:#787b86;
+  --green:#26a69a;--red:#ef5350;--amber:#ff9800;--cyan:#3de7ff;
+  --accent:#2962ff;--paper:#7c5cff;--gold:#f0b90b;
+  --font:-apple-system,BlinkMacSystemFont,"Trebuchet MS",Roboto,Ubuntu,sans-serif;
+  --mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px}
+.topbar{display:flex;align-items:center;gap:10px;padding:0 14px;height:48px;background:var(--panel);border-bottom:1px solid var(--border);flex-shrink:0}
+.logo{font-weight:800;font-size:15px;color:var(--bright)}.logo span{color:var(--gold)}
+.badge{font-size:10px;padding:3px 8px;border-radius:3px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--border)}
+.badge-paper{background:rgba(124,92,255,.18);color:#c4b5fd;border-color:var(--paper);animation:pulse 1.4s ease-in-out infinite}
+.badge-nfa{color:var(--muted)}
+.badge-unlock{background:rgba(41,98,255,.12);color:#5b8def;border:1px solid rgba(41,98,255,.3)}
+.badge-arm{background:rgba(38,166,154,.12);color:var(--green);border-color:rgba(38,166,154,.4);display:none}
+.badge-arm.show{display:inline-block}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(124,92,255,.35)}50%{box-shadow:0 0 0 4px rgba(124,92,255,0)}}
+.btn{border:none;border-radius:5px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.04em}
+.btn-arm{background:linear-gradient(135deg,#26a69a,#00897b);color:#fff}
+.btn-arm:hover{box-shadow:0 0 14px rgba(38,166,154,.45)}
+.btn-arm.hide{display:none}
+.btn-disarm{background:var(--panel2);color:var(--muted);border:1px solid var(--border);display:none}
+.btn-disarm.show{display:inline-block}
+.spacer{flex:1}
+.handle{color:var(--muted);font-size:11px}
+.main{display:grid;grid-template-columns:360px 1fr 340px;height:calc(100vh - 48px);min-height:640px}
+.col{background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.col:last-child{border-right:none}
+.col-h{padding:10px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.col-h .count{color:var(--gold);font-family:var(--mono)}
+.bag{flex:1;overflow-y:auto}
+.bag-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px;border-bottom:1px solid rgba(30,37,48,.7);cursor:pointer;transition:background .12s}
+.bag-row:hover{background:rgba(240,185,11,.04)}
+.bag-row.active{background:rgba(124,92,255,.1);border-left:2px solid var(--paper)}
+.bag-row.armed{background:rgba(38,166,154,.06)}
+.bag-row.hit{animation:hitFlash .8s ease}
+@keyframes hitFlash{0%,100%{background:rgba(38,166,154,.06)}40%{background:rgba(38,166,154,.28)}}
+.t-name{font-weight:800;font-size:13px;color:var(--bright);display:flex;align-items:center;gap:8px}
+.t-meta{font-size:10px;color:var(--muted);margin-top:3px;font-family:var(--mono)}
+.chain{font-size:9px;padding:2px 6px;border-radius:999px;font-weight:700;letter-spacing:.04em;border:1px solid}
+.chain-eth{color:#8ea0ff;border-color:rgba(142,160,255,.4);background:rgba(98,126,234,.12)}
+.chain-base{color:#5b9dff;border-color:rgba(91,157,255,.4);background:rgba(0,82,255,.12)}
+.chain-arb{color:#9ecbff;border-color:rgba(158,203,255,.4);background:rgba(40,160,240,.12)}
+.chain-sol{color:#c4b5fd;border-color:rgba(196,181,253,.4);background:rgba(124,92,255,.12)}
+.mult{font-family:var(--mono);font-size:14px;font-weight:800;text-align:right}
+.mult.up{color:var(--green)}.mult.mid{color:var(--amber)}.mult.dn{color:var(--red)}
+.pill{font-size:9px;padding:2px 6px;border-radius:999px;font-weight:700;margin-top:4px;display:inline-block}
+.pill-armed{background:rgba(38,166,154,.2);color:var(--green)}
+.pill-idle{background:rgba(120,123,134,.2);color:var(--muted)}
+.pill-filled{background:rgba(124,92,255,.2);color:#c4b5fd}
+.center{background:var(--bg);display:flex;flex-direction:column}
+.desk{padding:16px;flex:1;overflow-y:auto}
+.arm-banner{display:none;padding:10px 14px;background:rgba(38,166,154,.1);border:1px solid rgba(38,166,154,.35);border-radius:8px;color:var(--green);font-weight:700;font-size:12px;margin-bottom:14px;letter-spacing:.04em}
+.arm-banner.show{display:block}
+.target-box{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:14px}
+.target-box h3{font-size:15px;color:var(--bright);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.target-box .mono{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.55}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:12px}
+.card .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px}
+.card .val{font-size:16px;font-weight:700;color:var(--bright);font-family:var(--mono)}
+.card .val.sm{font-size:13px}
+.ladder{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px}
+.ladder h4{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:10px}
+.rung{display:grid;grid-template-columns:56px 1fr 90px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(30,37,48,.6)}
+.rung:last-child{border-bottom:none}
+.rung .lvl{font-family:var(--mono);font-weight:800;color:var(--gold)}
+.rung .desc{font-size:12px;color:var(--text)}
+.rung .st{font-size:10px;font-weight:700;text-align:right;font-family:var(--mono)}
+.rung .st.wait{color:var(--muted)}.rung .st.armed{color:var(--green)}.rung .st.hit{color:var(--cyan)}.rung .st.fill{color:#c4b5fd}
+.track{height:6px;background:#0e1218;border-radius:999px;overflow:hidden;border:1px solid var(--border);margin-top:6px}
+.fill{height:100%;background:linear-gradient(90deg,#00897b,var(--gold));border-radius:999px;transition:width .4s ease}
+.log{flex:1;overflow-y:auto;font-family:var(--mono);font-size:11px}
+.log table{width:100%;border-collapse:collapse}
+.log th{text-align:left;padding:6px 10px;color:var(--muted);font-size:10px;text-transform:uppercase;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel)}
+.log td{padding:6px 10px;border-bottom:1px solid rgba(30,37,48,.5);vertical-align:top}
+.log .ok{color:var(--green)}.log .miss{color:var(--red)}.log .arm{color:var(--amber)}.log .info{color:var(--cyan)}.log .fill{color:#c4b5fd}.log .hit{color:var(--gold)}
+.status{padding:8px 12px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;flex-wrap:wrap;gap:12px;background:var(--panel);flex-shrink:0}
+.status b{color:var(--text)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#161b22;border:1px solid var(--border);padding:10px 18px;border-radius:6px;font-size:12px;z-index:99;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+@media(max-width:960px){.main{grid-template-columns:1fr;height:auto}html,body{overflow:auto}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo"><span>StaRK</span> Take Profits</div>
+  <span class="badge badge-paper">PAPER / DEMO</span>
+  <span class="badge badge-nfa">NFA</span>
+  <span class="badge badge-unlock">~0.5% hosted unlock</span>
+  <span class="badge badge-arm" id="armBadge">WATCHERS ARMED</span>
+  <button class="btn btn-arm" id="btnArm" onclick="armWatchers()">Arm Watchers</button>
+  <button class="btn btn-disarm" id="btnDisarm" onclick="disarm()">Disarm</button>
+  <div class="spacer"></div>
+  <span class="handle">StaRK Bots · @StaRKCryptoBots</span>
+</div>
+<div class="main">
+  <div class="col">
+    <div class="col-h">Deposit / Bag <span class="count" id="bagCount">0</span></div>
+    <div class="bag" id="bag"></div>
+    <div class="status">
+      <span>Mode <b>PAPER</b></span>
+      <span>Ladder <b>2× TP</b></span>
+    </div>
+  </div>
+  <div class="col center">
+    <div class="col-h" style="background:var(--panel)">TP Desk · PAPER</div>
+    <div class="desk">
+      <div class="arm-banner" id="armBanner">⚡ WATCHERS ARMED — sell 50% at 2× · paper fills only</div>
+      <div class="target-box">
+        <h3 id="tName">— select a bag —</h3>
+        <div class="mono" id="tMeta">No position selected</div>
+      </div>
+      <div class="kv">
+        <div class="card"><div class="lbl">Entry</div><div class="val sm" id="tEntry">—</div></div>
+        <div class="card"><div class="lbl">Mark</div><div class="val sm" id="tMark">—</div></div>
+        <div class="card"><div class="lbl">Multiple</div><div class="val sm" id="tMult">—</div></div>
+        <div class="card"><div class="lbl">Status</div><div class="val sm" id="tStatus">IDLE</div></div>
+      </div>
+      <div class="ladder">
+        <h4>2× Ladder · Take-Profit Levels</h4>
+        <div id="ladder"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="col-h">Live Log · PAPER</div>
+    <div class="log"><table>
+      <thead><tr><th>Time</th><th>Event</th><th>Detail</th></tr></thead>
+      <tbody id="logBody"></tbody>
+    </table></div>
+    <div class="status">
+      <span>Events <b id="evN">0</b></span>
+      <span>Armed <b id="armedN">0</b></span>
+      <span>Paper TP <b id="tpN">0</b></span>
+      <span style="color:var(--paper)">Hosted ~0.5% unlock · PAPER</span>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+  const BAG = [
+    {sym:'PEPE',name:'Pepe',chain:'ETH',chainCls:'chain-eth',entry:0.00000812,mark:0.00001540,qty:125000000,tpPct:50,status:'idle'},
+    {sym:'WIF',name:'dogwifhat',chain:'SOL',chainCls:'chain-sol',entry:1.42,mark:2.68,qty:420,tpPct:50,status:'idle'},
+    {sym:'BRETT',name:'Brett',chain:'Base',chainCls:'chain-base',entry:0.084,mark:0.091,qty:8500,tpPct:50,status:'idle'},
+    {sym:'ARB',name:'Arbitrum',chain:'ARB',chainCls:'chain-arb',entry:0.72,mark:1.51,qty:1200,tpPct:50,status:'idle'},
+    {sym:'TOSHI',name:'Toshi',chain:'Base',chainCls:'chain-base',entry:0.00032,mark:0.00061,qty:2.5e6,tpPct:50,status:'idle'},
+    {sym:'MOG',name:'Mog Coin',chain:'ETH',chainCls:'chain-eth',entry:0.00000105,mark:0.00000118,qty:9e8,tpPct:50,status:'idle'},
+  ];
+  const LADDER = [
+    {lvl:'1.5×',desc:'Trim 25% · partial',key:1.5},
+    {lvl:'2.0×',desc:'Sell 50% at 2×',key:2.0},
+    {lvl:'3.0×',desc:'Runner trim 25%',key:3.0},
+    {lvl:'5.0×',desc:'Moon bag exit 50% of rest',key:5.0},
+  ];
+  let selected=null, armed=false, events=0, tpCount=0, tickTimer=null;
+
+  function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+  function now(){return new Date().toLocaleTimeString('en-GB',{hour12:false})}
+  function fmtPx(n){
+    if(n>=1) return '$'+n.toFixed(2);
+    if(n>=0.01) return '$'+n.toFixed(4);
+    return '$'+n.toPrecision(3);
+  }
+  function multOf(b){return b.mark/b.entry}
+  function multCls(m){return m>=2?'up':m>=1.2?'mid':'dn'}
+  function log(cls,event,detail){
+    events++;
+    document.getElementById('evN').textContent=events;
+    const tr=document.createElement('tr');
+    tr.innerHTML='<td>'+now()+'</td><td class="'+cls+'">'+event+'</td><td>'+detail+'</td>';
+    const tb=document.getElementById('logBody');
+    tb.insertBefore(tr,tb.firstChild);
+  }
+  function rungState(b,key){
+    const m=multOf(b);
+    if(b.status==='filled' && key<=2) return {cls:'fill',txt:'FILLED'};
+    if(armed && m>=key) return {cls:'hit',txt:'HIT'};
+    if(armed) return {cls:'armed',txt:'ARMED'};
+    return {cls:'wait',txt:'WAIT'};
+  }
+  function renderLadder(b){
+    const box=document.getElementById('ladder');
+    if(!b){box.innerHTML='<div style="color:var(--muted);font-size:12px">Select a bag to view ladder</div>';return}
+    const m=multOf(b);
+    const progress=Math.min(100,(m/2)*100);
+    box.innerHTML=LADDER.map(r=>{
+      const st=rungState(b,r.key);
+      return '<div class="rung"><div class="lvl">'+r.lvl+'</div><div class="desc">'+r.desc+
+        (r.key===2?' <span style="color:var(--gold)">★ primary</span>':'')+
+        '</div><div class="st '+st.cls+'">'+st.txt+'</div></div>';
+    }).join('')+
+    '<div style="margin-top:10px;font-size:10px;color:var(--muted);font-family:var(--mono)">Progress to 2×</div>'+
+    '<div class="track"><div class="fill" style="width:'+progress.toFixed(1)+'%"></div></div>';
+  }
+  function renderBag(){
+    const box=document.getElementById('bag');
+    box.innerHTML='';
+    BAG.forEach((b,i)=>{
+      const m=multOf(b);
+      const pill=b.status==='filled'?'filled':(armed?'armed':'idle');
+      const pillTxt=pill==='filled'?'TP FILLED':pill==='armed'?'ARMED':'IDLE';
+      const row=document.createElement('div');
+      row.className='bag-row'+(selected===i?' active':'')+(armed?' armed':'');
+      row.onclick=()=>select(i);
+      row.id='bag-'+i;
+      row.innerHTML=
+        '<div><div class="t-name">'+b.sym+' <span class="chain '+b.chainCls+'">'+b.chain+'</span></div>'+
+        '<div class="t-meta">'+b.name+' · qty '+b.qty.toLocaleString()+' · entry '+fmtPx(b.entry)+'</div>'+
+        '<span class="pill pill-'+pill+'">'+pillTxt+'</span></div>'+
+        '<div><div class="mult '+multCls(m)+'">'+m.toFixed(2)+'×</div>'+
+        '<div class="t-meta" style="text-align:right;margin-top:4px">mark '+fmtPx(b.mark)+'</div></div>';
+      box.appendChild(row);
+    });
+    document.getElementById('bagCount').textContent=BAG.length;
+  }
+  function select(i){
+    selected=i;
+    const b=BAG[i];
+    const m=multOf(b);
+    document.getElementById('tName').innerHTML=b.sym+' <span class="chain '+b.chainCls+'">'+b.chain+'</span>';
+    document.getElementById('tMeta').textContent=
+      b.name+' · bag qty '+b.qty.toLocaleString()+'\n'+
+      'rule: sell '+b.tpPct+'% at 2× · remainder runner · PAPER · NFA';
+    document.getElementById('tEntry').textContent=fmtPx(b.entry);
+    document.getElementById('tMark').textContent=fmtPx(b.mark);
+    document.getElementById('tMult').textContent=m.toFixed(2)+'×';
+    document.getElementById('tStatus').textContent=b.status==='filled'?'FILLED (PAPER)':(armed?'ARMED':'IDLE');
+    renderLadder(b);
+    renderBag();
+    log('info','SELECT',b.sym+' · '+m.toFixed(2)+'× on '+b.chain);
+  }
+  window.armWatchers=function(){
+    armed=true;
+    document.getElementById('btnArm').classList.add('hide');
+    document.getElementById('btnDisarm').classList.add('show');
+    document.getElementById('armBadge').classList.add('show');
+    document.getElementById('armBanner').classList.add('show');
+    document.getElementById('armedN').textContent=String(BAG.filter(b=>b.status!=='filled').length);
+    BAG.forEach(b=>{ if(b.status!=='filled') b.status='armed'; });
+    if(selected!=null){
+      document.getElementById('tStatus').textContent='ARMED';
+      renderLadder(BAG[selected]);
+    }
+    renderBag();
+    log('arm','ARM ALL','watchers on · sell-50%-at-2× · PAPER');
+    toast('Watchers ARMED · PAPER');
+    BAG.forEach(b=>{
+      if(multOf(b)>=2 && b.status!=='filled'){
+        // already above 2x — note but don't auto-fill unless demo
+        log('hit','ABOVE 2×',b.sym+' already '+multOf(b).toFixed(2)+'× — awaiting fill trigger');
+      }
+    });
+  };
+  window.disarm=function(){
+    armed=false;
+    document.getElementById('btnArm').classList.remove('hide');
+    document.getElementById('btnDisarm').classList.remove('show');
+    document.getElementById('armBadge').classList.remove('show');
+    document.getElementById('armBanner').classList.remove('show');
+    document.getElementById('armedN').textContent='0';
+    BAG.forEach(b=>{ if(b.status==='armed') b.status='idle'; });
+    if(selected!=null){
+      document.getElementById('tStatus').textContent=BAG[selected].status==='filled'?'FILLED (PAPER)':'IDLE';
+      renderLadder(BAG[selected]);
+    }
+    renderBag();
+    log('info','DISARM','watchers off');
+    toast('Disarmed');
+  };
+  function paperTakeProfit(i){
+    const b=BAG[i];
+    if(b.status==='filled')return;
+    const m=multOf(b);
+    const sellQty=Math.floor(b.qty*(b.tpPct/100));
+    const proceeds=sellQty*b.mark;
+    b.status='filled';
+    b.qty=b.qty-sellQty;
+    tpCount++;
+    document.getElementById('tpN').textContent=String(tpCount);
+    document.getElementById('armedN').textContent=String(BAG.filter(x=>x.status==='armed').length);
+    log('hit','2× HIT',b.sym+' mark '+fmtPx(b.mark)+' · '+m.toFixed(2)+'×');
+    log('fill','PAPER TP','sell '+b.tpPct+'% ('+sellQty.toLocaleString()+') @ '+fmtPx(b.mark)+' · ~$'+proceeds.toFixed(2)+' · '+b.chain);
+    toast('Paper TP · '+b.sym+' sell '+b.tpPct+'% @ 2×');
+    const row=document.getElementById('bag-'+i);
+    if(row) row.classList.add('hit');
+    if(selected===i){
+      document.getElementById('tStatus').textContent='FILLED (PAPER)';
+      document.getElementById('tMark').textContent=fmtPx(b.mark);
+      document.getElementById('tMult').textContent=m.toFixed(2)+'×';
+      document.getElementById('tMeta').textContent=
+        b.name+' · remaining qty '+b.qty.toLocaleString()+'\n'+
+        'PAPER fill: sold '+b.tpPct+'% at 2× ladder · runner left · NFA';
+      renderLadder(b);
+    }
+    renderBag();
+  }
+  function simulate2xHit(i){
+    const b=BAG[i];
+    // push mark to just over 2x if needed
+    if(multOf(b)<2){
+      b.mark=+(b.entry*2.05).toPrecision(4);
+      log('info','MARK ↑',b.sym+' → '+fmtPx(b.mark)+' (sim 2× path)');
+    } else {
+      b.mark=+(b.mark*1.02).toPrecision(4);
+    }
+    if(selected===i){
+      document.getElementById('tMark').textContent=fmtPx(b.mark);
+      document.getElementById('tMult').textContent=multOf(b).toFixed(2)+'×';
+      renderLadder(b);
+    }
+    renderBag();
+    setTimeout(()=>paperTakeProfit(i),450);
+  }
+
+  function autodemo(){
+    log('info','AUTODEMO','arm → 2× hit → paper TP fill');
+    toast('AUTODEMO · Take Profits');
+    // pick PEPE (index 0) which is near 1.9x — good demo path, or ARB which is already >2x
+    // Use PEPE and simulate climb to 2x for clearer story
+    select(0);
+    setTimeout(()=>{
+      armWatchers();
+    },700);
+    setTimeout(()=>{
+      log('arm','WATCH','PEPE · sell-50%-at-2× armed');
+      simulate2xHit(0);
+    },1600);
+  }
+
+  // gentle live mark jitter when armed
+  function tick(){
+    if(!armed)return;
+    BAG.forEach(b=>{
+      if(b.status==='filled')return;
+      const j=1+(Math.random()-0.48)*0.006;
+      b.mark=b.mark*j;
+    });
+    if(selected!=null){
+      const b=BAG[selected];
+      document.getElementById('tMark').textContent=fmtPx(b.mark);
+      document.getElementById('tMult').textContent=multOf(b).toFixed(2)+'×';
+      if(b.status!=='filled') renderLadder(b);
+    }
+    renderBag();
+  }
+
+  renderBag();
+  renderLadder(null);
+  log('info','BOOT','Take Profits online · DEMO / PAPER — NFA');
+  if(new URLSearchParams(location.search).get('autodemo')==='1') setTimeout(autodemo,300);
+  else setInterval(tick,2500);
+})();
+</script>
+<script src="../assets/trial-gate.js" data-app-id="take-profits"></script>
+</body>
+</html>

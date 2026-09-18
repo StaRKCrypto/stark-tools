@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>StaRK Mint Sniper — PAPER DEMO</title>
+<style>
+:root{
+  --bg:#0b0e11;--panel:#12161c;--panel2:#161b22;--border:#1e2530;
+  --text:#d1d4dc;--bright:#f0f3fa;--muted:#787b86;
+  --green:#26a69a;--red:#ef5350;--amber:#ff9800;--cyan:#3de7ff;
+  --accent:#2962ff;--paper:#7c5cff;--gold:#f0b90b;
+  --font:-apple-system,BlinkMacSystemFont,"Trebuchet MS",Roboto,Ubuntu,sans-serif;
+  --mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px}
+.topbar{display:flex;align-items:center;gap:10px;padding:0 14px;height:48px;background:var(--panel);border-bottom:1px solid var(--border)}
+.logo{font-weight:800;font-size:15px;color:var(--bright)}.logo span{color:var(--cyan)}
+.badge{font-size:10px;padding:3px 8px;border-radius:3px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--border)}
+.badge-paper{background:rgba(124,92,255,.18);color:#c4b5fd;border-color:var(--paper);animation:pulse 1.4s ease-in-out infinite}
+.badge-nfa{color:var(--muted)}
+.badge-arm{background:rgba(239,83,80,.12);color:var(--red);border-color:rgba(239,83,80,.4);display:none}
+.badge-arm.show{display:inline-block}
+.badge-live{background:rgba(38,166,154,.12);color:var(--green);border-color:rgba(38,166,154,.35)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(124,92,255,.35)}50%{box-shadow:0 0 0 4px rgba(124,92,255,0)}}
+.btn{border:none;border-radius:5px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.04em}
+.btn-arm{background:linear-gradient(135deg,#ef5350,#c62828);color:#fff}
+.btn-arm:hover{box-shadow:0 0 14px rgba(239,83,80,.45)}
+.btn-disarm{background:var(--panel2);color:var(--muted);border:1px solid var(--border);display:none}
+.btn-arm.hide{display:none}.btn-disarm.show{display:inline-block}
+.btn-scan{background:linear-gradient(135deg,#2962ff,#00bcd4);color:#fff}
+.spacer{flex:1}
+.handle{color:var(--muted);font-size:11px}
+.main{display:grid;grid-template-columns:320px 1fr 340px;height:calc(100vh - 48px);min-height:640px}
+.col{background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.col:last-child{border-right:none}
+.col-h{padding:10px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.col-h .count{color:var(--cyan);font-family:var(--mono)}
+.watch{flex:1;overflow-y:auto}
+.w-row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:10px 12px;border-bottom:1px solid rgba(30,37,48,.7);cursor:pointer;transition:background .12s}
+.w-row:hover{background:rgba(61,231,255,.04)}
+.w-row.active{background:rgba(124,92,255,.1);border-left:2px solid var(--paper)}
+.w-row.armed{background:rgba(239,83,80,.06)}
+.w-name{font-weight:700;color:var(--bright);font-size:12px}
+.w-meta{font-size:10px;color:var(--muted);margin-top:2px;font-family:var(--mono)}
+.w-price{font-family:var(--mono);font-size:11px;color:var(--gold);text-align:right}
+.pill{font-size:9px;padding:2px 6px;border-radius:999px;font-weight:700;letter-spacing:.04em}
+.pill-open{background:rgba(38,166,154,.15);color:var(--green)}
+.pill-soon{background:rgba(255,152,0,.15);color:var(--amber)}
+.pill-armed{background:rgba(239,83,80,.2);color:var(--red)}
+.pill-missed{background:rgba(120,123,134,.2);color:var(--muted)}
+.center{background:var(--bg);display:flex;flex-direction:column}
+.desk-panel{padding:16px;flex:1;overflow-y:auto}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:12px}
+.card .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px}
+.card .val{font-size:18px;font-weight:700;color:var(--bright);font-family:var(--mono)}
+.card .val.sm{font-size:13px}
+.target-box{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:14px}
+.target-box h3{font-size:14px;color:var(--bright);margin-bottom:8px}
+.target-box .mono{font-family:var(--mono);font-size:11px;color:var(--muted);word-break:break-all;line-height:1.5}
+.arm-banner{display:none;padding:10px 14px;background:rgba(239,83,80,.1);border:1px solid rgba(239,83,80,.35);border-radius:8px;color:var(--red);font-weight:700;font-size:12px;margin-bottom:14px;letter-spacing:.04em}
+.arm-banner.show{display:block}
+.alerts{border-top:1px solid var(--border);max-height:180px;overflow-y:auto;background:var(--panel)}
+.alert{padding:8px 12px;border-bottom:1px solid rgba(30,37,48,.6);font-size:11px;display:flex;gap:8px;align-items:flex-start}
+.alert .t{font-family:var(--mono);color:var(--muted);flex-shrink:0}
+.alert.warn{color:var(--amber)}.alert.ok{color:var(--green)}.alert.err{color:var(--red)}.alert.info{color:var(--cyan)}
+.log{flex:1;overflow-y:auto;font-family:var(--mono);font-size:11px}
+.log table{width:100%;border-collapse:collapse}
+.log th{text-align:left;padding:6px 10px;color:var(--muted);font-size:10px;text-transform:uppercase;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel)}
+.log td{padding:6px 10px;border-bottom:1px solid rgba(30,37,48,.5);vertical-align:top}
+.log .ok{color:var(--green)}.log .miss{color:var(--red)}.log .arm{color:var(--amber)}.log .info{color:var(--cyan)}
+.status{padding:8px 12px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;flex-wrap:wrap;gap:14px;background:var(--panel)}
+.status b{color:var(--text)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#161b22;border:1px solid var(--border);padding:10px 18px;border-radius:6px;font-size:12px;z-index:99;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+@media(max-width:960px){.main{grid-template-columns:1fr;height:auto;overflow:auto}html,body{overflow:auto}}
+html.autodemo,html.autodemo *{cursor:none!important}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo"><span>StaRK</span> Mint Sniper · Free Mints</div>
+  <span class="badge badge-paper">PAPER MODE</span>
+  <span class="badge badge-nfa">NFA</span>
+  <span class="badge badge-live" id="scanBadge">OPENSEA · ALL CHAINS</span>
+  <span class="badge badge-arm" id="armBadge">ARMED</span>
+  <button class="btn btn-scan" id="btnScan" onclick="runScan()">Scan</button>
+  <button class="btn btn-arm" id="btnArm" onclick="armTarget()">ARM</button>
+  <button class="btn btn-disarm" id="btnDisarm" onclick="disarm()">Disarm</button>
+  <div class="spacer"></div>
+  <span class="handle">StaRK Bots · @StaRKCryptoBots</span>
+</div>
+<div class="main">
+  <div class="col">
+    <div class="col-h">OpenSea Free Mints · All Chains <span class="count" id="wlCount">0</span></div>
+    <div class="watch" id="watchlist"></div>
+    <div class="status">
+      <span>Venue <b>OpenSea · all chains</b></span>
+      <span>Filter <b>SeaDrop / public free</b></span>
+      <span>Mode <b>PAPER</b></span>
+    </div>
+  </div>
+  <div class="col center">
+    <div class="col-h" style="background:var(--panel)">Free Mint Sniper · Arm early · Paper safe</div>
+    <div class="desk-panel">
+      <div class="arm-banner" id="armBanner">⚡ ARMED — early arm · SeaDrop/public free · PAPER safe</div>
+      <div class="target-box">
+        <h3 id="tName">— select a mint —</h3>
+        <div class="mono" id="tMeta">No target selected</div>
+      </div>
+      <div class="kv">
+        <div class="card"><div class="lbl">Mint price</div><div class="val sm" id="tPrice">—</div></div>
+        <div class="card"><div class="lbl">Opens (IST)</div><div class="val sm" id="tOpen">—</div></div>
+        <div class="card"><div class="lbl">Max / wallet</div><div class="val sm" id="tMax">—</div></div>
+        <div class="card"><div class="lbl">Countdown</div><div class="val sm" id="tCd">—</div></div>
+      </div>
+      <div class="kv">
+        <div class="card"><div class="lbl">Early ms</div><div class="val sm">50</div></div>
+        <div class="card"><div class="lbl">Burst waves</div><div class="val sm">3</div></div>
+        <div class="card"><div class="lbl">Wallets (demo)</div><div class="val sm" id="tWallets">3</div></div>
+        <div class="card"><div class="lbl">Status</div><div class="val sm" id="tStatus">IDLE</div></div>
+      </div>
+    </div>
+    <div class="col-h" style="background:var(--panel)">Alerts</div>
+    <div class="alerts" id="alerts"></div>
+  </div>
+  <div class="col">
+    <div class="col-h">Sniper Log · SeaDrop / public free · PAPER</div>
+    <div class="log"><table>
+      <thead><tr><th>Time</th><th>Event</th><th>Detail</th></tr></thead>
+      <tbody id="logBody"></tbody>
+    </table></div>
+    <div class="status">
+      <span>Events <b id="evN">0</b></span>
+      <span>Armed <b id="armedN">0</b></span>
+      <span>Paper mints <b id="mintN">0</b></span>
+      <span style="color:var(--paper)">Hosted ~0.5% unlock note · PAPER</span>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+  const DEMO = [
+    {slug:'rare-friends-genesis',name:'Rare Friends Genesis',price:0,max:1,openIn:42,status:'soon',contract:'0x116e…d361',chain:'Ethereum',kind:'SeaDrop free'},
+    {slug:'pixel-pals-drop',name:'Pixel Pals Drop',price:0,max:2,openIn:180,status:'soon',contract:'0xa91c…7f02',chain:'Base',kind:'public free'},
+    {slug:'neon-relics',name:'Neon Relics',price:0,max:3,openIn:-12,status:'open',contract:'0x44b2…91aa',chain:'Arbitrum',kind:'SeaDrop free'},
+    {slug:'orbit-crew',name:'Orbit Crew',price:0,max:1,openIn:920,status:'soon',contract:'0x7e10…c4d8',chain:'Optimism',kind:'public free'},
+    {slug:'chrome-cats',name:'Chrome Cats',price:0,max:5,openIn:-400,status:'missed',contract:'0x2f88…0be1',chain:'Polygon',kind:'SeaDrop free'},
+  ];
+  let selected=null, armed=false, events=0, mintCount=0, scanTimer=null, cdTimer=null;
+
+  function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+  function now(){return new Date().toLocaleTimeString('en-GB',{hour12:false})}
+  function fmtOpen(sec){
+    if(sec<=0) return 'LIVE / open';
+    const m=Math.floor(sec/60),s=sec%60;
+    return m+'m '+String(s).padStart(2,'0')+'s';
+  }
+  function alertMsg(cls,msg){
+    const el=document.createElement('div');
+    el.className='alert '+cls;
+    el.innerHTML='<span class="t">'+now()+'</span><span>'+msg+'</span>';
+    const box=document.getElementById('alerts');
+    box.insertBefore(el,box.firstChild);
+  }
+  function log(cls,event,detail){
+    events++;
+    document.getElementById('evN').textContent=events;
+    const tr=document.createElement('tr');
+    tr.innerHTML='<td>'+now()+'</td><td class="'+cls+'">'+event+'</td><td>'+detail+'</td>';
+    const tb=document.getElementById('logBody');
+    tb.insertBefore(tr,tb.firstChild);
+  }
+
+  function renderWatch(){
+    const box=document.getElementById('watchlist');
+    box.innerHTML='';
+    DEMO.forEach((m,i)=>{
+      const pill=m.status==='open'?'open':m.status==='missed'?'missed':(armed&&selected===i)?'armed':'soon';
+      const pillTxt=pill==='armed'?'ARMED':pill.toUpperCase();
+      const row=document.createElement('div');
+      row.className='w-row'+(selected===i?' active':'')+(armed&&selected===i?' armed':'');
+      row.onclick=()=>select(i);
+      row.innerHTML=
+        '<div><div class="w-name">'+m.name+'</div><div class="w-meta">'+m.chain+' · '+m.kind+' · '+m.contract+'</div></div>'+
+        '<div class="w-price">'+(m.price===0?'FREE':m.price+' ETH')+'</div>'+
+        '<span class="pill pill-'+pill+'">'+pillTxt+'</span>';
+      box.appendChild(row);
+    });
+    document.getElementById('wlCount').textContent=DEMO.length;
+  }
+
+  function select(i){
+    selected=i;
+    const m=DEMO[i];
+    document.getElementById('tName').textContent=m.name;
+    document.getElementById('tMeta').textContent=
+      'slug: '+m.slug+'\ncontract: '+m.contract+'\nOpenSea · multi-chain · SeaDrop / public free only · PAPER';
+    document.getElementById('tPrice').textContent=m.price===0?'FREE (0 ETH)':m.price+' ETH';
+    document.getElementById('tMax').textContent=String(m.max);
+    document.getElementById('tStatus').textContent=armed&&selected===i?'ARMED':m.status.toUpperCase();
+    updateCd();
+    renderWatch();
+    log('info','SELECT',m.slug);
+    alertMsg('info','Target → '+m.name);
+  }
+
+  function updateCd(){
+    if(selected==null){document.getElementById('tCd').textContent='—';document.getElementById('tOpen').textContent='—';return}
+    const m=DEMO[selected];
+    document.getElementById('tCd').textContent=fmtOpen(m.openIn);
+    if(m.openIn<=0) document.getElementById('tOpen').textContent='now (demo)';
+    else {
+      const d=new Date(Date.now()+m.openIn*1000);
+      document.getElementById('tOpen').textContent=d.toLocaleTimeString('en-GB',{hour12:false})+' IST';
+    }
+  }
+
+  window.runScan=function(){
+    document.getElementById('scanBadge').textContent='SCANNING…';
+    toast('OpenSea free mint scan · all chains · PAPER');
+    log('info','SCAN','watchlist refresh');
+    alertMsg('warn','Scout: OpenSea free mints · all chains · SeaDrop/public free…');
+    setTimeout(()=>{
+      DEMO.forEach(m=>{ if(m.openIn>0) m.openIn=Math.max(5,m.openIn-Math.floor(Math.random()*8)); });
+      renderWatch();
+      document.getElementById('scanBadge').textContent='OPENSEA · ALL CHAINS';
+      log('ok','SCAN OK',DEMO.length+' collections');
+      alertMsg('ok','Scout: '+DEMO.length+' on watchlist');
+      toast('Watchlist updated');
+      if(selected!=null) updateCd();
+    },700);
+  };
+
+  window.armTarget=function(){
+    if(selected==null){toast('Select a mint first');alertMsg('err','ARM blocked — no target');return}
+    const m=DEMO[selected];
+    if(m.status==='missed'){toast('Mint already closed');return}
+    armed=true;
+    document.getElementById('btnArm').classList.add('hide');
+    document.getElementById('btnDisarm').classList.add('show');
+    document.getElementById('armBadge').classList.add('show');
+    document.getElementById('armBanner').classList.add('show');
+    document.getElementById('tStatus').textContent='ARMED';
+    document.getElementById('armedN').textContent='1';
+    renderWatch();
+    log('arm','ARM',m.slug+' · early=50ms · burst=3');
+    alertMsg('warn','ARMED '+m.name+' · PAPER fire only');
+    toast('ARMED · '+m.name);
+    // simulate paper snipe if soon/open
+    if(m.openIn<=60){
+      setTimeout(()=>paperFire(m),1200);
+    }
+  };
+
+  window.disarm=function(){
+    armed=false;
+    document.getElementById('btnArm').classList.remove('hide');
+    document.getElementById('btnDisarm').classList.remove('show');
+    document.getElementById('armBadge').classList.remove('show');
+    document.getElementById('armBanner').classList.remove('show');
+    document.getElementById('armedN').textContent='0';
+    if(selected!=null) document.getElementById('tStatus').textContent=DEMO[selected].status.toUpperCase();
+    renderWatch();
+    log('miss','DISARM','operator cleared arm');
+    toast('Disarmed');
+  };
+
+  function paperFire(m){
+    if(!armed) return;
+    log('arm','EARLY','T-50ms pre-sign blast · PAPER');
+    alertMsg('warn','Early fire T-50ms · 3 wallets');
+    setTimeout(()=>{
+      mintCount+=3;
+      document.getElementById('mintN').textContent=String(mintCount);
+      log('ok','PAPER MINT','3/3 wallets · '+m.slug+' · simulated fill');
+      alertMsg('ok','Paper mint success · '+m.name+' ×3');
+      toast('PAPER mint · 3 wallets');
+      document.getElementById('tStatus').textContent='FILLED (PAPER)';
+      m.status='open';
+      m.openIn=0;
+      renderWatch();
+      updateCd();
+    },900);
+  }
+
+  // tick countdowns
+  cdTimer=setInterval(()=>{
+    DEMO.forEach(m=>{ if(m.openIn>0) m.openIn--; if(m.openIn===0 && m.status==='soon') m.status='open'; });
+    if(selected!=null) updateCd();
+    renderWatch();
+  },1000);
+
+  function autodemo(){
+    toast('DEMO: mint sniper desk…');
+    log('info','AUTODEMO','continuous PAPER rehearsal');
+    setTimeout(()=>runScan(),400);
+    setTimeout(()=>{select(0);toast('DEMO: target selected')},1200);
+    setTimeout(()=>{armTarget()},2000);
+    setTimeout(()=>{ if(armed) paperFire(DEMO[0]); },3000);
+    // keep blotter/watch alive: rescans, log ticks, soft mint counters
+    setInterval(()=>{
+      DEMO.forEach(m=>{
+        if(m.openIn<=0 && Math.random()>0.7){ m.openIn=15+Math.floor(Math.random()*40); m.status='soon'; }
+      });
+      renderWatch();
+      if(Math.random()>0.55){
+        const tags=['info','scan','ok'];
+        const msgs=['heartbeat · watchlist tick','OpenSea poll · multi-chain · PAPER','latency check 42ms','scout hash ok'];
+        log(tags[Math.floor(Math.random()*tags.length)],'TICK',msgs[Math.floor(Math.random()*msgs.length)]);
+      }
+      if(armed && Math.random()>0.75){
+        mintCount+=1;
+        document.getElementById('mintN').textContent=String(mintCount);
+        log('ok','PAPER MINT','+1 wallet · simulated · NFA');
+      }
+    },450);
+    setInterval(()=>{ if(Math.random()>0.6) runScan(); },5000);
+  }
+
+  renderWatch();
+  log('info','BOOT','Mint Sniper online · DEMO / PAPER — NFA');
+  alertMsg('info','Desk ready · no keys · PAPER only');
+  if(new URLSearchParams(location.search).get('autodemo')==='1'){
+    document.documentElement.classList.add('autodemo');
+    setTimeout(autodemo,300);
+  }
+})();
+</script>
+<script src="../assets/trial-gate.js" data-app-id="mint-sniper"></script>
+</body>
+</html>

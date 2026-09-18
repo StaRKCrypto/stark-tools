@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>StaRK Bots — Free Test · Paper</title>
+<meta name="robots" content="noindex"/>
+<meta name="description" content="Free 5-min/day paper trial. Not live trading. No keys. NFA."/>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#06090e; --panel:#0d131b; --panel2:#111822; --line:#1b2636;
+  --text:#e4ebf5; --mute:#8797af; --cyan:#3de7ff; --violet:#8b6cff;
+  --green:#2dd4a8; --gold:#f0b429;
+}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.55 "IBM Plex Sans",system-ui,sans-serif;color:var(--text);
+  background:radial-gradient(900px 480px at 85% -10%, rgba(139,108,255,.16), transparent 55%),
+             radial-gradient(800px 420px at 0% 0%, rgba(61,231,255,.1), transparent 50%), var(--bg)}
+a{color:var(--cyan);text-decoration:none} a:hover{text-decoration:underline}
+.wrap{max-width:960px;margin:0 auto;padding:28px 20px 64px}
+nav{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.logo{font-weight:700} .logo i{color:var(--cyan);font-style:normal}
+.back{margin-left:auto;font-size:13px;color:var(--mute)}
+h1{font-size:clamp(26px,4vw,36px);margin:0 0 8px;letter-spacing:-.02em}
+.lead{color:var(--mute);margin:0 0 22px;max-width:42em}
+.banner{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.badge{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:5px 10px;border-radius:999px;border:1px solid}
+.badge-preview{color:var(--cyan);border-color:rgba(61,231,255,.4);background:rgba(61,231,255,.08)}
+.badge-paper{color:var(--gold);border-color:rgba(240,180,41,.4);background:rgba(240,180,41,.08)}
+.badge-nfa{color:var(--mute);border-color:var(--line);background:var(--panel2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
+  border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px;min-height:140px;
+  transition:border-color .15s, transform .15s}
+.card:hover{border-color:rgba(61,231,255,.35);transform:translateY(-1px)}
+.card h3{margin:0;font-size:16px}
+.card p{margin:0;color:var(--mute);font-size:13px;flex:1}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:"IBM Plex Mono",monospace;font-size:10px;padding:3px 8px;border-radius:999px;
+  border:1px solid var(--line);color:var(--mute)}
+.tag.ok{color:var(--green);border-color:rgba(45,212,168,.35);background:rgba(45,212,168,.08)}
+.tag.warn{color:var(--gold);border-color:rgba(240,180,41,.35);background:rgba(240,180,41,.08)}
+.open{font-family:"IBM Plex Mono",monospace;font-size:12px;margin-top:4px}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);color:var(--mute);font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="logo">StaRK <i>Bots</i> · Apps</div>
+    <a class="back" href="../">← Landing</a>
+  </nav>
+  <h1>Try desks (free 5-min paper trial)</h1>
+  <p class="lead">Public paper desks — <strong>5 minutes free per browser per day</strong>. Synthetic fills only. No wallet connect for trial. Not live trading · no keys · no CA. NFA.</p>
+  <div class="banner">
+    <span class="badge badge-preview">Free test · 5 min/day</span>
+    <span class="badge badge-paper">Paper / Demo</span>
+    <span class="badge badge-nfa">NFA · no secrets</span>
+  </div>
+  <div class="grid" id="grid"></div>
+  <footer>
+    StaRKCrypto · Free test · Paper only · Not live trading ·
+    <a href="https://github.com/StaRKCrypto/stark-tools">stark-tools</a>
+  </footer>
+</div>
+<script>
+const apps=[
+  {slug:'arcus', name:'Arcus S/R Auto', blurb:'Auto zones, paper tickets, kill switch. CLI bot ships as paper desk HTML.', mode:'PAPER'},
+  {slug:'lighter', name:'Lighter Desk', blurb:'Venue MM book + volume/OI farm sim. Paper fills only.', mode:'PAPER'},
+  {slug:'nado', name:'Nado Farm', blurb:'Perp farm desk with simulated inventory & fills.', mode:'PAPER'},
+  {slug:'mint-sniper', name:'Mint Sniper', blurb:'OpenSea free-mint scout → arm → paper fire log.', mode:'PAPER'},
+  {slug:'nimbus', name:'Nimbus Weather', blurb:'Polymarket weather markets · dry-run · no live arm.', mode:'DRY-RUN / PAPER'},
+  {slug:'portfolio', name:'Portfolio', blurb:'Hardcoded sample bag + equity curve. No wallets.', mode:'PAPER'},
+  {slug:'take-profits', name:'Take Profits', blurb:'2× ladder watchers → paper TP fills.', mode:'PAPER'},
+  {slug:'bound', name:'Bound DD', blurb:'Token checklist / scoring paper desk.', mode:'PAPER'},
+  {slug:'monk', name:'Monk Pair', blurb:'BTC vs ETH relative-strength paper signal.', mode:'PAPER'},
+];
+document.getElementById('grid').innerHTML=apps.map(a=>`
+  <a class="card" href="./${a.slug}/" style="color:inherit;text-decoration:none">
+    <h3>${a.name}</h3>
+    <p>${a.blurb}</p>
+    <div class="tags">
+      <span class="tag ok">Free test · 5 min/day · Paper</span>
+      <span class="tag warn">${a.mode}</span>
+    </div>
+    <div class="open">Open desk →</div>
+  </a>`).join('');
+</script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>StaRK Portfolio — PAPER DEMO</title>
+<style>
+:root{
+  --bg:#0b0e11;--panel:#12161c;--panel2:#161b22;--border:#1e2530;
+  --text:#d1d4dc;--bright:#f0f3fa;--muted:#787b86;
+  --green:#26a69a;--red:#ef5350;--amber:#ff9800;--cyan:#3de7ff;
+  --accent:#2962ff;--paper:#7c5cff;--gold:#f0b90b;
+  --font:-apple-system,BlinkMacSystemFont,"Trebuchet MS",Roboto,Ubuntu,sans-serif;
+  --mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px}
+.topbar{display:flex;align-items:center;gap:10px;padding:0 14px;height:48px;background:var(--panel);border-bottom:1px solid var(--border)}
+.logo{font-weight:800;font-size:15px;color:var(--bright)}.logo span{color:var(--gold)}
+.badge{font-size:10px;padding:3px 8px;border-radius:3px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--border)}
+.badge-paper{background:rgba(124,92,255,.18);color:#c4b5fd;border-color:var(--paper);animation:pulse 1.4s ease-in-out infinite}
+.badge-nfa{color:var(--muted)}
+.badge-demo{background:rgba(255,152,0,.12);color:var(--amber);border-color:rgba(255,152,0,.35)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(124,92,255,.35)}50%{box-shadow:0 0 0 4px rgba(124,92,255,0)}}
+.btn{border:none;border-radius:5px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.04em}
+.btn-refresh{background:linear-gradient(135deg,#2962ff,#00bcd4);color:#fff}
+.btn-sim{background:linear-gradient(135deg,#26a69a,#4caf50);color:#041018}
+.spacer{flex:1}
+.handle{color:var(--muted);font-size:11px}
+.main{display:grid;grid-template-rows:auto 1fr auto;height:calc(100vh - 48px);min-height:640px}
+.hero{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:14px;background:var(--bg);border-bottom:1px solid var(--border)}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px}
+.card .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px}
+.card .val{font-size:22px;font-weight:800;color:var(--bright);font-family:var(--mono)}
+.card .sub{font-size:11px;color:var(--muted);margin-top:4px;font-family:var(--mono)}
+.ok{color:var(--green)!important}.bad{color:var(--red)!important}
+.body{display:grid;grid-template-columns:1fr 320px;overflow:hidden;min-height:0}
+.col{background:var(--panel);display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border)}
+.col:last-child{border-right:none}
+.col-h{padding:10px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.holdings{flex:1;overflow-y:auto}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px}
+th{text-align:left;padding:8px 12px;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel);font-weight:700}
+td{padding:10px 12px;border-bottom:1px solid rgba(30,37,48,.55);vertical-align:middle}
+tr:hover td{background:rgba(61,231,255,.03)}
+.sym{font-weight:700;color:var(--bright);font-family:var(--font);font-size:13px}
+.sym small{display:block;font-weight:500;color:var(--muted);font-size:10px;font-family:var(--mono);margin-top:2px}
+.side-long{color:var(--green);font-weight:700}.side-short{color:var(--red);font-weight:700}
+.spark{width:72px;height:28px;display:block}
+.activity{flex:1;overflow-y:auto;font-family:var(--mono);font-size:11px}
+.act{padding:8px 12px;border-bottom:1px solid rgba(30,37,48,.55);display:flex;gap:8px}
+.act .t{color:var(--muted);flex-shrink:0}
+.act .buy{color:var(--green)}.act .sell{color:var(--red)}.act .info{color:var(--cyan)}
+.chart-wrap{height:160px;border-bottom:1px solid var(--border);background:var(--bg);position:relative}
+#equityChart{width:100%;height:100%;display:block}
+.footer{padding:8px 14px;border-top:1px solid var(--border);background:var(--panel);font-size:11px;color:var(--muted);display:flex;gap:16px;flex-wrap:wrap}
+.footer b{color:var(--text)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#161b22;border:1px solid var(--border);padding:10px 18px;border-radius:6px;font-size:12px;z-index:99;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr 1fr}
+  .body{grid-template-columns:1fr}
+  html,body{overflow:auto;height:auto}
+  .main{height:auto}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo"><span>StaRK</span> Portfolio</div>
+  <span class="badge badge-paper">PAPER MODE</span>
+  <span class="badge badge-demo">DEMO</span>
+  <span class="badge badge-nfa">NFA</span>
+  <button class="btn btn-refresh" onclick="refreshMarks()">Refresh marks</button>
+  <button class="btn btn-sim" onclick="simTick()">Sim tick</button>
+  <div class="spacer"></div>
+  <span class="handle">StaRK Bots · @StaRKCryptoBots</span>
+</div>
+<div class="main">
+  <div class="hero">
+    <div class="card">
+      <div class="lbl">Total equity</div>
+      <div class="val" id="equity">$0.00</div>
+      <div class="sub" id="asOf">demo · PAPER</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Day PnL</div>
+      <div class="val ok" id="dayPnl">+$0.00</div>
+      <div class="sub" id="dayPct">0.00%</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Unrealized</div>
+      <div class="val ok" id="uPnl">+$0.00</div>
+      <div class="sub">open positions</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Cash / margin</div>
+      <div class="val" id="cash" style="font-size:18px">$0.00</div>
+      <div class="sub" id="posN">0 positions</div>
+    </div>
+  </div>
+  <div class="body">
+    <div class="col">
+      <div class="col-h">Holdings · PAPER <span id="liveDot" style="color:var(--green)">● LIVE DEMO</span></div>
+      <div class="chart-wrap"><canvas id="equityChart"></canvas></div>
+      <div class="holdings">
+        <table>
+          <thead>
+            <tr>
+              <th>Symbol</th><th>Side</th><th>Size</th><th>Entry</th><th>Mark</th><th>uPnL</th><th>24h</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col">
+      <div class="col-h">Activity · PAPER</div>
+      <div class="activity" id="activity"></div>
+      <div class="col-h">Allocation</div>
+      <div id="alloc" style="padding:12px;font-family:var(--mono);font-size:11px;color:var(--muted)"></div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>Brand <b>StaRK Bots</b></span>
+    <span>Handle <b>@StaRKCryptoBots</b></span>
+    <span>Mode <b>PAPER / DEMO</b> — hardcoded sample, no wallets, no secrets</span>
+    <span>NFA · teaser UI</span>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+  const holdings=[
+    {sym:'BTC',name:'Bitcoin',side:'LONG',size:0.42,entry:62850,mark:64120,spark:[0,2,1,4,3,5,4,6,5,7]},
+    {sym:'ETH',name:'Ethereum',side:'LONG',size:6.5,entry:3240,mark:3315,spark:[1,0,2,1,3,2,4,3,5,4]},
+    {sym:'SOL',name:'Solana',side:'LONG',size:85,entry:148.2,mark:152.8,spark:[3,2,4,3,2,5,4,6,5,7]},
+    {sym:'HYPE',name:'Hyperliquid',side:'LONG',size:120,entry:18.4,mark:19.1,spark:[2,3,2,4,5,4,6,5,7,6]},
+    {sym:'SHEIN',name:'SHEIN perp',side:'SHORT',size:40,entry:22.1,mark:21.4,spark:[5,4,3,4,2,3,1,2,1,0]},
+  ];
+  let cash=18450.00, equityHist=[], dayBase=0;
+
+  function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
+  function now(){return new Date().toLocaleTimeString('en-GB',{hour12:false})}
+  function money(n){return (n<0?'-':'')+'$'+Math.abs(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
+  function signed(n){return (n>=0?'+':'')+money(n).replace('+','')}
+  function act(cls,msg){
+    const el=document.createElement('div');
+    el.className='act';
+    el.innerHTML='<span class="t">'+now()+'</span><span class="'+cls+'">'+msg+'</span>';
+    const box=document.getElementById('activity');
+    box.insertBefore(el,box.firstChild);
+  }
+
+  function upnl(h){
+    const dir=h.side==='LONG'?1:-1;
+    return dir*(h.mark-h.entry)*h.size;
+  }
+  function totals(){
+    let u=0;
+    holdings.forEach(h=>u+=upnl(h));
+    const equity=cash+holdings.reduce((s,h)=>s+h.mark*h.size*(h.side==='SHORT'?-0.15:1)* (h.side==='SHORT'?0:1),0);
+    // simpler: equity = cash + sum(notional exposure mark * size for longs) - short margin demo
+    let eq=cash;
+    holdings.forEach(h=>{
+      if(h.side==='LONG') eq+=h.mark*h.size;
+      else eq+=h.entry*h.size + upnl(h); // short collateral + upnl
+    });
+    return {u,eq};
+  }
+
+  function sparkSvg(data,up){
+    const w=72,h=28,mn=Math.min(...data),mx=Math.max(...data),rng=mx-mn||1;
+    let d='';
+    data.forEach((v,i)=>{
+      const x=i/(data.length-1)*w;
+      const y=h-2-((v-mn)/rng)*(h-4);
+      d+=(i?'L':'M')+x.toFixed(1)+','+y.toFixed(1);
+    });
+    const col=up?'#26a69a':'#ef5350';
+    return '<svg class="spark" viewBox="0 0 '+w+' '+h+'" xmlns="http://www.w3.org/2000/svg"><path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="1.6"/></svg>';
+  }
+
+  function render(){
+    const {u,eq}=totals();
+    if(!dayBase) dayBase=eq*0.992;
+    const day=eq-dayBase;
+    const dayPct=(day/dayBase)*100;
+    document.getElementById('equity').textContent=money(eq);
+    document.getElementById('dayPnl').textContent=signed(day);
+    document.getElementById('dayPnl').className='val '+(day>=0?'ok':'bad');
+    document.getElementById('dayPct').textContent=(dayPct>=0?'+':'')+dayPct.toFixed(2)+'%';
+    document.getElementById('dayPct').className='sub '+(day>=0?'ok':'bad');
+    document.getElementById('uPnl').textContent=signed(u);
+    document.getElementById('uPnl').className='val '+(u>=0?'ok':'bad');
+    document.getElementById('cash').textContent=money(cash);
+    document.getElementById('posN').textContent=holdings.length+' positions';
+    document.getElementById('asOf').textContent='as of '+now()+' IST · PAPER sample';
+
+    const tb=document.getElementById('rows');
+    tb.innerHTML='';
+    holdings.forEach(h=>{
+      const p=upnl(h);
+      const chg=((h.mark-h.entry)/h.entry)*100*(h.side==='SHORT'?-1:1);
+      const tr=document.createElement('tr');
+      tr.innerHTML=
+        '<td><div class="sym">'+h.sym+'<small>'+h.name+'</small></div></td>'+
+        '<td class="'+(h.side==='LONG'?'side-long':'side-short')+'">'+h.side+'</td>'+
+        '<td>'+h.size+'</td>'+
+        '<td>'+h.entry.toLocaleString()+'</td>'+
+        '<td>'+h.mark.toLocaleString()+'</td>'+
+        '<td class="'+(p>=0?'ok':'bad')+'">'+(p>=0?'+':'')+p.toFixed(2)+'</td>'+
+        '<td>'+sparkSvg(h.spark,chg>=0)+'</td>';
+      tb.appendChild(tr);
+    });
+
+    // allocation bars
+    let allocHtml='';
+    const {eq:eq2}=totals();
+    holdings.forEach(h=>{
+      const notional=h.mark*h.size;
+      const pct=Math.min(100,(notional/eq2)*100);
+      allocHtml+='<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between"><span style="color:var(--bright)">'+h.sym+'</span><span>'+pct.toFixed(1)+'%</span></div>'+
+        '<div style="height:4px;background:#1e2530;border-radius:2px;margin-top:4px"><div style="height:4px;width:'+pct+'%;background:'+(h.side==='LONG'?'#26a69a':'#ef5350')+';border-radius:2px"></div></div></div>';
+    });
+    document.getElementById('alloc').innerHTML=allocHtml;
+
+    equityHist.push(eq);
+    if(equityHist.length>60) equityHist.shift();
+    drawChart();
+  }
+
+  function drawChart(){
+    const c=document.getElementById('equityChart');
+    const ctx=c.getContext('2d');
+    const r=c.parentElement.getBoundingClientRect();
+    c.width=r.width*devicePixelRatio;c.height=r.height*devicePixelRatio;
+    c.style.width=r.width+'px';c.style.height=r.height+'px';
+    ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+    const w=r.width,h=r.height;
+    ctx.fillStyle='#0b0e11';ctx.fillRect(0,0,w,h);
+    if(equityHist.length<2) return;
+    const mn=Math.min(...equityHist),mx=Math.max(...equityHist),rng=mx-mn||1;
+    const pad=8;
+    ctx.beginPath();
+    equityHist.forEach((v,i)=>{
+      const x=pad+i/(equityHist.length-1)*(w-pad*2);
+      const y=pad+(1-(v-mn)/rng)*(h-pad*2);
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    });
+    ctx.strokeStyle='#3de7ff';ctx.lineWidth=2;ctx.stroke();
+    // fill
+    const lastX=pad+(w-pad*2);
+    ctx.lineTo(lastX,h-pad);ctx.lineTo(pad,h-pad);ctx.closePath();
+    ctx.fillStyle='rgba(61,231,255,0.08)';ctx.fill();
+    ctx.fillStyle='#787b86';ctx.font='10px monospace';ctx.textAlign='left';
+    ctx.fillText('Equity curve · PAPER',12,16);
+  }
+
+  window.refreshMarks=function(){
+    holdings.forEach(h=>{
+      const jitter=(Math.random()-0.48)*h.mark*0.004;
+      h.mark=+(h.mark+jitter).toFixed(h.mark>100?2:4);
+      h.spark.push(h.spark[h.spark.length-1]+(Math.random()-0.45)*2);
+      if(h.spark.length>10) h.spark.shift();
+    });
+    render();
+    act('info','marks refreshed · PAPER');
+    toast('Marks refreshed');
+  };
+
+  window.simTick=function(){
+    refreshMarks();
+    const h=holdings[Math.floor(Math.random()*holdings.length)];
+    const side=Math.random()>0.5?'buy':'sell';
+    act(side,side.toUpperCase()+' '+h.sym+' · paper · mark '+h.mark);
+    toast('Sim tick · '+h.sym);
+  };
+
+  function autodemo(){
+    toast('DEMO: portfolio desk…');
+    act('info','AUTODEMO · PAPER holdings loading');
+    setTimeout(()=>{
+      render();
+      toast('DEMO: equity + PnL live');
+      act('buy','seeded DEMO book · 5 positions');
+    },400);
+    setTimeout(()=>refreshMarks(),1400);
+    setTimeout(()=>simTick(),2200);
+    setTimeout(()=>refreshMarks(),3200);
+    setTimeout(()=>simTick(),4000);
+  }
+
+  // seed history
+  const {eq}=totals();
+  for(let i=0;i<40;i++) equityHist.push(eq*(0.985+Math.random()*0.03));
+  dayBase=eq*0.992;
+  render();
+  act('info','Portfolio online · DEMO / PAPER — NFA');
+  act('info','No wallets · no secrets · hardcoded sample');
+
+  window.addEventListener('resize',drawChart);
+  if(new URLSearchParams(location.search).get('autodemo')==='1') setTimeout(autodemo,300);
+  else {
+    // gentle live tick even without autodemo
+    setInterval(()=>{ if(Math.random()>0.4){holdings.forEach(h=>{h.mark=+(h.mark+(Math.random()-0.5)*h.mark*0.001).toFixed(h.mark>100?2:4)});render();}},2500);
+  }
+})();
+</script>
+<script src="../assets/trial-gate.js" data-app-id="portfolio"></script>
+</body>
+</html>
