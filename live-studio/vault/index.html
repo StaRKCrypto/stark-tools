@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>StaRK Vault — Live Studio</title>
+<meta name="robots" content="noindex,nofollow"/>
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../shared/brand.css"/>
+</head>
+<body>
+<div class="safety-banner">Burner keys only · We cannot recover keys · Clear vault anytime · NFA</div>
+<div class="topbar">
+  <div class="logo"><span>StaRK</span> Vault</div>
+  <span class="badge badge-alpha">Live Studio</span>
+  <span class="badge badge-dry" data-dry-badge>DRY_RUN ON</span>
+  <div class="spacer"></div>
+  <a class="btn btn-ghost" href="../">← Hub</a>
+</div>
+<div class="wrap" style="max-width:720px">
+  <p class="nav-mini"><a href="../">Live Studio</a> <a href="../nimbus/">Nimbus</a> <a href="../mint-sniper/">Mint Sniper</a></p>
+  <h1 style="margin:8px 0">Unified login / vault</h1>
+  <p class="muted">One place for desks that need a key. Stored in browser <code>localStorage</code> only. Burner wallets — never main bag.</p>
+
+  <div class="panel" style="border-color:rgba(255,138,61,.35);background:rgba(255,138,61,.06)">
+    <strong style="color:var(--orange)">⚠ Burner only</strong>
+    <p class="muted" style="margin:6px 0 0">Paste a disposable EVM key funded for the desk you will run. Clearing the vault removes it from this browser. We have no backup.</p>
+  </div>
+
+  <div class="panel">
+    <h3>EVM private key</h3>
+    <label><span>Private key (0x…)</span>
+      <input id="pk" type="password" autocomplete="off" spellcheck="false" placeholder="0x… burner only"/>
+    </label>
+    <label><span>Label (optional)</span>
+      <input id="label" type="text" placeholder="nimbus-burner / mint-burner"/>
+    </label>
+    <label><span>Solana key (optional · reserved)</span>
+      <input id="sol" type="password" autocomplete="off" placeholder="coming later — leave blank"/>
+    </label>
+    <div class="row">
+      <button class="btn btn-primary" id="btnSave" type="button">Save to browser vault</button>
+      <button class="btn btn-ghost" id="btnClear" type="button">Clear vault</button>
+      <button class="btn btn-ghost" id="btnBal" type="button">Refresh balances</button>
+    </div>
+  </div>
+
+  <div class="kv">
+    <div class="stat"><div class="lbl">Address</div><div class="val sm" data-vault-addr id="addr">—</div></div>
+    <div class="stat"><div class="lbl">Mask</div><div class="val sm" data-vault-mask>no key</div></div>
+    <div class="stat"><div class="lbl">Saved</div><div class="val sm" id="savedAt">—</div></div>
+  </div>
+
+  <div class="panel">
+    <h3>Balances (public RPC)</h3>
+    <div class="kv" id="bals">
+      <div class="stat"><div class="lbl">Ethereum</div><div class="val sm" id="bal-eth">—</div></div>
+      <div class="stat"><div class="lbl">Polygon</div><div class="val sm" id="bal-pol">—</div></div>
+      <div class="stat"><div class="lbl">Base</div><div class="val sm" id="bal-base">—</div></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Desk defaults</h3>
+    <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+      <input type="checkbox" id="dryToggle" style="width:auto"/>
+      <span style="margin:0">DRY_RUN / paper arm (default ON — uncheck only for real orders)</span>
+    </label>
+    <p class="muted" style="margin-top:8px">Arm state is per-session on each desk (refresh disarms). Turning DRY_RUN off does not arm by itself.</p>
+  </div>
+
+  <div class="log" id="log"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+<script src="../shared/vault.js"></script>
+<script>
+const log = document.getElementById('log');
+const dryToggle = document.getElementById('dryToggle');
+dryToggle.checked = StarkVault.isDryRun();
+dryToggle.addEventListener('change', () => {
+  StarkVault.setDryRun(dryToggle.checked);
+  StarkVault.updateChrome();
+  StarkVault.toast(dryToggle.checked ? 'DRY_RUN ON' : 'DRY_RUN OFF — still need Arm on desk');
+  StarkVault.logLine(log, dryToggle.checked ? 'DRY_RUN enabled' : 'DRY_RUN disabled', dryToggle.checked ? 'dry' : 'warn');
+});
+
+function refreshMeta() {
+  StarkVault.updateChrome();
+  const v = StarkVault.loadVault();
+  document.getElementById('savedAt').textContent = v?.savedAt ? new Date(v.savedAt).toLocaleString() : '—';
+}
+
+async function refreshBals() {
+  const v = StarkVault.loadVault();
+  if (!v) { StarkVault.toast('No vault'); return; }
+  const addr = StarkVault.deriveAddress(v.evmPrivateKey);
+  const map = { ethereum: 'bal-eth', polygon: 'bal-pol', base: 'bal-base' };
+  for (const [k, id] of Object.entries(map)) {
+    const el = document.getElementById(id);
+    el.textContent = '…';
+    try {
+      const b = await StarkVault.getNativeBalance(k, addr);
+      el.textContent = b.eth.toFixed(6) + ' ' + b.symbol;
+      el.className = 'val sm ok';
+    } catch (e) {
+      el.textContent = 'err';
+      el.className = 'val sm bad';
+      StarkVault.logLine(log, k + ': ' + e.message, 'err');
+    }
+  }
+}
+
+document.getElementById('btnSave').onclick = () => {
+  try {
+    const pk = document.getElementById('pk').value;
+    const vault = StarkVault.saveVault({
+      evmPrivateKey: pk || StarkVault.loadVault()?.evmPrivateKey,
+      solanaPrivateKey: document.getElementById('sol').value || undefined,
+      label: document.getElementById('label').value,
+    });
+    document.getElementById('pk').value = '';
+    document.getElementById('sol').value = '';
+    refreshMeta();
+    StarkVault.logLine(log, 'Vault saved ' + StarkVault.maskKey(vault.evmPrivateKey), 'ok');
+    StarkVault.toast('Vault saved in browser');
+    refreshBals();
+  } catch (e) {
+    StarkVault.logLine(log, e.message, 'err');
+    StarkVault.toast(e.message);
+  }
+};
+
+document.getElementById('btnClear').onclick = () => {
+  if (!confirm('Clear vault from this browser?')) return;
+  StarkVault.clearVault();
+  refreshMeta();
+  ['bal-eth','bal-pol','bal-base'].forEach(id => { document.getElementById(id).textContent = '—'; });
+  StarkVault.logLine(log, 'Vault cleared', 'warn');
+  StarkVault.toast('Vault cleared');
+};
+
+document.getElementById('btnBal').onclick = refreshBals;
+refreshMeta();
+if (StarkVault.loadVault()) refreshBals();
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>StaRK Live Studio — Alpha (unlisted)</title>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="description" content="Unlisted Live Studio alpha. Burner keys only. Client-side vault. NFA."/>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="./shared/brand.css"/>
+</head>
+<body>
+<div class="hex-bg" aria-hidden="true"></div>
+<div class="safety-banner">Burner keys only · We cannot recover keys · Clear vault anytime · NFA</div>
+<div class="topbar">
+  <div class="logo"><span>StaRK</span> <span class="live">Live Studio</span></div>
+  <span class="badge badge-alpha">Alpha · Unlisted</span>
+  <span class="badge badge-dry" data-dry-badge>DRY_RUN ON</span>
+  <span class="badge badge-nfa" data-arm-badge style="display:none">DISARMED</span>
+  <span class="badge badge-nfa">NFA</span>
+  <div class="spacer"></div>
+  <span class="muted mono" data-vault-status>Vault empty</span>
+</div>
+<div class="wrap">
+  <p class="nav-mini"><a href="../">← Landing</a> <a href="../apps/">Paper apps</a></p>
+  <h1 style="margin:8px 0 6px;font-size:clamp(26px,4vw,36px);letter-spacing:-.02em">Operate desks. Keys stay in your browser.</h1>
+  <p class="muted" style="max-width:46em;margin:0 0 22px">Phase-1 Live Studio — client-side vault, public RPC/API reads, explicit arm for live. Not linked from marketing CTAs. Owner preview only.</p>
+
+  <div class="kv" style="margin-bottom:22px">
+    <div class="stat"><div class="lbl">Vault</div><div class="val sm" data-vault-addr>—</div></div>
+    <div class="stat"><div class="lbl">Key mask</div><div class="val sm" data-vault-mask>no key</div></div>
+    <div class="stat"><div class="lbl">Mode</div><div class="val sm" id="modeHint">Paper default</div></div>
+  </div>
+
+  <div class="grid">
+    <a class="card" href="./vault/" style="color:inherit;text-decoration:none">
+      <h3>🔐 Unified Vault</h3>
+      <p>Paste burner EVM private key. Derive address, check balances on public RPCs. Clear anytime. Solana slot reserved.</p>
+      <span class="pill live">Client-side · localStorage</span>
+    </a>
+    <a class="card" href="./nimbus/" style="color:inherit;text-decoration:none">
+      <h3>☁️ Nimbus Live</h3>
+      <p>Polymarket weather market scan (Gamma public API). Wallet from vault. DRY_RUN default. Arm for live path.</p>
+      <span class="pill live">Scan live · CLOB via backend note</span>
+    </a>
+    <a class="card" href="./mint-sniper/" style="color:inherit;text-decoration:none">
+      <h3>🎯 Mint Sniper Live</h3>
+      <p>SeaDrop free-mint control panel. Scout contracts, read publicDrop, arm, mintPublic signed in-browser when free.</p>
+      <span class="pill free">Browser-signed free mints</span>
+    </a>
+  </div>
+
+  <div class="panel" style="margin-top:22px">
+    <h3>How keys work</h3>
+    <ul class="muted" style="margin:0;padding-left:18px">
+      <li>Stored only in <code>localStorage</code> key <code>stark.live.vault.v1</code> on your device.</li>
+      <li>Never written into this GitHub Pages repo as server state we control.</li>
+      <li><strong>DRY_RUN</strong> defaults ON. Live orders need: turn DRY_RUN off + explicit Arm confirm.</li>
+      <li>Arm flag is <code>sessionStorage</code> — refresh disarms.</li>
+      <li>Burner wallets only. NFA. We cannot recover keys.</li>
+    </ul>
+  </div>
+
+  <div class="panel">
+    <h3>What works live vs read-only</h3>
+    <table class="table">
+      <thead><tr><th>Capability</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Vault save / clear / address derive</td><td><span class="pill free">LIVE</span></td></tr>
+        <tr><td>Native balances (ETH / Polygon / Base)</td><td><span class="pill free">LIVE</span> public RPC</td></tr>
+        <tr><td>Nimbus weather market scan</td><td><span class="pill free">LIVE</span> Gamma API</td></tr>
+        <tr><td>Nimbus CLOB order post</td><td><span class="pill paid">BACKEND</span> Node desk / CORS</td></tr>
+        <tr><td>Mint scout SeaDrop publicDrop read</td><td><span class="pill free">LIVE</span> eth_call</td></tr>
+        <tr><td>Free mintPublic (armed, DRY_RUN off)</td><td><span class="pill live">LIVE</span> browser ethers</td></tr>
+        <tr><td>OpenSea /drops list</td><td><span class="pill paid">KEY+CORS</span> paste watchlist instead</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="muted" style="margin-top:28px;font-size:12px;border-top:1px solid var(--line);padding-top:14px">
+    StaRKCrypto · Live Studio alpha · Unlisted · No CA · NFA ·
+    <a href="https://github.com/StaRKCrypto/stark-tools">stark-tools</a>
+  </footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+<script src="./shared/vault.js"></script>
+<script>
+StarkVault.updateChrome();
+document.getElementById('modeHint').textContent = StarkVault.isDryRun()
+  ? (StarkVault.isArmed() ? 'DRY_RUN · armed (paper)' : 'DRY_RUN ON · paper')
+  : (StarkVault.isArmed() ? 'LIVE PATH · ARMED' : 'DRY_RUN OFF · still disarmed');
+</script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>StaRK Nimbus Live — Weather Desk</title>
+<meta name="robots" content="noindex,nofollow"/>
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../shared/brand.css"/>
+<style>
+.desk{display:grid;grid-template-columns:1fr 340px;gap:0;min-height:calc(100vh - 120px);border-top:1px solid var(--line)}
+.markets{padding:12px;overflow:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;align-content:start}
+.mcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;transition:border-color .15s}
+.mcard:hover,.mcard.sel{border-color:rgba(61,231,255,.45)}
+.mcard.sel{box-shadow:0 0 0 1px rgba(139,108,255,.35)}
+.m-city{font-weight:800;color:var(--bright);font-size:14px}
+.m-slug{font-family:var(--mono);font-size:10px;color:var(--mute);margin-top:2px;word-break:break-all}
+.bars{margin-top:8px;display:flex;flex-direction:column;gap:4px}
+.bar-row{display:grid;grid-template-columns:28px 1fr 40px;gap:6px;align-items:center;font-family:var(--mono);font-size:11px}
+.track{height:7px;background:#0e1218;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+.fill-y{height:100%;background:linear-gradient(90deg,#1a7a70,var(--green))}
+.fill-n{height:100%;background:linear-gradient(90deg,#b71c1c,var(--red))}
+.side{padding:12px;background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;gap:10px;overflow:auto}
+@media(max-width:900px){.desk{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="safety-banner">Burner keys only · We cannot recover keys · Clear vault anytime · NFA</div>
+<div class="topbar">
+  <div class="logo"><span>StaRK</span> Nimbus <span class="live">Live</span></div>
+  <span class="badge badge-alpha">Alpha</span>
+  <span class="badge badge-dry" data-dry-badge>DRY_RUN ON</span>
+  <span class="badge badge-nfa" data-arm-badge>DISARMED</span>
+  <button class="btn btn-ghost" id="btnScan" type="button">Scan markets</button>
+  <button class="btn btn-arm" id="btnArm" type="button">Arm</button>
+  <button class="btn btn-disarm" id="btnDisarm" type="button" style="display:none">Disarm</button>
+  <div class="spacer"></div>
+  <a class="btn btn-ghost" href="../vault/">Vault</a>
+  <a class="btn btn-ghost" href="../">Hub</a>
+</div>
+<div class="wrap" style="padding-top:12px;padding-bottom:8px;max-width:none">
+  <p class="muted" style="margin:0 0 8px">Polymarket daily-max weather · Gamma public API from browser · Wallet from vault · Default DRY_RUN · CLOB live post needs Node backend (CORS / L2 auth)</p>
+  <div class="kv" style="margin:0">
+    <div class="stat"><div class="lbl">Wallet</div><div class="val sm" data-vault-addr>—</div></div>
+    <div class="stat"><div class="lbl">Polygon bal</div><div class="val sm" id="polBal">—</div></div>
+    <div class="stat"><div class="lbl">Markets</div><div class="val sm" id="mCount">0</div></div>
+    <div class="stat"><div class="lbl">Selected</div><div class="val sm" id="selName">—</div></div>
+  </div>
+</div>
+<div class="desk">
+  <div class="markets" id="markets"><div class="muted" style="padding:20px">Click Scan markets to load live Gamma weather events.</div></div>
+  <div class="side">
+    <div>
+      <h3 style="margin:0 0 8px">Ticket</h3>
+      <div class="muted mono" id="ticketPreview" style="font-size:11px;line-height:1.5;min-height:64px;background:var(--bg);border:1px dashed var(--line);border-radius:8px;padding:10px">Select a market</div>
+      <label style="margin-top:10px"><span>Stake USD (cap $100 desk)</span>
+        <input id="stake" type="number" min="1" max="100" value="5"/>
+      </label>
+      <label><span>Side</span>
+        <select id="side"><option value="YES">YES</option><option value="NO">NO</option></select>
+      </label>
+      <div class="row">
+        <button class="btn btn-primary" id="btnTicket" type="button">Send order / paper</button>
+      </div>
+      <p class="muted" style="margin-top:8px;font-size:11px">DRY_RUN → paper log only. Live CLOB: run full Nimbus (<code>npm run build && preview</code>) with DRY_RUN=0 — browser Pages cannot complete Polymarket L2 auth reliably.</p>
+    </div>
+    <div>
+      <h3 style="margin:0 0 8px">Activity</h3>
+      <div class="log" id="log" style="max-height:360px"></div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+<script src="../shared/vault.js"></script>
+<script>
+const GAMMA = 'https://gamma-api.polymarket.com';
+const log = document.getElementById('log');
+let events = [];
+let selected = null;
+
+function syncArmUI() {
+  StarkVault.updateChrome();
+  const armed = StarkVault.isArmed();
+  document.getElementById('btnArm').style.display = armed ? 'none' : '';
+  document.getElementById('btnDisarm').style.display = armed ? '' : 'none';
+}
+
+async function refreshPol() {
+  const v = StarkVault.loadVault();
+  if (!v) return;
+  try {
+    const addr = StarkVault.deriveAddress(v.evmPrivateKey);
+    const b = await StarkVault.getNativeBalance('polygon', addr);
+    document.getElementById('polBal').textContent = b.eth.toFixed(4) + ' ' + b.symbol;
+  } catch (e) {
+    document.getElementById('polBal').textContent = 'RPC err';
+    StarkVault.logLine(log, 'balance: ' + e.message, 'err');
+  }
+}
+
+function parsePrices(m) {
+  let prices = m.outcomePrices;
+  if (typeof prices === 'string') {
+    try { prices = JSON.parse(prices); } catch { prices = null; }
+  }
+  const yes = prices && prices[0] != null ? Number(prices[0]) : (m.bestBid != null ? Number(m.bestBid) : NaN);
+  const no = prices && prices[1] != null ? Number(prices[1]) : (Number.isFinite(yes) ? Math.max(0, 1 - yes) : NaN);
+  return { yes, no };
+}
+
+function renderMarkets() {
+  const el = document.getElementById('markets');
+  document.getElementById('mCount').textContent = String(events.length);
+  if (!events.length) {
+    el.innerHTML = '<div class="muted" style="padding:20px">No weather events found.</div>';
+    return;
+  }
+  el.innerHTML = events.map((ev, i) => {
+    const mkts = ev.markets || [];
+    const top = mkts.slice(0, 3).map(m => {
+      const { yes, no } = parsePrices(m);
+      const ypct = Number.isFinite(yes) ? Math.round(yes * 100) : 0;
+      const npct = Number.isFinite(no) ? Math.round(no * 100) : 0;
+      const label = (m.groupItemTitle || m.outcome || m.question || 'bucket').slice(0, 24);
+      return `<div class="bar-row"><span style="color:var(--mute)">${label}</span>
+        <div class="track"><div class="fill-y" style="width:${ypct}%"></div></div>
+        <span>${ypct}%Y</span></div>`;
+    }).join('');
+    return `<div class="mcard ${selected===i?'sel':''}" data-i="${i}">
+      <div class="m-city">${ev.city || ev.title || 'Event'}</div>
+      <div class="m-slug">${ev.slug || ev.id}</div>
+      <div class="bars">${top || '<span class="muted">no buckets</span>'}</div>
+      <div class="muted" style="margin-top:6px;font-size:10px">${mkts.length} markets</div>
+    </div>`;
+  }).join('');
+  el.querySelectorAll('.mcard').forEach(card => {
+    card.onclick = () => {
+      selected = Number(card.dataset.i);
+      const ev = events[selected];
+      document.getElementById('selName').textContent = (ev.city || ev.title || '').slice(0, 28);
+      const m0 = (ev.markets || [])[0];
+      const { yes, no } = m0 ? parsePrices(m0) : { yes: NaN, no: NaN };
+      document.getElementById('ticketPreview').innerHTML =
+        `<strong>${ev.title || ev.city}</strong><br/>slug: ${ev.slug}<br/>` +
+        `top bucket: ${(m0 && (m0.groupItemTitle || m0.question)) || '—'}<br/>` +
+        `YES ${Number.isFinite(yes)?(yes*100).toFixed(1):'—'}% · NO ${Number.isFinite(no)?(no*100).toFixed(1):'—'}%<br/>` +
+        `token YES: ${(m0 && (m0.clobTokenIds ? (typeof m0.clobTokenIds==='string'?JSON.parse(m0.clobTokenIds)[0]:m0.clobTokenIds[0]) : m0.tokens?.[0]?.token_id)) || '—'}`;
+      renderMarkets();
+    };
+  });
+}
+
+async function scanMarkets() {
+  const btn = document.getElementById('btnScan');
+  btn.disabled = true;
+  StarkVault.logLine(log, 'Scanning Gamma public-search…', 'info');
+  try {
+    const url = GAMMA + '/public-search?q=' + encodeURIComponent('highest temperature in') + '&limit_per_type=40';
+    let arr = [];
+    const res = await fetch(url, { headers: { Accept: 'application/json' } });
+    if (res.ok) {
+      const data = await res.json();
+      arr = Array.isArray(data?.events) ? data.events : [];
+      arr = arr.filter(e => String(e.title || e.question || e.slug || '').toLowerCase().includes('highest temperature'));
+    }
+    if (!arr.length) {
+      const res2 = await fetch(GAMMA + '/events?active=true&closed=false&limit=80', { headers: { Accept: 'application/json' } });
+      if (res2.ok) {
+        const data = await res2.json();
+        const all = Array.isArray(data) ? data : data?.events || [];
+        arr = all.filter(e => String(e.title || '').toLowerCase().includes('highest temperature'));
+      }
+    }
+    // hydrate thin events
+    const out = [];
+    for (const e of arr.slice(0, 24)) {
+      let ev = e;
+      if (!ev.markets || !ev.markets.length) {
+        try {
+          const r = await fetch(GAMMA + '/events/slug/' + encodeURIComponent(ev.slug), { headers: { Accept: 'application/json' } });
+          if (r.ok) ev = await r.json();
+        } catch (_) {}
+      }
+      const city = (ev.title || '').match(/Highest temperature in\s+(.+?)(?:\s+on\s+|\s*\(|$)/i)?.[1] || ev.title;
+      out.push({ ...ev, city, markets: ev.markets || [] });
+    }
+    events = out;
+    selected = null;
+    renderMarkets();
+    StarkVault.logLine(log, 'Loaded ' + events.length + ' weather events', 'ok');
+    StarkVault.toast('Scan done · ' + events.length + ' events');
+  } catch (e) {
+    StarkVault.logLine(log, 'Scan failed: ' + e.message, 'err');
+    StarkVault.toast('Scan failed (CORS/network?)');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+document.getElementById('btnScan').onclick = scanMarkets;
+
+document.getElementById('btnArm').onclick = () => {
+  if (StarkVault.isDryRun()) {
+    if (!confirm('DRY_RUN is ON. Arming only affects paper tickets until you turn DRY_RUN off in Vault.\n\nArm session anyway?')) return;
+  } else {
+    if (!confirm('⚠️ Arm LIVE session?\n\nRefresh will disarm. Burner only. NFA.')) return;
+  }
+  StarkVault.setArmed(true);
+  syncArmUI();
+  StarkVault.logLine(log, 'ARMED' + (StarkVault.isDryRun() ? ' (dry)' : ' (live path)'), 'warn');
+};
+
+document.getElementById('btnDisarm').onclick = () => {
+  StarkVault.setArmed(false);
+  syncArmUI();
+  StarkVault.logLine(log, 'Disarmed', 'info');
+};
+
+document.getElementById('btnTicket').onclick = () => {
+  if (selected == null) { StarkVault.toast('Select a market'); return; }
+  const ev = events[selected];
+  const stake = Math.min(100, Math.max(1, Number(document.getElementById('stake').value) || 5));
+  const side = document.getElementById('side').value;
+  const label = 'Nimbus ' + side + ' $' + stake + ' on ' + (ev.city || ev.slug);
+  if (!StarkVault.requireArmConfirm(label)) return;
+
+  const v = StarkVault.loadVault();
+  const entry = {
+    at: new Date().toISOString(),
+    dry: StarkVault.isDryRun(),
+    armed: StarkVault.isArmed(),
+    side, stake,
+    slug: ev.slug,
+    title: ev.title,
+    address: v ? StarkVault.deriveAddress(v.evmPrivateKey) : null,
+  };
+
+  if (StarkVault.isDryRun() || !StarkVault.isArmed()) {
+    StarkVault.logLine(log, 'PAPER ' + JSON.stringify(entry), 'dry');
+    StarkVault.toast('Paper ticket logged');
+    try {
+      const key = 'stark.live.nimbus.paper.v1';
+      const prev = JSON.parse(localStorage.getItem(key) || '[]');
+      prev.unshift(entry);
+      localStorage.setItem(key, JSON.stringify(prev.slice(0, 50)));
+    } catch (_) {}
+    return;
+  }
+
+  // Live path honest blocker
+  StarkVault.logLine(log,
+    'LIVE blocked on static Pages: Polymarket CLOB needs L2 API creds + server/CORS. ' +
+    'Run /workspace/nimbus with DRY_RUN=0 + Wallet tab, or host Node preview privately. Ticket intent saved.',
+    'warn');
+  try {
+    const key = 'stark.live.nimbus.intent.v1';
+    const prev = JSON.parse(localStorage.getItem(key) || '[]');
+    prev.unshift({ ...entry, status: 'needs_backend' });
+    localStorage.setItem(key, JSON.stringify(prev.slice(0, 50)));
+  } catch (_) {}
+  StarkVault.toast('Intent saved · needs Nimbus backend for CLOB');
+};
+
+syncArmUI();
+refreshPol();
+if (StarkVault.loadVault()) StarkVault.logLine(log, 'Vault present ' + document.querySelector('[data-vault-addr]').textContent, 'ok');
+else StarkVault.logLine(log, 'No vault — set key in Vault page (scan still works)', 'warn');
+</script>
+</body>
+</html>

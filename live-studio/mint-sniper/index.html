@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>StaRK Mint Sniper Live</title>
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../shared/brand.css"/>
+</head>
+<body>
+<div class="safety-banner">Burner keys only · We cannot recover keys · Clear vault anytime · NFA</div>
+<div class="topbar">
+  <div class="logo"><span>StaRK</span> Mint Sniper <span class="live">Live</span></div>
+  <span class="badge badge-alpha">Alpha</span>
+  <span class="badge badge-dry" data-dry-badge>DRY_RUN ON</span>
+  <span class="badge badge-nfa" data-arm-badge>DISARMED</span>
+  <button class="btn btn-arm" id="btnArm" type="button">Arm</button>
+  <button class="btn btn-disarm" id="btnDisarm" type="button" style="display:none">Disarm</button>
+  <div class="spacer"></div>
+  <a class="btn btn-ghost" href="../vault/">Vault</a>
+  <a class="btn btn-ghost" href="../">Hub</a>
+</div>
+<div class="wrap">
+  <p class="muted">Free SeaDrop mint control panel. Key stays client-side. Scout via eth_call / manual contract. OpenSea /drops needs API key + often CORS — paste watchlist instead.</p>
+
+  <div class="kv">
+    <div class="stat"><div class="lbl">Wallet</div><div class="val sm" data-vault-addr>—</div></div>
+    <div class="stat"><div class="lbl">Chain bal</div><div class="val sm" id="chainBal">—</div></div>
+    <div class="stat"><div class="lbl">SeaDrop</div><div class="val sm mono" style="font-size:10px">0x00005EA0…bf5</div></div>
+  </div>
+
+  <div class="panel">
+    <h3>Target</h3>
+    <label><span>Chain</span>
+      <select id="chain">
+        <option value="ethereum">Ethereum</option>
+        <option value="base">Base</option>
+        <option value="ink">Ink</option>
+        <option value="polygon">Polygon (rare SeaDrop)</option>
+      </select>
+    </label>
+    <label><span>NFT contract</span>
+      <input id="nft" type="text" placeholder="0x… NFT collection contract" spellcheck="false"/>
+    </label>
+    <label><span>Fee recipient (optional · 0x0 default)</span>
+      <input id="fee" type="text" value="0x0000000000000000000000000000000000000000" spellcheck="false"/>
+    </label>
+    <label><span>Quantity</span>
+      <input id="qty" type="number" min="1" max="20" value="1"/>
+    </label>
+    <div class="row">
+      <button class="btn btn-primary" id="btnProbe" type="button">Probe publicDrop</button>
+      <button class="btn btn-orange" id="btnSnipe" type="button">Snipe / mintPublic</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>publicDrop status</h3>
+    <div class="kv" id="dropStats">
+      <div class="stat"><div class="lbl">mintPrice</div><div class="val sm" id="dPrice">—</div></div>
+      <div class="stat"><div class="lbl">maxTotalMintable</div><div class="val sm" id="dMax">—</div></div>
+      <div class="stat"><div class="lbl">start / end</div><div class="val sm" id="dWindow">—</div></div>
+      <div class="stat"><div class="lbl">Verdict</div><div class="val sm" id="dVerdict">—</div></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Watchlist scout (paste)</h3>
+    <label><span>One contract per line (optional name after space)</span>
+      <textarea id="watch" placeholder="0xabc… RareFriends&#10;0xdef… FreeDrop"></textarea>
+    </label>
+    <div class="row">
+      <button class="btn btn-ghost" id="btnScout" type="button">Scout watchlist</button>
+    </div>
+    <table class="table" id="scoutTable" style="margin-top:10px">
+      <thead><tr><th>Contract</th><th>Name</th><th>Price</th><th>Window</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="panel">
+    <h3>Activity</h3>
+    <div class="log" id="log"></div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+<script src="../shared/vault.js"></script>
+<script>
+const log = document.getElementById('log');
+const SEADROP_ABI = [
+  'function getPublicDrop(address nftContract) view returns (tuple(uint80 mintPrice, uint48 startTime, uint48 endTime, uint16 maxTotalMintableByWallet, uint16 feeBps, bool restrictFeeRecipients))',
+  'function mintPublic(address nftContract, address feeRecipient, address minterIfNotPayer, uint256 quantity) payable',
+];
+let lastDrop = null;
+
+function syncArmUI() {
+  StarkVault.updateChrome();
+  const armed = StarkVault.isArmed();
+  document.getElementById('btnArm').style.display = armed ? 'none' : '';
+  document.getElementById('btnDisarm').style.display = armed ? '' : 'none';
+}
+
+async function refreshBal() {
+  const v = StarkVault.loadVault();
+  if (!v) return;
+  const chainKey = document.getElementById('chain').value;
+  try {
+    const addr = StarkVault.deriveAddress(v.evmPrivateKey);
+    const b = await StarkVault.getNativeBalance(chainKey, addr);
+    document.getElementById('chainBal').textContent = b.eth.toFixed(5) + ' ' + b.symbol;
+  } catch (e) {
+    document.getElementById('chainBal').textContent = 'RPC err';
+    StarkVault.logLine(log, e.message, 'err');
+  }
+}
+
+function provider() {
+  const chain = StarkVault.CHAINS[document.getElementById('chain').value];
+  return new ethers.JsonRpcProvider(chain.rpc, chain.id);
+}
+
+function seadropContract(runner) {
+  return new ethers.Contract(StarkVault.SEADROP, SEADROP_ABI, runner);
+}
+
+function fmtTs(n) {
+  if (!n) return '0';
+  try { return new Date(Number(n) * 1000).toISOString().replace('T', ' ').slice(0, 19) + 'Z'; }
+  catch { return String(n); }
+}
+
+async function probe(nft) {
+  const c = seadropContract(provider());
+  const d = await c.getPublicDrop(nft);
+  const mintPrice = BigInt(d.mintPrice ?? d[0]);
+  const startTime = Number(d.startTime ?? d[1]);
+  const endTime = Number(d.endTime ?? d[2]);
+  const maxWallet = Number(d.maxTotalMintableByWallet ?? d[3]);
+  const now = Math.floor(Date.now() / 1000);
+  const free = mintPrice === 0n;
+  const open = now >= startTime && (endTime === 0 || now <= endTime) && startTime > 0;
+  return { mintPrice, startTime, endTime, maxWallet, free, open, raw: d };
+}
+
+function showDrop(info) {
+  lastDrop = info;
+  document.getElementById('dPrice').textContent = info.mintPrice === 0n ? 'FREE' : (ethers.formatEther(info.mintPrice) + ' ETH');
+  document.getElementById('dPrice').className = 'val sm ' + (info.free ? 'ok' : 'warn');
+  document.getElementById('dMax').textContent = String(info.maxWallet);
+  document.getElementById('dWindow').textContent = fmtTs(info.startTime) + ' → ' + fmtTs(info.endTime);
+  let verdict = 'closed / unset';
+  let cls = 'bad';
+  if (info.free && info.open) { verdict = 'FREE · OPEN — snipable when armed'; cls = 'ok'; }
+  else if (info.free && !info.open) { verdict = 'FREE · outside window'; cls = 'warn'; }
+  else if (!info.free) { verdict = 'PAID — refused unless you force elsewhere'; cls = 'warn'; }
+  document.getElementById('dVerdict').textContent = verdict;
+  document.getElementById('dVerdict').className = 'val sm ' + cls;
+}
+
+document.getElementById('btnProbe').onclick = async () => {
+  const nft = document.getElementById('nft').value.trim();
+  if (!/^0x[0-9a-fA-F]{40}$/.test(nft)) { StarkVault.toast('Need NFT contract'); return; }
+  try {
+    StarkVault.logLine(log, 'Probing ' + nft.slice(0, 10) + '…', 'info');
+    const info = await probe(nft);
+    showDrop(info);
+    StarkVault.logLine(log, 'mintPrice=' + info.mintPrice + ' open=' + info.open, info.free && info.open ? 'ok' : 'warn');
+  } catch (e) {
+    StarkVault.logLine(log, 'Probe failed: ' + e.message, 'err');
+    StarkVault.toast('Probe failed');
+  }
+};
+
+document.getElementById('btnScout').onclick = async () => {
+  const lines = document.getElementById('watch').value.split('\n').map(l => l.trim()).filter(Boolean);
+  const tbody = document.querySelector('#scoutTable tbody');
+  tbody.innerHTML = '';
+  for (const line of lines) {
+    const parts = line.split(/\s+/);
+    const addr = parts[0];
+    const name = parts.slice(1).join(' ') || '—';
+    if (!/^0x[0-9a-fA-F]{40}$/.test(addr)) continue;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="mono">${addr.slice(0,8)}…</td><td>${name}</td><td>…</td><td>…</td><td></td>`;
+    tbody.appendChild(tr);
+    try {
+      const info = await probe(addr);
+      tr.children[2].textContent = info.free ? 'FREE' : ethers.formatEther(info.mintPrice);
+      tr.children[2].style.color = info.free ? 'var(--green)' : 'var(--amber)';
+      tr.children[3].textContent = info.open ? 'OPEN' : 'closed';
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-ghost';
+      btn.textContent = 'Use';
+      btn.type = 'button';
+      btn.onclick = () => {
+        document.getElementById('nft').value = addr;
+        showDrop(info);
+        StarkVault.toast('Target set');
+      };
+      tr.children[4].appendChild(btn);
+    } catch (e) {
+      tr.children[2].textContent = 'err';
+      tr.children[3].textContent = e.message.slice(0, 40);
+    }
+  }
+  StarkVault.logLine(log, 'Scouted ' + lines.length + ' lines', 'info');
+};
+
+document.getElementById('btnArm').onclick = () => {
+  if (!confirm(StarkVault.isDryRun()
+    ? 'DRY_RUN ON — arm session for paper snipe sims?'
+    : '⚠️ Arm LIVE mint session? Refresh disarms. Burner only. NFA.')) return;
+  StarkVault.setArmed(true);
+  syncArmUI();
+  StarkVault.logLine(log, 'ARMED', 'warn');
+};
+document.getElementById('btnDisarm').onclick = () => {
+  StarkVault.setArmed(false);
+  syncArmUI();
+  StarkVault.logLine(log, 'Disarmed', 'info');
+};
+
+document.getElementById('btnSnipe').onclick = async () => {
+  const nft = document.getElementById('nft').value.trim();
+  const qty = Math.max(1, Number(document.getElementById('qty').value) || 1);
+  const fee = document.getElementById('fee').value.trim() || ethers.ZeroAddress;
+  if (!/^0x[0-9a-fA-F]{40}$/.test(nft)) { StarkVault.toast('Need NFT contract'); return; }
+  if (!StarkVault.requireArmConfirm('mintPublic ×' + qty + ' ' + nft.slice(0, 10))) return;
+
+  const v = StarkVault.loadVault();
+  if (!v) { StarkVault.toast('Save burner key in Vault first'); return; }
+
+  let info = lastDrop;
+  try { info = await probe(nft); showDrop(info); } catch (e) {
+    StarkVault.logLine(log, 'Re-probe failed: ' + e.message, 'err');
+    return;
+  }
+  if (info.mintPrice > 0n) {
+    StarkVault.logLine(log, 'Refused paid mint (mintPrice>0). Use mint-scout FORCE_PAID offline if intentional.', 'err');
+    StarkVault.toast('Paid mint refused');
+    return;
+  }
+  if (!info.open) {
+    StarkVault.logLine(log, 'Drop window closed/unset — abort', 'warn');
+    StarkVault.toast('Window closed');
+    return;
+  }
+
+  if (StarkVault.isDryRun()) {
+    StarkVault.logLine(log, 'PAPER snipe ' + nft + ' qty=' + qty + ' (no tx)', 'dry');
+    StarkVault.toast('Paper snipe logged');
+    return;
+  }
+
+  // LIVE browser-signed mint
+  try {
+    const chain = StarkVault.CHAINS[document.getElementById('chain').value];
+    const prov = new ethers.JsonRpcProvider(chain.rpc, chain.id);
+    const wallet = StarkVault.getWallet(v.evmPrivateKey).connect(prov);
+    const c = seadropContract(wallet);
+    StarkVault.logLine(log, 'Sending mintPublic…', 'warn');
+    const tx = await c.mintPublic(nft, fee, ethers.ZeroAddress, qty, { value: 0n });
+    StarkVault.logLine(log, 'tx ' + tx.hash, 'ok');
+    StarkVault.toast('Submitted ' + tx.hash.slice(0, 12) + '…');
+    const rc = await tx.wait();
+    StarkVault.logLine(log, 'confirmed block ' + rc.blockNumber, 'ok');
+  } catch (e) {
+    StarkVault.logLine(log, 'Snipe failed: ' + (e.shortMessage || e.message), 'err');
+    StarkVault.toast('Snipe failed');
+  }
+};
+
+document.getElementById('chain').onchange = refreshBal;
+syncArmUI();
+refreshBal();
+StarkVault.logLine(log, StarkVault.loadVault() ? 'Vault ready' : 'No vault — set key before live snipe', StarkVault.loadVault() ? 'ok' : 'warn');
+</script>
+</body>
+</html>
