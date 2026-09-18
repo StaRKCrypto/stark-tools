@@ -38,7 +38,7 @@ Access pass for StaRK desks. No custom tax. Creator fees fund tools. Hold ~0.5% 
 - [x] Ticker `$BOTS` locked  
 
 ### Still need before “launch”
-- [ ] Final **logo** from you (Grok Imagine)  
+- [x] Final **logo** from you (Grok Imagine) — locked hexagon S + StarkBots banner  
 - [ ] Fresh **creator wallet** (Phantom/Solflare) — seed offline only  
 - [ ] ~**5–10 SOL** in that wallet (fees + ≤5 SOL creator buy + buffer)  
 - [ ] Confirm launch copy one last time  

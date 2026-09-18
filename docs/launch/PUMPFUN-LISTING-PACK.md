@@ -1,6 +1,10 @@
 # StaRK Bots — pump.fun listing pack (DRAFT · DO NOT LAUNCH YET)
 
-**Status:** Draft only. No coin created. No CA yet.  
+**Status:** Draft only. No coin created. No CA yet.
+
+**Locked logo (user Grok Imagine):** hexagon S mark — `docs/launch/BOTS-logo-official.png`
+**Brand banner:** `docs/launch/starkbots-banner-master.jpg` / cover crop `starkbots-cover-1500x500.png`
+  
 **Brand:** [@StaRKCryptoBots](https://x.com/StaRKCryptoBots) · Personal [@_Starkcrypto](https://x.com/_Starkcrypto)  
 **Landing:** https://starkcrypto.github.io/stark-tools/  
 **GitHub hub:** https://github.com/StaRKCrypto/stark-tools  
