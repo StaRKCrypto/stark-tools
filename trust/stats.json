@@ -1,13 +1,57 @@
 {
-  "generated": "2026-09-19T04:17+05:30",
-  "headline": "Working desks \u00b7 Real journals",
+  "generated": "2026-09-19T04:23+05:30",
+  "headline": "Working desks \u00b7 Journals \u00b7 24/7 \u00b7 CA soon",
+  "film": {
+    "path": "/workspace/demo-capture/live-product-film/TRUST-PROOF.mp4",
+    "duration_s": 81.3,
+    "resolution": "1920x1080",
+    "sources": [
+      "app.arcus.xyz venue snap + ui-refs",
+      "app.lighter.xyz venue live capture",
+      "app.nado.xyz venue live capture + MSI dashboards",
+      "live Arcus snap 2026-09-19 04:18 IST",
+      "overnight/arcus-trades.jsonl + farm_qqq.log + farm_status_live.json"
+    ]
+  },
   "sources": [
     "arcus-trades.jsonl + overnight/arcus-trades.jsonl",
     "arcus-trade_journal.json",
     "overnight/bot-trades.jsonl",
     "nado/farm_qqq.log + farm_qqq_status.json",
+    "nado/msi/farm_status_live.json",
+    "live-previews/trust-snaps/arcus-2026-09-19-0418IST.txt",
     "taking-profits/signals/{buys,sells}.jsonl"
   ],
+  "live_snap_arcus": {
+    "time": "2026-09-19 04:18 IST",
+    "equity_approx": 80.2,
+    "armed": 1,
+    "live": 1,
+    "opens": [
+      {
+        "symbol": "MU",
+        "side": "LONG"
+      },
+      {
+        "symbol": "TSLA",
+        "side": "SHORT"
+      },
+      {
+        "symbol": "MSFT",
+        "side": "SHORT"
+      },
+      {
+        "symbol": "DRAM",
+        "side": "LONG"
+      },
+      {
+        "symbol": "SPCX",
+        "side": "SHORT"
+      }
+    ],
+    "book_ok": 1,
+    "note": "24/7 watcher+loop running"
+  },
   "arcus": {
     "journal_events": 127,
     "opens": 35,
@@ -45,16 +89,24 @@
       "short": 73,
       "long": 54
     },
-    "open_positions": [
+    "honest_tape": {
+      "trades": 34,
+      "wins": 7,
+      "losses": 22,
+      "win_rate": 24.14,
+      "realized_pnl": -10.495478,
+      "tp_hits": 4,
+      "sl_hits": 25
+    },
+    "open_positions_journal": [
       "BTC",
       "AAPL",
       "BNB",
       "BABA",
       "ZEC"
     ],
-    "open_count": 5,
-    "proof": "LIVE journal",
-    "has_btc": true
+    "open_count_live_snap": 5,
+    "proof": "LIVE journal + live snap"
   },
   "desk_journal": {
     "events": 172,
@@ -73,9 +125,19 @@
     "cycles": 14,
     "status": "HANDOFF_DONE_MSI_LIVE",
     "updated": "2026-09-14T22:42:40Z",
-    "note": "MSI farm flat+two-sided; executor alert stale",
     "market": "QQQ-PERP",
     "proof": "LIVE farm log"
+  },
+  "nado_msi_live": {
+    "updated": "2026-09-18T22:47:31Z",
+    "host": "msi",
+    "equity": 23.709579324722593,
+    "start_equity": 15.032627876905497,
+    "status": "RUNNING",
+    "pair": "WTI-PERP",
+    "mode": "FLATTEN_LONG",
+    "pos": 0.66,
+    "proof": "farm_status_live.json"
   },
   "take_profits": {
     "live_buys": 2,
@@ -86,20 +148,35 @@
     "contract_redacted": "6YUGpQAA\u2026pump"
   },
   "lighter": {
-    "proof": "Raw desk recording",
-    "note": "Screen capture of live desk UI \u2014 journal JSONL not in this trust pack",
-    "label": "Desk UI (raw clip)"
+    "proof": "LIVE venue UI + journal equity~66",
+    "equity_approx": 66,
+    "equity_note": "equity_delta $66.71 at ASTS TP 2026-09-09 14:01:46 IST (bot-trades.jsonl)",
+    "journal_symbols": [
+      "MSFT",
+      "ASTS"
+    ],
+    "label": "Lighter RH venue"
   },
   "bots_honest": [
     {
       "name": "Arcus S/R",
-      "label": "LIVE journal proof",
-      "detail": "127 journal events \u00b7 24 symbols \u00b7 BTC etc."
+      "label": "LIVE journal + snap",
+      "detail": "eq ~$80.2 \u00b7 MU/TSLA/MSFT/DRAM/SPCX \u00b7 journal 127 \u00b7 W7/L22 honest"
     },
     {
       "name": "Nado QQQ farm",
       "label": "LIVE farm log",
-      "detail": "14 cycles \u00b7 init eq 5.9496 \u00b7 final dd -2.8794%"
+      "detail": "14 cycles \u00b7 eq 5.95\u21925.78 \u00b7 dd -2.8794%"
+    },
+    {
+      "name": "Nado MSI multi",
+      "label": "LIVE MSI status",
+      "detail": "eq $23.71 \u00b7 WTI-PERP \u00b7 RUNNING"
+    },
+    {
+      "name": "Lighter RH",
+      "label": "LIVE venue + journal",
+      "detail": "eq ~$66 \u00b7 MSFT/ASTS in bot-trades.jsonl"
     },
     {
       "name": "Take-profits",
@@ -107,19 +184,16 @@
       "detail": "2 buys \u00b7 2 sells (contracts truncated)"
     },
     {
-      "name": "Lighter desk",
-      "label": "Raw desk recording",
-      "detail": "UI capture only in this pack \u2014 no journal JSONL attached here"
-    },
-    {
-      "name": "Desk journal (overnight)",
+      "name": "Desk journal",
       "label": "LIVE journal proof",
       "detail": "172 events \u00b7 36 symbols"
     }
   ],
   "film_lower_thirds": {
-    "arcus": "Arcus \u00b7 127 journal events \u00b7 24 symbols \u00b7 BTC",
-    "nado": "Nado farm \u00b7 14 cycles \u00b7 eq 5.95\u21925.78 \u00b7 dd -2.8794%",
-    "lighter": "Lighter \u00b7 raw desk recording \u00b7 UI proof"
+    "cold": "Arcus ~$80.2 \u00b7 Lighter ~$66 \u00b7 Nado MSI $23.71 RUNNING",
+    "arcus": "Arcus \u00b7 equity ~$80.2 \u00b7 MU/TSLA/MSFT/DRAM/SPCX \u00b7 journal 127 \u00b7 W7/L22",
+    "lighter": "Lighter RH \u00b7 equity ~$66 \u00b7 journal MSFT/ASTS \u00b7 app.lighter.xyz",
+    "nado": "Nado \u00b7 MSI eq $23.71 WTI RUNNING \u00b7 QQQ 14c 5.95\u21925.78 dd -2.88%",
+    "end": "Working desks \u00b7 Journals \u00b7 24/7 \u00b7 CA soon"
   }
 }
