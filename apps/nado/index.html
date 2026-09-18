@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>StaRK Nado Farm Desk — PAPER DEMO</title>
+<style>
+:root{
+  --bg:#0b0e11;--panel:#12161c;--panel2:#161b22;--border:#1e2530;
+  --text:#d1d4dc;--muted:#787b86;--green:#26a69a;--red:#ef5350;
+  --accent:#2962ff;--gold:#f0b90b;--purple:#9c27b0;
+  --font:-apple-system,BlinkMacSystemFont,"Trebuchet MS",Roboto,Ubuntu,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px;height:100vh;overflow:hidden}
+.topbar{display:flex;align-items:center;gap:12px;padding:8px 14px;background:var(--panel);border-bottom:1px solid var(--border);height:48px}
+.logo{font-weight:700;font-size:15px}.logo span{color:var(--gold)}
+.badge{font-size:10px;padding:2px 7px;border-radius:3px;font-weight:700}
+.badge-paper{background:rgba(240,185,11,.15);color:var(--gold);border:1px solid rgba(240,185,11,.35)}
+.badge-nfa{background:rgba(120,123,134,.15);color:var(--muted);border:1px solid var(--border)}
+.badge-unlock{background:rgba(41,98,255,.12);color:#5b8def;border:1px solid rgba(41,98,255,.3)}
+.btn{border:none;border-radius:4px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer}
+.btn-farm{background:linear-gradient(135deg,#9c27b0,#2962ff);color:#fff}
+.btn-farm.running{opacity:.75}
+.btn-stop{background:var(--red);color:#fff;display:none}
+.btn-stop.show{display:inline-block}
+.spacer{flex:1}
+.handle{color:var(--muted);font-size:11px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
+.kpi{background:var(--panel);padding:14px 16px}
+.kpi .l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.kpi .v{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+.kpi .v.pos{color:var(--green)}.kpi .v.neg{color:var(--red)}
+.main{display:grid;grid-template-columns:1fr 340px;height:calc(100vh - 48px - 72px)}
+.col{background:var(--panel);display:flex;flex-direction:column;overflow:hidden}
+.col-left{border-right:1px solid var(--border)}
+.col-h{padding:10px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.markets{flex:1;overflow-y:auto}
+.markets table{width:100%;border-collapse:collapse}
+.markets th{text-align:left;padding:8px 14px;color:var(--muted);font-size:10px;text-transform:uppercase;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel);font-weight:600}
+.markets td{padding:10px 14px;border-bottom:1px solid rgba(30,37,48,.5);font-variant-numeric:tabular-nums}
+.markets tr:hover td{background:rgba(41,98,255,.06)}
+.markets tr.active td{background:rgba(156,39,176,.1)}
+.apr{color:var(--green);font-weight:700}
+.tag{font-size:9px;padding:2px 5px;border-radius:2px;background:rgba(41,98,255,.15);color:#5b8def;margin-left:6px}
+.fills{flex:1;overflow-y:auto;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11px}
+.fills table{width:100%;border-collapse:collapse}
+.fills th{text-align:left;padding:6px 10px;color:var(--muted);font-size:10px;text-transform:uppercase;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel)}
+.fills td{padding:5px 10px;border-bottom:1px solid rgba(30,37,48,.5)}
+.buy{color:var(--green)}.sell{color:var(--red)}
+.inv-panel{padding:12px 14px;border-top:1px solid var(--border);background:var(--panel2)}
+.inv-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+.inv-row .m{color:var(--muted)}
+.spark{height:48px;padding:0 14px 8px}
+#spark{width:100%;height:48px;display:block}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--panel2);border:1px solid var(--border);padding:10px 18px;border-radius:6px;font-size:12px;z-index:99;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+.pulse{animation:pulse 1.2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+html.autodemo,html.autodemo *{cursor:none!important}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo"><span>StaRK</span> Nado · Perp Farm Desk</div>
+  <span class="badge badge-paper">PAPER / DEMO</span>
+  <span class="badge badge-nfa">NFA</span>
+  <span class="badge badge-unlock">Volume · OI · APR · no bleed</span>
+  <button class="btn btn-farm" id="btnFarm" onclick="startFarm()">Start Farm</button>
+  <button class="btn btn-stop" id="btnStop" onclick="stopFarm()">Stop Farm</button>
+  <div class="spacer"></div>
+  <span class="handle">StaRK Bots · @StaRKCryptoBots</span>
+</div>
+<div class="kpis">
+  <div class="kpi"><div class="l">Inventory (PAPER)</div><div class="v" id="kpiInv">$25,000.00</div></div>
+  <div class="kpi"><div class="l">Session PnL · risk on</div><div class="v pos" id="kpiPnl">+$0.00</div></div>
+  <div class="kpi"><div class="l">Simulated Fills</div><div class="v" id="kpiFills">0</div></div>
+  <div class="kpi"><div class="l">Volume · OI · APR</div><div class="v" id="kpiApr" style="color:var(--purple)">—</div></div>
+</div>
+<div class="main">
+  <div class="col col-left">
+    <div class="col-h">Perp Markets · Farm without bleeding <span id="mktStatus" style="color:var(--muted);font-weight:400;text-transform:none">idle</span></div>
+    <div class="markets"><table>
+      <thead><tr><th>Market</th><th>APR</th><th>TVL</th><th>Volume 24h</th><th>Status</th></tr></thead>
+      <tbody id="mktBody"></tbody>
+    </table></div>
+    <div class="spark"><canvas id="spark"></canvas></div>
+  </div>
+  <div class="col">
+    <div class="col-h">Simulated Fills · Risk On · PAPER</div>
+    <div class="fills"><table>
+      <thead><tr><th>Time</th><th>Mkt</th><th>Side</th><th>Size</th><th>Fee$</th></tr></thead>
+      <tbody id="fillsBody"></tbody>
+    </table></div>
+    <div class="inv-panel">
+      <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">PAPER Inventory · No bleed</div>
+      <div class="inv-row"><span class="m">USDC</span><span id="invUsdc">12,500.00</span></div>
+      <div class="inv-row"><span class="m">BTC</span><span id="invBtc">0.0820</span></div>
+      <div class="inv-row"><span class="m">ETH</span><span id="invEth">1.4500</span></div>
+      <div class="inv-row"><span class="m">NLP shares</span><span id="invNlp">420.00</span></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+  const markets=[
+    {id:'BTC-PERP',apr:18.4,tvl:'$4.2M',vol:'$1.8M',active:false},
+    {id:'ETH-PERP',apr:22.1,tvl:'$3.1M',vol:'$2.4M',active:false},
+    {id:'SOL-PERP',apr:31.6,tvl:'$890K',vol:'$620K',active:false},
+    {id:'NLP-POOL',apr:14.8,tvl:'$6.5M',vol:'$410K',active:false},
+    {id:'ARB-PERP',apr:27.3,tvl:'$540K',vol:'$380K',active:false},
+    {id:'OP-PERP',apr:19.9,tvl:'$320K',vol:'$210K',active:false},
+  ];
+  let running=false,pnl=0,fillN=0,inv=25000,timer,pnlHist=[];
+  let usdc=12500,btc=0.082,eth=1.45,nlp=420;
+  const canvas=document.getElementById('spark');
+  const ctx=canvas.getContext('2d');
+
+  function renderMarkets(){
+    document.getElementById('mktBody').innerHTML=markets.map((m,i)=>`
+      <tr class="${m.active?'active':''}" data-i="${i}">
+        <td><b>${m.id}</b>${m.id==='NLP-POOL'?'<span class="tag">POOL</span>':''}</td>
+        <td class="apr">${m.apr.toFixed(1)}%</td>
+        <td>${m.tvl}</td>
+        <td>${m.vol}</td>
+        <td>${m.active?'<span class="pulse" style="color:var(--green)">● FARMING</span>':'<span style="color:var(--muted)">idle</span>'}</td>
+      </tr>`).join('');
+  }
+
+  function resizeSpark(){
+    const r=canvas.parentElement.getBoundingClientRect();
+    canvas.width=r.width*devicePixelRatio;
+    canvas.height=48*devicePixelRatio;
+    canvas.style.width=r.width+'px';
+    canvas.style.height='48px';
+    ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+    drawSpark();
+  }
+  window.addEventListener('resize',resizeSpark);
+
+  function drawSpark(){
+    const w=canvas.clientWidth,h=48;
+    ctx.clearRect(0,0,w,h);
+    if(pnlHist.length<2)return;
+    const mn=Math.min(...pnlHist,0),mx=Math.max(...pnlHist,0.01);
+    const rng=mx-mn||1;
+    ctx.beginPath();
+    pnlHist.forEach((v,i)=>{
+      const x=(i/(pnlHist.length-1))*w;
+      const y=h-8-((v-mn)/rng)*(h-16);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.strokeStyle=pnl>=0?'#26a69a':'#ef5350';
+    ctx.lineWidth=1.5;ctx.stroke();
+  }
+
+  function addFill(){
+    const m=markets.filter(x=>x.active);
+    if(!m.length)return;
+    const mk=m[Math.floor(Math.random()*m.length)];
+    const side=Math.random()>0.45?'BUY':'SELL';
+    const size=+(0.01+Math.random()*0.5).toFixed(4);
+    const fee=+(0.02+Math.random()*0.35).toFixed(3);
+    const t=new Date().toLocaleTimeString('en-GB',{hour12:false});
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${t}</td><td>${mk.id}</td><td class="${side.toLowerCase()}">${side}</td><td>${size}</td><td>${fee}</td>`;
+    const tb=document.getElementById('fillsBody');
+    tb.insertBefore(tr,tb.firstChild);
+    fillN++;
+    const tickPnl=(Math.random()*0.9+0.15)*(Math.random()>0.25?1:-0.3);
+    pnl+=tickPnl;
+    inv=25000+pnl;
+    usdc+=(Math.random()-0.48)*12;
+    btc+=(Math.random()-0.5)*0.001;
+    eth+=(Math.random()-0.5)*0.01;
+    nlp+=(Math.random()-0.4)*0.8;
+    pnlHist.push(pnl);
+    if(pnlHist.length>60)pnlHist.shift();
+    updateKPIs();
+    drawSpark();
+  }
+
+  function updateKPIs(){
+    document.getElementById('kpiInv').textContent='$'+inv.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    const p=document.getElementById('kpiPnl');
+    p.textContent=(pnl>=0?'+':'')+'$'+pnl.toFixed(2);
+    p.className='v '+(pnl>=0?'pos':'neg');
+    document.getElementById('kpiFills').textContent=fillN;
+    const act=markets.filter(m=>m.active);
+    const avg=act.length?act.reduce((s,m)=>s+m.apr,0)/act.length:0;
+    document.getElementById('kpiApr').textContent=act.length?avg.toFixed(1)+'%':'—';
+    document.getElementById('invUsdc').textContent=usdc.toFixed(2);
+    document.getElementById('invBtc').textContent=btc.toFixed(4);
+    document.getElementById('invEth').textContent=eth.toFixed(4);
+    document.getElementById('invNlp').textContent=nlp.toFixed(2);
+  }
+
+  function tick(){
+    if(!running)return;
+    // slight APR jitter
+    markets.forEach(m=>{if(m.active)m.apr=Math.max(5,m.apr+(Math.random()-0.5)*0.4)});
+    renderMarkets();
+    addFill();
+    timer=setTimeout(tick,220);
+  }
+
+  window.startFarm=function(){
+    running=true;
+    // activate top APR markets
+    const sorted=[...markets].sort((a,b)=>b.apr-a.apr);
+    markets.forEach(m=>m.active=false);
+    sorted.slice(0,3).forEach(s=>{
+      const m=markets.find(x=>x.id===s.id);if(m)m.active=true;
+    });
+    document.getElementById('btnFarm').classList.add('running');
+    document.getElementById('btnFarm').textContent='Farming…';
+    document.getElementById('btnStop').classList.add('show');
+    document.getElementById('mktStatus').innerHTML='<span style="color:var(--green)">● PAPER farm</span>';
+    renderMarkets();
+    toast('Perp farm desk · volume · OI · APR · without bleeding · PAPER');
+    tick();
+  };
+  window.stopFarm=function(){
+    running=false;clearTimeout(timer);
+    markets.forEach(m=>m.active=false);
+    document.getElementById('btnFarm').classList.remove('running');
+    document.getElementById('btnFarm').textContent='Start Farm';
+    document.getElementById('btnStop').classList.remove('show');
+    document.getElementById('mktStatus').textContent='idle';
+    renderMarkets();
+    toast('Farm stopped');
+  };
+  function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
+
+  function autodemo(){
+    toast('DEMO: starting farm…');
+    setTimeout(()=>{
+      startFarm();
+      toast('DEMO: fills appearing · continuous');
+    },400);
+    setInterval(()=>{
+      const el=document.getElementById('mktStatus');
+      if(el && running) el.innerHTML='<span style="color:var(--green)">● PAPER · '+new Date().toLocaleTimeString('en-GB',{hour12:false})+'</span>';
+    },400);
+  }
+
+  renderMarkets();
+  pnlHist=[0];
+  setTimeout(resizeSpark,50);
+  if(new URLSearchParams(location.search).get('autodemo')==='1'){
+    document.documentElement.classList.add('autodemo');
+    setTimeout(autodemo,250);
+  }
+})();
+</script>
+</body>
+</html>

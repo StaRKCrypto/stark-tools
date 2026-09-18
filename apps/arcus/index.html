@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>StaRK Arcus S/R Auto — PAPER DEMO</title>
+<style>
+:root{
+  --bg:#0b0e11;--panel:#12161c;--panel2:#161b22;--border:#1e2530;
+  --text:#d1d4dc;--muted:#787b86;--green:#26a69a;--red:#ef5350;
+  --accent:#2962ff;--gold:#f0b90b;--kill:#ff1744;
+  --font: -apple-system,BlinkMacSystemFont,"Trebuchet MS",Roboto,Ubuntu,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px;overflow:hidden;height:100vh}
+.topbar{display:flex;align-items:center;gap:12px;padding:8px 14px;background:var(--panel);border-bottom:1px solid var(--border);height:48px}
+.logo{font-weight:700;font-size:15px;letter-spacing:.3px}
+.logo span{color:var(--gold)}
+.badge{font-size:10px;padding:2px 7px;border-radius:3px;font-weight:700;letter-spacing:.5px}
+.badge-paper{background:rgba(240,185,11,.15);color:var(--gold);border:1px solid rgba(240,185,11,.35)}
+.badge-nfa{background:rgba(120,123,134,.15);color:var(--muted);border:1px solid var(--border)}
+.badge-unlock{background:rgba(41,98,255,.12);color:#5b8def;border:1px solid rgba(41,98,255,.3)}
+.sym-wrap{display:flex;align-items:center;gap:6px;margin-left:8px}
+.sym-wrap input{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:5px 10px;border-radius:4px;width:110px;font-size:13px;font-weight:600}
+.sym-wrap input:focus{outline:1px solid var(--accent)}
+.btn{border:none;border-radius:4px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.3px;transition:opacity .15s}
+.btn:hover{opacity:.9}
+.btn-start{background:var(--green);color:#fff}
+.btn-start.running{background:#1a7a70}
+.btn-kill{background:var(--kill);color:#fff;animation:none}
+.btn-kill.flash{animation:killflash .4s ease 3}
+@keyframes killflash{0%,100%{box-shadow:0 0 0 0 rgba(255,23,68,.6)}50%{box-shadow:0 0 18px 4px rgba(255,23,68,.8)}}
+.spacer{flex:1}
+.handle{color:var(--muted);font-size:11px}
+.main{display:grid;grid-template-columns:1fr 320px;height:calc(100vh - 48px)}
+.chart-wrap{position:relative;background:var(--bg);border-right:1px solid var(--border)}
+#chart{width:100%;height:100%;display:block}
+.chart-label{position:absolute;top:10px;left:12px;font-size:11px;color:var(--muted);z-index:2}
+.side{display:flex;flex-direction:column;background:var(--panel);overflow:hidden}
+.side-h{padding:10px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.zones{padding:8px 12px;border-bottom:1px solid var(--border);max-height:140px;overflow-y:auto}
+.zone-row{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px}
+.zone-dot{width:8px;height:8px;border-radius:2px}
+.zone-dot.s{background:var(--green)}.zone-dot.r{background:var(--red)}
+.blotter{flex:1;overflow-y:auto;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11px}
+.blotter table{width:100%;border-collapse:collapse}
+.blotter th{text-align:left;padding:6px 10px;color:var(--muted);font-weight:600;font-size:10px;text-transform:uppercase;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel)}
+.blotter td{padding:5px 10px;border-bottom:1px solid rgba(30,37,48,.6)}
+.buy{color:var(--green)}.sell{color:var(--red)}
+.status-bar{padding:8px 12px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;gap:16px}
+.status-bar b{color:var(--text)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--panel2);border:1px solid var(--border);padding:10px 18px;border-radius:6px;font-size:12px;z-index:99;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+html.autodemo,html.autodemo *{cursor:none!important}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo"><span>StaRK</span> Arcus · S/R Auto Desk</div>
+  <span class="badge badge-paper">PAPER / DEMO</span>
+  <span class="badge badge-nfa">NFA</span>
+  <span class="badge badge-unlock">Size-aware · no bleed</span>
+  <div class="sym-wrap">
+    <label style="color:var(--muted);font-size:11px">SYMBOL</label>
+    <input id="sym" value="BTCUSDT" spellcheck="false"/>
+  </div>
+  <button class="btn btn-start" id="btnStart" onclick="toggleAuto()">Start Auto</button>
+  <button class="btn btn-kill" id="btnKill" onclick="killSwitch()">KILL SWITCH</button>
+  <div class="spacer"></div>
+  <span class="handle">StaRK Bots · @StaRKCryptoBots</span>
+</div>
+<div class="main">
+  <div class="chart-wrap">
+    <div class="chart-label" id="chartInfo">BTCUSDT · 15m · PAPER</div>
+    <canvas id="chart"></canvas>
+  </div>
+  <div class="side">
+    <div class="side-h">Zones · Paper Fills <span id="zoneCount">0</span></div>
+    <div class="zones" id="zones"></div>
+    <div class="side-h">Journal · Size-aware · Not spray-and-pray</div>
+    <div class="blotter">
+      <table>
+        <thead><tr><th>Time</th><th>Side</th><th>Price</th><th>Qty</th><th>Status</th></tr></thead>
+        <tbody id="blotterBody"></tbody>
+      </table>
+    </div>
+    <div class="status-bar">
+      <span>Equity <b id="eq">$100,000.00</b></span>
+      <span>PnL <b id="pnl" style="color:var(--green)">+$0.00</b></span>
+      <span>Orders <b id="ordN">0</b></span>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+  const W=1280,H=800;
+  const canvas=document.getElementById('chart');
+  const ctx=canvas.getContext('2d');
+  let candles=[],zones=[],orders=[],running=false,killed=false,equity=100000,pnl=0;
+  let price=68420,tick=0,raf;
+
+  function resize(){
+    const r=canvas.parentElement.getBoundingClientRect();
+    canvas.width=r.width*devicePixelRatio;
+    canvas.height=r.height*devicePixelRatio;
+    canvas.style.width=r.width+'px';
+    canvas.style.height=r.height+'px';
+    ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+    draw();
+  }
+  window.addEventListener('resize',resize);
+
+  function seedCandles(n=80){
+    candles=[];
+    let p=price;
+    for(let i=0;i<n;i++){
+      const o=p,c=o+(Math.random()-0.48)*180,h=Math.max(o,c)+Math.random()*90,l=Math.min(o,c)-Math.random()*90;
+      candles.push({o,h,l,c});p=c;
+    }
+    price=p;
+  }
+
+  function scanZones(){
+    zones=[];
+    const lows=candles.map(c=>c.l), highs=candles.map(c=>c.h);
+    const sortedL=[...lows].sort((a,b)=>a-b);
+    const sortedH=[...highs].sort((a,b)=>b-a);
+    const s1=sortedL[Math.floor(sortedL.length*0.15)];
+    const s2=sortedL[Math.floor(sortedL.length*0.28)];
+    const r1=sortedH[Math.floor(sortedH.length*0.15)];
+    const r2=sortedH[Math.floor(sortedH.length*0.28)];
+    zones=[
+      {type:'S',lo:s1-40,hi:s1+40,label:'Support A'},
+      {type:'S',lo:s2-35,hi:s2+35,label:'Support B'},
+      {type:'R',lo:r1-40,hi:r1+40,label:'Resistance A'},
+      {type:'R',lo:r2-35,hi:r2+35,label:'Resistance B'},
+    ];
+    renderZones();
+    toast('Zones scanned · '+zones.length+' levels');
+  }
+
+  function renderZones(){
+    const el=document.getElementById('zones');
+    document.getElementById('zoneCount').textContent=zones.length;
+    el.innerHTML=zones.map(z=>`<div class="zone-row"><div class="zone-dot ${z.type==='S'?'s':'r'}"></div><span>${z.label}</span><span style="margin-left:auto;font-family:monospace;color:var(--muted)">${z.lo.toFixed(0)}–${z.hi.toFixed(0)}</span></div>`).join('');
+  }
+
+  function draw(){
+    const w=canvas.clientWidth,h=canvas.clientHeight;
+    if(!w||!h)return;
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle='#0b0e11';ctx.fillRect(0,0,w,h);
+    if(!candles.length)return;
+    const padL=56,padR=12,padT=20,padB=28;
+    const cw=w-padL-padR,ch=h-padT-padB;
+    let mn=Infinity,mx=-Infinity;
+    candles.forEach(c=>{mn=Math.min(mn,c.l);mx=Math.max(mx,c.h)});
+    zones.forEach(z=>{mn=Math.min(mn,z.lo);mx=Math.max(mx,z.hi)});
+    const rng=mx-mn||1;
+    const y=v=>padT+ch*((mx-v)/rng);
+    const bw=Math.max(2,cw/candles.length*0.65);
+    const gap=cw/candles.length;
+
+    // grid
+    ctx.strokeStyle='#1e2530';ctx.lineWidth=1;
+    for(let i=0;i<=5;i++){
+      const gy=padT+(ch*i/5);
+      ctx.beginPath();ctx.moveTo(padL,gy);ctx.lineTo(w-padR,gy);ctx.stroke();
+      const pv=mx-(rng*i/5);
+      ctx.fillStyle='#787b86';ctx.font='10px monospace';ctx.textAlign='right';
+      ctx.fillText(pv.toFixed(0),padL-6,gy+3);
+    }
+
+    // S/R zones
+    zones.forEach(z=>{
+      const y1=y(z.hi),y2=y(z.lo);
+      ctx.fillStyle=z.type==='S'?'rgba(38,166,154,0.12)':'rgba(239,83,80,0.12)';
+      ctx.fillRect(padL,y1,cw,y2-y1);
+      ctx.strokeStyle=z.type==='S'?'rgba(38,166,154,0.5)':'rgba(239,83,80,0.5)';
+      ctx.setLineDash([4,3]);
+      ctx.beginPath();ctx.moveTo(padL,y1);ctx.lineTo(w-padR,y1);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(padL,y2);ctx.lineTo(w-padR,y2);ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle=z.type==='S'?'#26a69a':'#ef5350';
+      ctx.font='10px sans-serif';ctx.textAlign='left';
+      ctx.fillText(z.label,padL+6,y1+12);
+    });
+
+    // candles
+    candles.forEach((c,i)=>{
+      const x=padL+i*gap+gap/2;
+      const up=c.c>=c.o;
+      ctx.strokeStyle=up?'#26a69a':'#ef5350';
+      ctx.fillStyle=up?'#26a69a':'#ef5350';
+      ctx.beginPath();ctx.moveTo(x,y(c.h));ctx.lineTo(x,y(c.l));ctx.stroke();
+      const top=y(Math.max(c.o,c.c)),bot=y(Math.min(c.o,c.c));
+      ctx.fillRect(x-bw/2,top,bw,Math.max(1,bot-top));
+    });
+
+    // last price line
+    const ly=y(price);
+    ctx.strokeStyle='#f0b90b';ctx.setLineDash([3,3]);
+    ctx.beginPath();ctx.moveTo(padL,ly);ctx.lineTo(w-padR,ly);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#f0b90b';ctx.font='11px monospace';ctx.textAlign='left';
+    ctx.fillText(price.toFixed(2),w-padR-70,ly-4);
+  }
+
+  function addOrder(side,px,qty){
+    const now=new Date();
+    const t=now.toLocaleTimeString('en-GB',{hour12:false});
+    const o={t,side,px,qty,status:'FILLED'};
+    orders.unshift(o);
+    const tb=document.getElementById('blotterBody');
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${t}</td><td class="${side.toLowerCase()}">${side}</td><td>${px.toFixed(2)}</td><td>${qty}</td><td style="color:var(--green)">FILLED</td>`;
+    tb.insertBefore(tr,tb.firstChild);
+    document.getElementById('ordN').textContent=orders.length;
+    const delta=(side==='BUY'?-1:1)*qty*(Math.random()*8-2);
+    pnl+=delta;
+    equity=100000+pnl;
+    document.getElementById('eq').textContent='$'+equity.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    const pEl=document.getElementById('pnl');
+    pEl.textContent=(pnl>=0?'+':'')+'$'+pnl.toFixed(2);
+    pEl.style.color=pnl>=0?'var(--green)':'var(--red)';
+  }
+
+  function placePaperNearZones(){
+    if(killed||!zones.length)return;
+    const s=zones.filter(z=>z.type==='S');
+    const r=zones.filter(z=>z.type==='R');
+    if(s.length)addOrder('BUY',(s[0].lo+s[0].hi)/2,0.01+Math.random()*0.04);
+    setTimeout(()=>{if(!killed&&r.length)addOrder('SELL',(r[0].lo+r[0].hi)/2,0.01+Math.random()*0.04)},400);
+    setTimeout(()=>{if(!killed&&s.length>1)addOrder('BUY',(s[1].lo+s[1].hi)/2,0.02)},800);
+  }
+
+  function step(){
+    if(!running||killed)return;
+    tick++;
+    const last=candles[candles.length-1];
+    const o=last.c,c=o+(Math.random()-0.49)*60,h=Math.max(o,c)+Math.random()*30,l=Math.min(o,c)-Math.random()*30;
+    candles.push({o,h,l,c});
+    if(candles.length>90)candles.shift();
+    price=c;
+    document.getElementById('chartInfo').textContent=document.getElementById('sym').value+' · 15m · PAPER · '+price.toFixed(2);
+    if(tick%8===0)placePaperNearZones();
+    draw();
+    raf=requestAnimationFrame(()=>setTimeout(step,220));
+  }
+
+  window.toggleAuto=function(){
+    if(killed){killed=false;document.getElementById('btnKill').classList.remove('flash')}
+    running=!running;
+    const b=document.getElementById('btnStart');
+    b.textContent=running?'Running…':'Start Auto';
+    b.classList.toggle('running',running);
+    if(running){
+      if(!zones.length)scanZones();
+      setTimeout(placePaperNearZones,500);
+      step();
+      toast('S/R auto desk · farm volume without bleeding · PAPER');
+    }else{
+      cancelAnimationFrame(raf);
+      toast('Auto stopped');
+    }
+  };
+
+  window.killSwitch=function(){
+    running=false;killed=true;
+    cancelAnimationFrame(raf);
+    document.getElementById('btnStart').textContent='Start Auto';
+    document.getElementById('btnStart').classList.remove('running');
+    const k=document.getElementById('btnKill');
+    k.classList.remove('flash');
+    void k.offsetWidth;
+    k.classList.add('flash');
+    toast('⚠ KILL SWITCH — all paper orders halted');
+  };
+
+  function toast(msg){
+    const t=document.getElementById('toast');
+    t.textContent=msg;t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),2200);
+  }
+
+  function autodemo(){
+    toast('DEMO: scanning zones…');
+    setTimeout(()=>{scanZones();draw()},400);
+    setTimeout(()=>{
+      running=true;killed=false;
+      document.getElementById('btnStart').textContent='Running…';
+      document.getElementById('btnStart').classList.add('running');
+      placePaperNearZones();
+      step();
+      toast('DEMO: farm volume without bleeding · PAPER');
+    },1400);
+    // Keep running for cinematic capture — do NOT kill during autodemo
+  }
+
+  seedCandles();
+  resize();
+  if(new URLSearchParams(location.search).get('autodemo')==='1'){
+    document.documentElement.classList.add('autodemo');
+    setTimeout(autodemo,300);
+  }
+})();
+</script>
+</body>
+</html>

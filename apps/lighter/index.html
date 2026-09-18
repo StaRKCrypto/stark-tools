@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>StaRK Lighter Desk — PAPER DEMO</title>
+<style>
+:root{
+  --bg:#0b0e11;--panel:#12161c;--border:#1e2530;
+  --text:#d1d4dc;--muted:#787b86;--green:#26a69a;--red:#ef5350;
+  --accent:#2962ff;--gold:#f0b90b;
+  --font:-apple-system,BlinkMacSystemFont,"Trebuchet MS",Roboto,Ubuntu,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px;height:100vh;overflow:hidden}
+.topbar{display:flex;align-items:center;gap:12px;padding:8px 14px;background:var(--panel);border-bottom:1px solid var(--border);height:48px}
+.logo{font-weight:700;font-size:15px}.logo span{color:var(--gold)}
+.badge{font-size:10px;padding:2px 7px;border-radius:3px;font-weight:700}
+.badge-paper{background:rgba(240,185,11,.15);color:var(--gold);border:1px solid rgba(240,185,11,.35)}
+.badge-nfa{background:rgba(120,123,134,.15);color:var(--muted);border:1px solid var(--border)}
+.badge-unlock{background:rgba(41,98,255,.12);color:#5b8def;border:1px solid rgba(41,98,255,.3)}
+.btn{border:none;border-radius:4px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer}
+.btn-start{background:var(--green);color:#fff}
+.btn-stop{background:var(--red);color:#fff;display:none}
+.btn-start.hide{display:none}.btn-stop.show{display:inline-block}
+.spacer{flex:1}
+.handle{color:var(--muted);font-size:11px}
+.main{display:grid;grid-template-columns:280px 1fr 300px;height:calc(100vh - 48px)}
+.col{background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.col:last-child{border-right:none}
+.col-h{padding:10px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);border-bottom:1px solid var(--border)}
+.ladder{flex:1;overflow:hidden;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11px}
+.ladder table{width:100%;border-collapse:collapse}
+.ladder th{padding:4px 8px;color:var(--muted);font-size:10px;text-align:right;border-bottom:1px solid var(--border)}
+.ladder th:first-child{text-align:left}
+.ladder td{padding:2px 8px;text-align:right;position:relative}
+.ladder td:first-child{text-align:left}
+.ask-row td{color:var(--red)}
+.bid-row td{color:var(--green)}
+.spread-row td{background:#161b22;color:var(--gold);font-weight:700;text-align:center!important;padding:6px}
+.bar{position:absolute;top:0;bottom:0;right:0;opacity:.15;pointer-events:none}
+.ask-row .bar{background:var(--red)}.bid-row .bar{background:var(--green)}
+.chart-wrap{position:relative;background:var(--bg);flex:1}
+#mini{width:100%;height:100%;display:block}
+.fills{flex:1;overflow-y:auto;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11px}
+.fills table{width:100%;border-collapse:collapse}
+.fills th{text-align:left;padding:6px 10px;color:var(--muted);font-size:10px;text-transform:uppercase;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel)}
+.fills td{padding:5px 10px;border-bottom:1px solid rgba(30,37,48,.5)}
+.buy{color:var(--green)}.sell{color:var(--red)}
+.status{padding:8px 12px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;flex-wrap:wrap;gap:12px}
+.status b{color:var(--text)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#161b22;border:1px solid var(--border);padding:10px 18px;border-radius:6px;font-size:12px;z-index:99;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+.quote-banner{padding:8px 12px;background:rgba(41,98,255,.08);border-bottom:1px solid var(--border);font-size:11px;color:#5b8def;display:none}
+.quote-banner.show{display:block}
+html.autodemo,html.autodemo *{cursor:none!important}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo"><span>StaRK</span> Lighter · Venue MM Desk</div>
+  <span class="badge badge-paper">PAPER MODE</span>
+  <span class="badge badge-nfa">NFA</span>
+  <span class="badge badge-unlock">Volume &amp; OI farm · tight risk</span>
+  <button class="btn btn-start" id="btnStart" onclick="startMM()">Start MM</button>
+  <button class="btn btn-stop" id="btnStop" onclick="stopMM()">Stop MM</button>
+  <div class="spacer"></div>
+  <span class="handle">StaRK Bots · @StaRKCryptoBots</span>
+</div>
+<div class="main">
+  <div class="col">
+    <div class="col-h">Venue MM Book · ETH · PAPER</div>
+    <div class="quote-banner" id="quoteBanner">Paper book updating · tight risk · no bleed</div>
+    <div class="ladder"><table>
+      <thead><tr><th>Price</th><th>Size</th><th>Total</th></tr></thead>
+      <tbody id="bookBody"></tbody>
+    </table></div>
+  </div>
+  <div class="col" style="background:var(--bg)">
+    <div class="col-h" style="background:var(--panel)">Inventory · Risk · No spray-and-pray</div>
+    <div class="chart-wrap"><canvas id="mini"></canvas></div>
+    <div class="status" style="background:var(--panel)">
+      <span>Mid <b id="mid">3245.50</b></span>
+      <span>Spread <b id="spr">0.40</b></span>
+      <span>Inv <b id="inv">0.00 ETH</b></span>
+    </div>
+  </div>
+  <div class="col">
+    <div class="col-h">Paper Book · Volume &amp; OI Farm</div>
+    <div class="fills"><table>
+      <thead><tr><th>Time</th><th>Side</th><th>Px</th><th>Qty</th></tr></thead>
+      <tbody id="fillsBody"></tbody>
+    </table></div>
+    <div class="status">
+      <span>Fills <b id="fillN">0</b></span>
+      <span>PnL <b id="pnl" style="color:var(--green)">+$0.00</b></span>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+  let mid=3245.50, running=false, inv=0, pnl=0, fills=0, tick=0;
+  let candles=[], zones=[], asks=[], bids=[], raf;
+  const canvas=document.getElementById('mini');
+  const ctx=canvas.getContext('2d');
+
+  function resize(){
+    const r=canvas.parentElement.getBoundingClientRect();
+    canvas.width=r.width*devicePixelRatio;
+    canvas.height=r.height*devicePixelRatio;
+    canvas.style.width=r.width+'px';
+    canvas.style.height=r.height+'px';
+    ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+    draw();
+  }
+  window.addEventListener('resize',resize);
+
+  function seed(){
+    candles=[];let p=mid;
+    for(let i=0;i<60;i++){
+      const o=p,c=o+(Math.random()-0.5)*12,h=Math.max(o,c)+Math.random()*5,l=Math.min(o,c)-Math.random()*5;
+      candles.push({o,h,l,c});p=c;
+    }
+    mid=p;
+    const lows=candles.map(c=>c.l).sort((a,b)=>a-b);
+    const highs=candles.map(c=>c.h).sort((a,b)=>b-a);
+    zones=[
+      {type:'S',lo:lows[8]-1,hi:lows[8]+1},
+      {type:'R',lo:highs[8]-1,hi:highs[8]+1},
+    ];
+    buildBook();
+  }
+
+  function buildBook(){
+    asks=[];bids=[];
+    const tickSz=0.10;
+    let tot=0;
+    for(let i=8;i>=1;i--){
+      const sz=+(0.2+Math.random()*2.5).toFixed(3);
+      tot+=sz;
+      asks.push({px:+(mid+i*tickSz).toFixed(2),sz,tot:+tot.toFixed(3)});
+    }
+    tot=0;
+    for(let i=1;i<=8;i++){
+      const sz=+(0.2+Math.random()*2.5).toFixed(3);
+      tot+=sz;
+      bids.push({px:+(mid-i*tickSz).toFixed(2),sz,tot:+tot.toFixed(3)});
+    }
+    renderBook();
+    document.getElementById('mid').textContent=mid.toFixed(2);
+    document.getElementById('spr').textContent=(asks[asks.length-1].px-bids[0].px).toFixed(2);
+  }
+
+  function renderBook(){
+    const maxSz=Math.max(...asks.map(a=>a.sz),...bids.map(b=>b.sz));
+    let html='';
+    asks.forEach(a=>{
+      const w=(a.sz/maxSz*100).toFixed(0);
+      html+=`<tr class="ask-row"><td>${a.px.toFixed(2)}</td><td>${a.sz.toFixed(3)}<div class="bar" style="width:${w}%"></div></td><td>${a.tot.toFixed(3)}</td></tr>`;
+    });
+    html+=`<tr class="spread-row"><td colspan="3">SPREAD · ${mid.toFixed(2)}</td></tr>`;
+    bids.forEach(b=>{
+      const w=(b.sz/maxSz*100).toFixed(0);
+      html+=`<tr class="bid-row"><td>${b.px.toFixed(2)}</td><td>${b.sz.toFixed(3)}<div class="bar" style="width:${w}%"></div></td><td>${b.tot.toFixed(3)}</td></tr>`;
+    });
+    document.getElementById('bookBody').innerHTML=html;
+  }
+
+  function draw(){
+    const w=canvas.clientWidth,h=canvas.clientHeight;
+    if(!w||!h||!candles.length)return;
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle='#0b0e11';ctx.fillRect(0,0,w,h);
+    const padL=48,padR=8,padT=12,padB=20;
+    const cw=w-padL-padR,ch=h-padT-padB;
+    let mn=Infinity,mx=-Infinity;
+    candles.forEach(c=>{mn=Math.min(mn,c.l);mx=Math.max(mx,c.h)});
+    zones.forEach(z=>{mn=Math.min(mn,z.lo);mx=Math.max(mx,z.hi)});
+    const rng=mx-mn||1;
+    const y=v=>padT+ch*((mx-v)/rng);
+    const gap=cw/candles.length,bw=Math.max(2,gap*0.6);
+    ctx.strokeStyle='#1e2530';
+    for(let i=0;i<=4;i++){
+      const gy=padT+ch*i/4;
+      ctx.beginPath();ctx.moveTo(padL,gy);ctx.lineTo(w-padR,gy);ctx.stroke();
+      ctx.fillStyle='#787b86';ctx.font='10px monospace';ctx.textAlign='right';
+      ctx.fillText((mx-rng*i/4).toFixed(1),padL-4,gy+3);
+    }
+    zones.forEach(z=>{
+      const y1=y(z.hi),y2=y(z.lo);
+      ctx.fillStyle=z.type==='S'?'rgba(38,166,154,0.15)':'rgba(239,83,80,0.15)';
+      ctx.fillRect(padL,y1,cw,Math.max(2,y2-y1));
+      ctx.strokeStyle=z.type==='S'?'#26a69a':'#ef5350';
+      ctx.setLineDash([3,2]);
+      ctx.beginPath();ctx.moveTo(padL,(y1+y2)/2);ctx.lineTo(w-padR,(y1+y2)/2);ctx.stroke();
+      ctx.setLineDash([]);
+    });
+    candles.forEach((c,i)=>{
+      const x=padL+i*gap+gap/2;
+      const up=c.c>=c.o;
+      ctx.strokeStyle=up?'#26a69a':'#ef5350';
+      ctx.fillStyle=up?'#26a69a':'#ef5350';
+      ctx.beginPath();ctx.moveTo(x,y(c.h));ctx.lineTo(x,y(c.l));ctx.stroke();
+      const top=y(Math.max(c.o,c.c)),bot=y(Math.min(c.o,c.c));
+      ctx.fillRect(x-bw/2,top,bw,Math.max(1,bot-top));
+    });
+  }
+
+  function addFill(side,px,qty){
+    const t=new Date().toLocaleTimeString('en-GB',{hour12:false});
+    fills++;
+    inv+=(side==='BUY'?1:-1)*qty;
+    pnl+=(Math.random()-0.4)*1.8;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${t}</td><td class="${side.toLowerCase()}">${side}</td><td>${px.toFixed(2)}</td><td>${qty.toFixed(3)}</td>`;
+    const tb=document.getElementById('fillsBody');
+    tb.insertBefore(tr,tb.firstChild);
+    document.getElementById('fillN').textContent=fills;
+    document.getElementById('inv').textContent=inv.toFixed(3)+' ETH';
+    const p=document.getElementById('pnl');
+    p.textContent=(pnl>=0?'+':'')+'$'+pnl.toFixed(2);
+    p.style.color=pnl>=0?'var(--green)':'var(--red)';
+  }
+
+  function loop(){
+    if(!running)return;
+    tick++;
+    mid+=(Math.random()-0.5)*0.35;
+    const last=candles[candles.length-1];
+    const o=last.c,c=mid+(Math.random()-0.5)*2,h=Math.max(o,c)+Math.random()*1.5,l=Math.min(o,c)-Math.random()*1.5;
+    candles.push({o,h,l,c});
+    if(candles.length>70)candles.shift();
+    buildBook();
+    draw();
+    if(tick%3===0){
+      const side=Math.random()>0.5?'BUY':'SELL';
+      const px=side==='BUY'?bids[0].px:asks[asks.length-1].px;
+      addFill(side,px,+(0.05+Math.random()*0.4).toFixed(3));
+    }
+    raf=setTimeout(loop,180);
+  }
+
+  window.startMM=function(){
+    running=true;
+    document.getElementById('btnStart').classList.add('hide');
+    document.getElementById('btnStop').classList.add('show');
+    document.getElementById('quoteBanner').classList.add('show');
+    toast('Venue MM desk · volume & OI farm · PAPER · no bleed');
+    loop();
+  };
+  window.stopMM=function(){
+    running=false;clearTimeout(raf);
+    document.getElementById('btnStart').classList.remove('hide');
+    document.getElementById('btnStop').classList.remove('show');
+    document.getElementById('quoteBanner').classList.remove('show');
+    toast('MM stopped');
+  };
+  function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
+
+  function autodemo(){
+    toast('DEMO: starting desk…');
+    setTimeout(()=>{
+      startMM();
+      toast('DEMO: paper book updating · tight risk');
+    },500);
+    setTimeout(()=>{
+      if(bids.length) addFill('BUY',bids[0].px,0.25);
+      toast('DEMO: paper fill');
+    },1800);
+    setInterval(()=>{
+      const b=document.getElementById('quoteBanner');
+      if(b && running) b.textContent='QUOTING · mid '+mid.toFixed(2)+' · '+new Date().toLocaleTimeString('en-GB',{hour12:false});
+    },300);
+  }
+
+  seed();resize();
+  if(new URLSearchParams(location.search).get('autodemo')==='1'){
+    document.documentElement.classList.add('autodemo');
+    setTimeout(autodemo,250);
+  }
+})();
+</script>
+</body>
+</html>
