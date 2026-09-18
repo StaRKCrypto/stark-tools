@@ -11,8 +11,7 @@ import { VenueDock } from '../components/VenueDock'
 import { pushTape } from '../lib/activity'
 import { safeError } from '../lib/redact'
 import { VENUE } from '../lib/venues/links'
-import { snapFor } from '../lib/snaps'
-import { ageLabel, fmtFund, fmtPct, fmtPx, fmtUsd } from '../lib/format'
+import { fmtFund, fmtPct, fmtPx } from '../lib/format'
 import { isArmed, isDryRun } from '../lib/vault'
 
 export function Arcus() {
@@ -21,7 +20,6 @@ export function Arcus() {
   const [bbo, setBbo] = useState<{ bid?: string; ask?: string }>({})
   const [sr, setSr] = useState<ReturnType<typeof analyzeSr> | null>(null)
   const [err, setErr] = useState<string | null>(null)
-  const snap = snapFor('arcus')
 
   async function load() {
     setErr(null)
@@ -62,41 +60,17 @@ export function Arcus() {
 
   return (
     <div className="page">
+      <VenueDock name="Arcus" href={VENUE.arcusTrade(sym)} marketsHref={VENUE.arcusHome} />
       <div className="page-h">
         <div>
-          <h1>Arcus companion</h1>
-          <p>Our edge: swing S/R from live 15m candles. Trading UI: app.arcus.xyz</p>
+          <h1>{sym}</h1>
+          <p>S/R from live 15m candles. Chart/book/ticket on Arcus.</p>
         </div>
         <button className="btn" type="button" onClick={() => void load()}>
           Refresh
         </button>
       </div>
       {err && <div className="bad">{err}</div>}
-      <div className="split">
-        <VenueDock name="Arcus" href={VENUE.arcusTrade(sym)} marketsHref={VENUE.arcusHome} />
-        <div className="panel">
-          <h2>Journal</h2>
-          <div className="panel-body">
-            <div className="kv">
-              <span>Equity</span>
-              <b className="mono">{fmtUsd(snap?.equityUsd)}</b>
-            </div>
-            <div className="kv">
-              <span>Opens</span>
-              <b className="mono">{snap ? snap.opens.length : '—'}</b>
-            </div>
-            <div className="kv">
-              <span>Snap</span>
-              <b className="mono">{ageLabel(snap?.at)}</b>
-            </div>
-            {(snap?.opens || []).map((o) => (
-              <div key={o.market + o.side} className="tiny mono">
-                {o.side} {o.size} {o.market} @{o.entry ?? '—'}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
 
       <div className="ticker">
         <div>

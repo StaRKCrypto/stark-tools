@@ -25,6 +25,17 @@ export interface DeskSnap {
   equityUsd?: number
   availableUsd?: number
   pnlDayUsd?: number
+  sessionPnlPct?: number
+  status?: string
+  halt?: boolean
+  cfg?: string
+  mode?: string
+  pair?: string
+  pos?: number
+  antibleedTicks?: number
+  requoteBps?: number
+  ageMaxSec?: number
+  flatten?: string
   opens: SnapOpen[]
   fills: SnapFill[]
   note?: string
@@ -99,15 +110,32 @@ export function parseDeskSnap(raw: unknown, source: DeskSnap['source'] = 'paste'
   const at =
     str(o.at || o.ts || o.timestamp || o.asof || o.asOf || o.heartbeat) ||
     new Date().toISOString()
+  const haltRaw = o.halt ?? o.halted
   return {
     venue,
     at,
     equityUsd: num(o.equityUsd ?? o.equity ?? o.account_equity ?? o.nav ?? o.balance),
     availableUsd: num(o.availableUsd ?? o.available ?? o.free ?? o.buying_power),
     pnlDayUsd: num(o.pnlDayUsd ?? o.pnlDay ?? o.day_pnl ?? o.realized),
+    sessionPnlPct: num(o.sessionPnlPct ?? o.pnl_pct ?? o.vs_session),
+    status: str(o.status || o.state || o.run_state),
+    halt:
+      typeof haltRaw === 'boolean'
+        ? haltRaw
+        : typeof haltRaw === 'string'
+          ? haltRaw.toLowerCase() === 'true' || haltRaw === '1'
+          : undefined,
+    cfg: str(o.cfg ?? o.config),
+    mode: str(o.mode || o.posture || o.farm_mode),
+    pair: str(o.pair || o.symbol || o.market),
+    pos: num(o.pos ?? o.position ?? o.wti_pos),
+    antibleedTicks: num(o.antibleedTicks ?? o.anti_bleed ?? o.ticks_out),
+    requoteBps: num(o.requoteBps ?? o.requote_bps),
+    ageMaxSec: num(o.ageMaxSec ?? o.age_max),
+    flatten: str(o.flatten || o.flatten_mode),
     opens: parseOpens(o.opens || o.positions || o.inventory || o.exposure),
     fills: parseFills(o.fills || o.journal || o.trades),
-    note: str(o.note || o.status || o.comment),
+    note: str(o.note || o.comment || o.footer || o.strategy),
     source,
   }
 }

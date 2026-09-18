@@ -13,8 +13,7 @@ import { VenueDock } from '../components/VenueDock'
 import { pushTape } from '../lib/activity'
 import { safeError } from '../lib/redact'
 import { VENUE } from '../lib/venues/links'
-import { snapFor } from '../lib/snaps'
-import { ageLabel, fmtFund, fmtPct, fmtUsd } from '../lib/format'
+import { fmtFund, fmtNum, fmtPct, fmtUsd } from '../lib/format'
 import { isArmed, isDryRun } from '../lib/vault'
 
 type SortKey = 'vol' | 'oi' | 'chg'
@@ -27,7 +26,6 @@ export function Lighter() {
   const [sort, setSort] = useState<SortKey>('vol')
   const [err, setErr] = useState<string | null>(null)
   const [bookCount, setBookCount] = useState(0)
-  const snap = snapFor('lighter')
 
   async function load() {
     try {
@@ -89,47 +87,21 @@ export function Lighter() {
 
   return (
     <div className="page">
+      <VenueDock
+        name="Lighter"
+        href={VENUE.lighterTrade(row?.symbol || sym)}
+        marketsHref={VENUE.lighterMarkets}
+      />
       <div className="page-h">
         <div>
-          <h1>Lighter companion</h1>
-          <p>
-            Live public stats ({bookCount} books). Trade on app.lighter.xyz — not a cloned desk.
-          </p>
+          <h1>{row?.symbol || sym}</h1>
+          <p>{bookCount} public books. Chart/book/ticket on app.lighter.xyz.</p>
         </div>
         <button className="btn" type="button" onClick={() => void load()}>
           Refresh
         </button>
       </div>
       {err && <div className="bad">{err}</div>}
-      <div className="split">
-        <VenueDock
-          name="Lighter"
-          href={VENUE.lighterTrade(row?.symbol || sym)}
-          marketsHref={VENUE.lighterMarkets}
-        />
-        <div className="panel">
-          <h2>Journal</h2>
-          <div className="panel-body">
-            <div className="kv">
-              <span>Equity</span>
-              <b className="mono">{fmtUsd(snap?.equityUsd)}</b>
-            </div>
-            <div className="kv">
-              <span>Opens</span>
-              <b className="mono">{snap ? snap.opens.length : '—'}</b>
-            </div>
-            <div className="kv">
-              <span>Snap</span>
-              <b className="mono">{ageLabel(snap?.at)}</b>
-            </div>
-            {(snap?.fills || []).slice(0, 8).map((f, i) => (
-              <div key={i} className="tiny mono">
-                {f.side} {f.size} {f.market} @{f.price ?? '—'}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
 
       <div className="ticker">
         <div>
@@ -154,7 +126,7 @@ export function Lighter() {
         </div>
         <div>
           <span>OI</span>
-          <b className="mono">{row?.open_interest ?? '—'}</b>
+          <b className="mono">{fmtNum(row?.open_interest)}</b>
         </div>
         <div>
           <span>Funding</span>
@@ -183,22 +155,22 @@ export function Lighter() {
             <thead>
               <tr>
                 <th>Market</th>
-                <th>Last</th>
-                <th>24h</th>
-                <th>Vol</th>
-                <th>OI</th>
-                <th>Funding</th>
+                <th className="num">Last</th>
+                <th className="num">24h</th>
+                <th className="num">Vol</th>
+                <th className="num">OI</th>
+                <th className="num">Funding</th>
               </tr>
             </thead>
             <tbody>
               {rows.slice(0, 120).map((r) => (
                 <tr key={r.symbol} className="clickable" onClick={() => setSym(r.symbol)}>
                   <td>{r.symbol}</td>
-                  <td className="mono">{r.last_trade_price ?? r.mark_price ?? '—'}</td>
-                  <td className={r.chg >= 0 ? 'ok' : 'bad'}>{fmtPct(r.chg, true)}</td>
-                  <td className="mono">{fmtUsd(r.vol)}</td>
-                  <td className="mono">{r.open_interest ?? '—'}</td>
-                  <td className="mono">{fmtFund(r.fund)}</td>
+                  <td className="num mono">{r.last_trade_price ?? r.mark_price ?? '—'}</td>
+                  <td className={`num ${r.chg >= 0 ? 'ok' : 'bad'}`}>{fmtPct(r.chg, true)}</td>
+                  <td className="num mono">{fmtUsd(r.vol)}</td>
+                  <td className="num mono">{fmtNum(r.open_interest)}</td>
+                  <td className="num mono">{fmtFund(r.fund)}</td>
                 </tr>
               ))}
             </tbody>

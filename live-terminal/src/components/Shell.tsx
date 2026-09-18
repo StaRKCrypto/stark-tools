@@ -20,7 +20,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         </NavLink>
         <nav className="tabs">
           <NavLink to="/" end className={({ isActive }) => (isActive ? 'tab on' : 'tab')}>
-            Board
+            Markets
           </NavLink>
           <NavLink to="/nimbus" className={({ isActive }) => (isActive ? 'tab on' : 'tab')}>
             Nimbus
@@ -87,7 +87,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           {isArmed() ? 'Disarm' : 'Arm'}
         </button>
         <button
-          className="btn"
+          className="btn btn-primary"
           type="button"
           onClick={() => useSession.getState().setVaultOpen(true)}
         >

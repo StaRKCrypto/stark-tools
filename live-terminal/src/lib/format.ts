@@ -2,8 +2,16 @@ export function fmtPx(n: number | string | null | undefined, digits = 2): string
   if (n == null || n === '') return '—'
   const v = typeof n === 'number' ? n : Number(n)
   if (!Number.isFinite(v)) return '—'
-  const d = Math.abs(v) >= 1000 ? 2 : Math.abs(v) >= 1 ? 4 : 6
-  return v.toLocaleString('en-US', { maximumFractionDigits: digits ?? d, minimumFractionDigits: 0 })
+  return v.toLocaleString('en-US', { maximumFractionDigits: digits, minimumFractionDigits: 0 })
+}
+
+export function fmtNum(n: number | string | null | undefined): string {
+  if (n == null || n === '') return '—'
+  const v = typeof n === 'number' ? n : Number(n)
+  if (!Number.isFinite(v)) return '—'
+  if (Math.abs(v) >= 1_000_000) return `${(v / 1_000_000).toFixed(2)}M`
+  if (Math.abs(v) >= 1_000) return v.toLocaleString('en-US', { maximumFractionDigits: 1 })
+  return v.toLocaleString('en-US', { maximumFractionDigits: 4 })
 }
 
 export function fmtUsd(n: number | string | null | undefined): string {

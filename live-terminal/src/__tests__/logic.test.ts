@@ -3,6 +3,9 @@ import { parseBucket, bucketContains } from '../lib/nimbus/buckets'
 import { edgeAfterFee, modelBucketProbability, STRATEGY } from '../lib/nimbus/engine'
 import { encodeMintPublic, seadropInterface } from '../lib/mint/seadrop'
 import { swings, atr14 } from '../lib/venues/sr'
+import { parseNadoSymbols } from '../lib/venues/nado'
+import { parseSnapPayload } from '../lib/snaps'
+import { nadoMarketParam } from '../lib/venues/links'
 
 describe('nimbus buckets', () => {
   it('parses range and or-higher labels', () => {
@@ -47,10 +50,6 @@ describe('seadrop', () => {
   })
 })
 
-import { parseNadoSymbols } from '../lib/venues/nado'
-import { parseSnapPayload } from '../lib/snaps'
-import { nadoMarketParam } from '../lib/venues/links'
-
 describe('desk snaps', () => {
   it('parses nado equity/opens and ignores unknown desks', () => {
     const snaps = parseSnapPayload({
@@ -68,6 +67,30 @@ describe('desk snaps', () => {
     expect(snaps[0].venue).toBe('nado')
     expect(snaps[0].equityUsd).toBe(1284.5)
     expect(snaps[0].opens[0].market).toBe('QQQ-PERP')
+  })
+
+  it('parses MSI farm health fields', () => {
+    const [s] = parseSnapPayload({
+      desk: 'nado',
+      equityUsd: 23.71,
+      sessionPnlPct: 57.72,
+      status: 'RUNNING',
+      halt: false,
+      cfg: 0,
+      mode: 'FLATTEN_LONG',
+      pair: 'WTI-PERP',
+      pos: 0.66,
+      antibleedTicks: 16,
+      requoteBps: 8,
+      ageMaxSec: 300,
+      flatten: 'post_only',
+      note: 'antibleed_v2',
+    })
+    expect(s.status).toBe('RUNNING')
+    expect(s.mode).toBe('FLATTEN_LONG')
+    expect(s.antibleedTicks).toBe(16)
+    expect(s.pair).toBe('WTI-PERP')
+    expect(s.halt).toBe(false)
   })
 })
 

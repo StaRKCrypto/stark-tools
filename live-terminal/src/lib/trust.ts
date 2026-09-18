@@ -5,46 +5,59 @@ import { loadSnaps, type DeskSnap } from './snaps'
 import { safeError } from './redact'
 import { fmtFund } from './format'
 
-export interface TrustCell {
+export interface Bbo {
+  bid: number | null
+  ask: number | null
+}
+
+export interface VenueMark {
   desk: 'arcus' | 'lighter' | 'nado'
   label: string
   mark?: string
   extra?: string
-  snap?: DeskSnap
   ok: boolean
   error?: string
 }
 
 export interface TrustFeed {
   at: string
-  cells: TrustCell[]
+  snap?: DeskSnap
+  wti?: Bbo
+  qqq?: Bbo
+  venues: VenueMark[]
 }
 
 function arcusBtc(markets: ArcusMarket[]) {
   return markets.find((m) => m.marketDisplayName === 'BTC-USD' || m.baseAsset === 'BTC')
 }
 
+async function nadoBbo(productId: number): Promise<Bbo> {
+  const px = await fetchNadoMarketPrice(productId)
+  return {
+    bid: x18ToNumber(px?.data?.bid_x18 || px?.data?.market_price?.bid_x18),
+    ask: x18ToNumber(px?.data?.ask_x18 || px?.data?.market_price?.ask_x18),
+  }
+}
+
 export async function loadTrustFeed(): Promise<TrustFeed> {
   const snaps = loadSnaps()
-  const snapOf = (d: TrustCell['desk']) => snaps.find((s) => s.venue === d)
-
-  const cells: TrustCell[] = []
+  const snap = snaps.find((s) => s.venue === 'nado') || snaps[0]
+  const venues: VenueMark[] = []
+  let wti: Bbo | undefined
+  let qqq: Bbo | undefined
 
   try {
     const markets = await fetchArcusMarkets()
     const btc = arcusBtc(markets)
-    cells.push({
+    venues.push({
       desk: 'arcus',
       label: 'Arcus BTC',
       mark: btc?.markPrice || btc?.lastTradePrice || btc?.lastPrice,
-        extra: btc
-        ? `OI ${btc.openInterest ?? '—'} · fund ${fmtFund(btc.fundingRate)}`
-        : 'no BTC row',
-      snap: snapOf('arcus'),
+      extra: btc ? `OI ${btc.openInterest ?? '—'} · ${fmtFund(btc.fundingRate)}` : 'no BTC',
       ok: Boolean(btc),
     })
   } catch (e) {
-    cells.push({ desk: 'arcus', label: 'Arcus BTC', snap: snapOf('arcus'), ok: false, error: safeError(e) })
+    venues.push({ desk: 'arcus', label: 'Arcus BTC', ok: false, error: safeError(e) })
   }
 
   try {
@@ -52,47 +65,36 @@ export async function loadTrustFeed(): Promise<TrustFeed> {
     const books = (details.order_book_details || []) as LighterDetail[]
     const btc = books.find((b) => b.symbol === 'BTC') || books[0]
     const fund = funds.find((f) => f.exchange === 'lighter' && f.symbol === (btc?.symbol || 'BTC'))
-    cells.push({
+    venues.push({
       desk: 'lighter',
       label: `Lighter ${btc?.symbol || 'BTC'}`,
       mark: btc?.mark_price || (btc?.last_trade_price != null ? String(btc.last_trade_price) : undefined),
-          extra: btc
-        ? `OI ${btc.open_interest ?? '—'} · fund ${fmtFund(fund?.rate)}`
-        : 'no book',
-      snap: snapOf('lighter'),
+      extra: btc ? `OI ${btc.open_interest ?? '—'} · ${fmtFund(fund?.rate)}` : 'no book',
       ok: Boolean(btc),
     })
   } catch (e) {
-    cells.push({
-      desk: 'lighter',
-      label: 'Lighter BTC',
-      snap: snapOf('lighter'),
-      ok: false,
-      error: safeError(e),
-    })
+    venues.push({ desk: 'lighter', label: 'Lighter BTC', ok: false, error: safeError(e) })
   }
 
   try {
-    const px = await fetchNadoMarketPrice(98)
-    const bid = x18ToNumber(px?.data?.bid_x18)
-    const ask = x18ToNumber(px?.data?.ask_x18)
-    cells.push({
+    qqq = await nadoBbo(98)
+    venues.push({
       desk: 'nado',
-      label: 'Nado QQQ-PERP',
-      mark: bid != null && ask != null ? `${bid.toFixed(2)} / ${ask.toFixed(2)}` : undefined,
+      label: 'Nado QQQ',
+      mark:
+        qqq.bid != null && qqq.ask != null ? `${qqq.bid.toFixed(2)} / ${qqq.ask.toFixed(2)}` : undefined,
       extra: 'product 98',
-      snap: snapOf('nado'),
-      ok: bid != null || ask != null,
+      ok: qqq.bid != null || qqq.ask != null,
     })
   } catch (e) {
-    cells.push({
-      desk: 'nado',
-      label: 'Nado QQQ-PERP',
-      snap: snapOf('nado'),
-      ok: false,
-      error: safeError(e),
-    })
+    venues.push({ desk: 'nado', label: 'Nado QQQ', ok: false, error: safeError(e) })
   }
 
-  return { at: new Date().toISOString(), cells }
+  try {
+    wti = await nadoBbo(90)
+  } catch {
+    wti = undefined
+  }
+
+  return { at: new Date().toISOString(), snap, wti, qqq, venues }
 }
