@@ -11,6 +11,7 @@ function proxy(target: string) {
 }
 
 export default defineConfig({
+  base: process.env.VITE_BASE || '/stark-tools/live-terminal/',
   plugins: [react()],
   resolve: {
     alias: {
