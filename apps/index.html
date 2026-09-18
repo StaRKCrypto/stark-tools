@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>StaRK Bots — Apps (Preview)</title>
+<title>StaRK Bots — Free Test · Paper</title>
 <meta name="robots" content="noindex"/>
-<meta name="description" content="Preview paper desks only. Not live trading. No keys. NFA."/>
+<meta name="description" content="Free 5-min/day paper trial. Not live trading. No keys. NFA."/>
 <link rel="icon" href="../favicon.svg" type="image/svg+xml"/>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
@@ -53,16 +53,16 @@ footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);color:v
     <div class="logo">StaRK <i>Bots</i> · Apps</div>
     <a class="back" href="../">← Landing</a>
   </nav>
-  <h1>Apps (preview)</h1>
-  <p class="lead">Browser paper desks for check-before-publish. Synthetic fills only — not live trading, no wallet keys, no CA. NFA.</p>
+  <h1>Try desks (free 5-min paper trial)</h1>
+  <p class="lead">Public paper desks — <strong>5 minutes free per browser per day</strong>. Synthetic fills only. No wallet connect for trial. Not live trading · no keys · no CA. NFA.</p>
   <div class="banner">
-    <span class="badge badge-preview">Preview</span>
+    <span class="badge badge-preview">Free test · 5 min/day</span>
     <span class="badge badge-paper">Paper / Demo</span>
     <span class="badge badge-nfa">NFA · no secrets</span>
   </div>
   <div class="grid" id="grid"></div>
   <footer>
-    StaRKCrypto · Preview only · Not announced as live trading ·
+    StaRKCrypto · Free test · Paper only · Not live trading ·
     <a href="https://github.com/StaRKCrypto/stark-tools">stark-tools</a>
   </footer>
 </div>
@@ -83,7 +83,7 @@ document.getElementById('grid').innerHTML=apps.map(a=>`
     <h3>${a.name}</h3>
     <p>${a.blurb}</p>
     <div class="tags">
-      <span class="tag ok">Preview</span>
+      <span class="tag ok">Free test · 5 min/day · Paper</span>
       <span class="tag warn">${a.mode}</span>
     </div>
     <div class="open">Open desk →</div>
