@@ -1,0 +1,125 @@
+{
+  "generated": "2026-09-19T04:17+05:30",
+  "headline": "Working desks \u00b7 Real journals",
+  "sources": [
+    "arcus-trades.jsonl + overnight/arcus-trades.jsonl",
+    "arcus-trade_journal.json",
+    "overnight/bot-trades.jsonl",
+    "nado/farm_qqq.log + farm_qqq_status.json",
+    "taking-profits/signals/{buys,sells}.jsonl"
+  ],
+  "arcus": {
+    "journal_events": 127,
+    "opens": 35,
+    "closes": 34,
+    "scale_ins": 11,
+    "sync_opens": 47,
+    "symbols": 24,
+    "symbol_list": [
+      "AAPL",
+      "BABA",
+      "BNB",
+      "BOT",
+      "BTC",
+      "CASHCAT",
+      "CRWV",
+      "DOGE",
+      "ENA",
+      "ETH",
+      "GOOGL",
+      "HYPE",
+      "LIT",
+      "META",
+      "NEAR",
+      "PENGU",
+      "PLTR",
+      "SKHY",
+      "SOL",
+      "SPCX",
+      "TAO",
+      "UNI",
+      "WLFI",
+      "ZEC"
+    ],
+    "sides": {
+      "short": 73,
+      "long": 54
+    },
+    "open_positions": [
+      "BTC",
+      "AAPL",
+      "BNB",
+      "BABA",
+      "ZEC"
+    ],
+    "open_count": 5,
+    "proof": "LIVE journal",
+    "has_btc": true
+  },
+  "desk_journal": {
+    "events": 172,
+    "opens": 77,
+    "closes": 77,
+    "scale_ins": 18,
+    "symbols": 36,
+    "proof": "LIVE journal"
+  },
+  "nado_farm": {
+    "init_equity": 5.949559,
+    "final_equity": 5.77825,
+    "final_dd_pct": -2.8794,
+    "max_dd_pct": -2.8794,
+    "peak_equity": 5.955034,
+    "cycles": 14,
+    "status": "HANDOFF_DONE_MSI_LIVE",
+    "updated": "2026-09-14T22:42:40Z",
+    "note": "MSI farm flat+two-sided; executor alert stale",
+    "market": "QQQ-PERP",
+    "proof": "LIVE farm log"
+  },
+  "take_profits": {
+    "live_buys": 2,
+    "live_sells": 2,
+    "mode": "LIVE",
+    "proof": "LIVE mode sells/buys",
+    "symbol": "BLK",
+    "contract_redacted": "6YUGpQAA\u2026pump"
+  },
+  "lighter": {
+    "proof": "Raw desk recording",
+    "note": "Screen capture of live desk UI \u2014 journal JSONL not in this trust pack",
+    "label": "Desk UI (raw clip)"
+  },
+  "bots_honest": [
+    {
+      "name": "Arcus S/R",
+      "label": "LIVE journal proof",
+      "detail": "127 journal events \u00b7 24 symbols \u00b7 BTC etc."
+    },
+    {
+      "name": "Nado QQQ farm",
+      "label": "LIVE farm log",
+      "detail": "14 cycles \u00b7 init eq 5.9496 \u00b7 final dd -2.8794%"
+    },
+    {
+      "name": "Take-profits",
+      "label": "LIVE mode fills",
+      "detail": "2 buys \u00b7 2 sells (contracts truncated)"
+    },
+    {
+      "name": "Lighter desk",
+      "label": "Raw desk recording",
+      "detail": "UI capture only in this pack \u2014 no journal JSONL attached here"
+    },
+    {
+      "name": "Desk journal (overnight)",
+      "label": "LIVE journal proof",
+      "detail": "172 events \u00b7 36 symbols"
+    }
+  ],
+  "film_lower_thirds": {
+    "arcus": "Arcus \u00b7 127 journal events \u00b7 24 symbols \u00b7 BTC",
+    "nado": "Nado farm \u00b7 14 cycles \u00b7 eq 5.95\u21925.78 \u00b7 dd -2.8794%",
+    "lighter": "Lighter \u00b7 raw desk recording \u00b7 UI proof"
+  }
+}
