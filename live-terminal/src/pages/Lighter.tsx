@@ -19,7 +19,12 @@ export function Lighter() {
     try {
       const [books, st] = await Promise.all([fetchLighterBooks(), fetchLighterStats()])
       setBookCount(books.length)
-      setStats(st.slice(0, 80))
+      setStats(
+        [...st].sort(
+          (a, b) =>
+            (b.daily_quote_token_volume || 0) - (a.daily_quote_token_volume || 0),
+        ).slice(0, 80),
+      )
       setErr(null)
     } catch (e) {
       setErr(safeError(e))

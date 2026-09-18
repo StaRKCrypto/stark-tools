@@ -66,7 +66,13 @@ export function Nimbus() {
             tickets ${STRATEGY.minTicketUsd}–${STRATEGY.maxTicketUsd} · cap ${STRATEGY.hardCapUsd}
           </p>
         </div>
-        <button className="btn btn-primary" type="button" disabled={busy} onClick={onScan}>
+        <button
+          className="btn btn-primary"
+          type="button"
+          data-testid="nimbus-scan"
+          disabled={busy}
+          onClick={onScan}
+        >
           {busy ? 'Scanning…' : 'Scan markets'}
         </button>
       </div>
@@ -74,7 +80,12 @@ export function Nimbus() {
       <div className="grid-2">
         <div className="panel">
           <h2>
-            Cities {scan ? `· ${scan.cities.length} · ${scan.durationMs}ms` : ''}
+            Cities{' '}
+            {busy
+              ? '· scanning'
+              : scan
+                ? `· ${scan.cities.length} · ${scan.durationMs}ms`
+                : ''}
           </h2>
           <div style={{ overflow: 'auto', maxHeight: '62vh' }}>
             <table className="term">
@@ -118,10 +129,24 @@ export function Nimbus() {
                     </td>
                   </tr>
                 ))}
-                {!scan && (
+                {busy && (
+                  <tr>
+                    <td colSpan={6} className="muted">
+                      Scanning Gamma + weather snaps…
+                    </td>
+                  </tr>
+                )}
+                {!busy && !scan && (
                   <tr>
                     <td colSpan={6} className="muted">
                       Run scan — Gamma public-search + weather snaps + engine.
+                    </td>
+                  </tr>
+                )}
+                {!busy && scan && scan.cities.length === 0 && (
+                  <tr>
+                    <td colSpan={6} className="muted">
+                      No city rows{scan.error ? ` — ${scan.error}` : ' (Gamma returned no matched stations).'}
                     </td>
                   </tr>
                 )}
@@ -153,7 +178,13 @@ export function Nimbus() {
                     Stake USD
                     <input value={usd} onChange={(e) => setUsd(e.target.value)} />
                   </label>
-                  <button className="btn btn-primary" type="button" onClick={send} disabled={!s.hasKey}>
+                  <button
+                    className="btn btn-primary"
+                    type="button"
+                    data-testid="nimbus-send"
+                    onClick={send}
+                    disabled={!s.hasKey}
+                  >
                     {s.dryRun || !s.armed ? 'Send paper order' : 'Send / attempt live'}
                   </button>
                 </>
