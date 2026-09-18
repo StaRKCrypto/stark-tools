@@ -14,7 +14,7 @@ import { pushTape } from '../lib/activity'
 import { safeError } from '../lib/redact'
 import { VENUE } from '../lib/venues/links'
 import { snapFor } from '../lib/snaps'
-import { ageLabel, fmtPct, fmtUsd } from '../lib/format'
+import { ageLabel, fmtFund, fmtPct, fmtUsd } from '../lib/format'
 import { isArmed, isDryRun } from '../lib/vault'
 
 type SortKey = 'vol' | 'oi' | 'chg'
@@ -146,7 +146,7 @@ export function Lighter() {
         </div>
         <div>
           <span>24h</span>
-          <b className={`mono ${(row?.chg || 0) >= 0 ? 'ok' : 'bad'}`}>{fmtPct(row?.chg)}</b>
+          <b className={`mono ${(row?.chg || 0) >= 0 ? 'ok' : 'bad'}`}>{fmtPct(row?.chg, true)}</b>
         </div>
         <div>
           <span>Vol</span>
@@ -158,7 +158,7 @@ export function Lighter() {
         </div>
         <div>
           <span>Funding</span>
-          <b className="mono">{row?.fund ?? '—'}</b>
+          <b className="mono">{fmtFund(row?.fund)}</b>
         </div>
       </div>
 
@@ -195,10 +195,10 @@ export function Lighter() {
                 <tr key={r.symbol} className="clickable" onClick={() => setSym(r.symbol)}>
                   <td>{r.symbol}</td>
                   <td className="mono">{r.last_trade_price ?? r.mark_price ?? '—'}</td>
-                  <td className={r.chg >= 0 ? 'ok' : 'bad'}>{fmtPct(r.chg)}</td>
+                  <td className={r.chg >= 0 ? 'ok' : 'bad'}>{fmtPct(r.chg, true)}</td>
                   <td className="mono">{fmtUsd(r.vol)}</td>
                   <td className="mono">{r.open_interest ?? '—'}</td>
-                  <td className="mono">{r.fund ?? '—'}</td>
+                  <td className="mono">{fmtFund(r.fund)}</td>
                 </tr>
               ))}
             </tbody>

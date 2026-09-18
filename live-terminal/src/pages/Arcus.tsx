@@ -12,7 +12,7 @@ import { pushTape } from '../lib/activity'
 import { safeError } from '../lib/redact'
 import { VENUE } from '../lib/venues/links'
 import { snapFor } from '../lib/snaps'
-import { ageLabel, fmtPx, fmtUsd } from '../lib/format'
+import { ageLabel, fmtFund, fmtPct, fmtPx, fmtUsd } from '../lib/format'
 import { isArmed, isDryRun } from '../lib/vault'
 
 export function Arcus() {
@@ -115,7 +115,7 @@ export function Arcus() {
         </div>
         <div>
           <span>24h</span>
-          <b className="mono">{row?.priceChange24h ?? '—'}</b>
+          <b className="mono">{fmtPct(row?.priceChange24h)}</b>
         </div>
         <div>
           <span>Vol $</span>
@@ -127,7 +127,7 @@ export function Arcus() {
         </div>
         <div>
           <span>Funding</span>
-          <b className="mono">{row?.fundingRate ?? '—'}</b>
+          <b className="mono">{fmtFund(row?.fundingRate)}</b>
         </div>
         <div>
           <span>Bias / ATR</span>
@@ -186,7 +186,7 @@ export function Arcus() {
                   >
                     <td>{m.marketDisplayName}</td>
                     <td className="mono">{m.markPrice || m.lastTradePrice || '—'}</td>
-                    <td className="mono">{m.priceChange24h ?? '—'}</td>
+                    <td className="mono">{fmtPct(m.priceChange24h)}</td>
                     <td className="mono">{m.openInterest ?? '—'}</td>
                   </tr>
                 ))}

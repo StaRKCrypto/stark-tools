@@ -3,6 +3,7 @@ import { fetchLighterDetails, fetchLighterFunding, type LighterDetail } from './
 import { fetchNadoMarketPrice, x18ToNumber } from './venues/nado'
 import { loadSnaps, type DeskSnap } from './snaps'
 import { safeError } from './redact'
+import { fmtFund } from './format'
 
 export interface TrustCell {
   desk: 'arcus' | 'lighter' | 'nado'
@@ -36,8 +37,8 @@ export async function loadTrustFeed(): Promise<TrustFeed> {
       desk: 'arcus',
       label: 'Arcus BTC',
       mark: btc?.markPrice || btc?.lastTradePrice || btc?.lastPrice,
-      extra: btc
-        ? `OI ${btc.openInterest ?? '—'} · fund ${btc.fundingRate ?? '—'}`
+        extra: btc
+        ? `OI ${btc.openInterest ?? '—'} · fund ${fmtFund(btc.fundingRate)}`
         : 'no BTC row',
       snap: snapOf('arcus'),
       ok: Boolean(btc),
@@ -55,8 +56,8 @@ export async function loadTrustFeed(): Promise<TrustFeed> {
       desk: 'lighter',
       label: `Lighter ${btc?.symbol || 'BTC'}`,
       mark: btc?.mark_price || (btc?.last_trade_price != null ? String(btc.last_trade_price) : undefined),
-      extra: btc
-        ? `OI ${btc.open_interest ?? '—'} · fund ${fund?.rate ?? '—'}`
+          extra: btc
+        ? `OI ${btc.open_interest ?? '—'} · fund ${fmtFund(fund?.rate)}`
         : 'no book',
       snap: snapOf('lighter'),
       ok: Boolean(btc),
@@ -78,7 +79,7 @@ export async function loadTrustFeed(): Promise<TrustFeed> {
     cells.push({
       desk: 'nado',
       label: 'Nado QQQ-PERP',
-      mark: bid != null && ask != null ? `${bid} / ${ask}` : undefined,
+      mark: bid != null && ask != null ? `${bid.toFixed(2)} / ${ask.toFixed(2)}` : undefined,
       extra: 'product 98',
       snap: snapOf('nado'),
       ok: bid != null || ask != null,

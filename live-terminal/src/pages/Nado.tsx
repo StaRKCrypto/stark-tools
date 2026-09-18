@@ -12,7 +12,7 @@ import { pushTape } from '../lib/activity'
 import { safeError } from '../lib/redact'
 import { VENUE, nadoMarketParam } from '../lib/venues/links'
 import { snapFor } from '../lib/snaps'
-import { ageLabel, fmtUsd } from '../lib/format'
+import { ageLabel, fmtPx, fmtUsd } from '../lib/format'
 import { isArmed, isDryRun } from '../lib/vault'
 
 const NOTES = [
@@ -138,8 +138,8 @@ export function Nado() {
           <div key={w.id}>
             <span>{w.symbol}</span>
             <b className="mono">
-              <span className="ok">{px[w.id]?.bid ?? '—'}</span> /{' '}
-              <span className="bad">{px[w.id]?.ask ?? '—'}</span>
+              <span className="ok">{fmtPx(px[w.id]?.bid, 4)}</span> /{' '}
+              <span className="bad">{fmtPx(px[w.id]?.ask, 4)}</span>
             </b>
           </div>
         ))}

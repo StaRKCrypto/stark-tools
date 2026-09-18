@@ -24,6 +24,15 @@ export function fmtPct(n: number | string | null | undefined, alreadyPct = false
   return `${sign}${p.toFixed(2)}%`
 }
 
+/** Funding rates from venue APIs are fractions (e.g. 0.0001). */
+export function fmtFund(n: number | string | null | undefined): string {
+  if (n == null || n === '') return '—'
+  const v = typeof n === 'number' ? n : Number(n)
+  if (!Number.isFinite(v)) return '—'
+  const sign = v > 0 ? '+' : ''
+  return `${sign}${(v * 100).toFixed(4)}%`
+}
+
 export function fmtTime(iso?: string): string {
   if (!iso) return '—'
   const d = new Date(iso)
