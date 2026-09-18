@@ -3,12 +3,21 @@ import { ORIGIN } from '../endpoints'
 /**
  * Documented public gateway (docs.nado.xyz):
  *   GET https://api.prod.nado.xyz/gateway/v1/query?type=symbols&product_type=perp
- * This Cloud VM often receives Cloudflare 403; the Vite proxy may still work
- * locally. UI surfaces the HTTP error instead of fabricating a book.
+ * Cloudflare may 403 from some browsers; Vite proxy adds gzip Accept-Encoding.
+ * UI surfaces the HTTP error instead of fabricating a book.
  */
+const HDR: HeadersInit = { Accept: 'application/json' }
+
+export interface NadoSymbol {
+  type: string
+  product_id: number
+  symbol: string
+  trading_status?: string
+}
+
 export async function fetchNadoSymbols() {
   const url = `${ORIGIN.nado}/gateway/v1/query?type=symbols&product_type=perp`
-  const res = await fetch(url, { headers: { Accept: 'application/json' } })
+  const res = await fetch(url, { headers: HDR })
   const text = await res.text()
   if (!res.ok) {
     throw new Error(
@@ -18,9 +27,16 @@ export async function fetchNadoSymbols() {
   return JSON.parse(text)
 }
 
+export function parseNadoSymbols(raw: unknown): NadoSymbol[] {
+  const root = raw as { data?: { symbols?: Record<string, NadoSymbol> }; symbols?: Record<string, NadoSymbol> }
+  const map = root?.data?.symbols || root?.symbols
+  if (!map || typeof map !== 'object') return []
+  return Object.values(map)
+}
+
 export async function fetchNadoMarketPrice(productId: number) {
   const url = `${ORIGIN.nado}/gateway/v1/query?type=market_price&product_id=${productId}`
-  const res = await fetch(url, { headers: { Accept: 'application/json' } })
+  const res = await fetch(url, { headers: HDR })
   const text = await res.text()
   if (!res.ok) {
     throw new Error(`Nado market_price HTTP ${res.status}: ${text.slice(0, 120)}`)

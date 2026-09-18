@@ -7,26 +7,27 @@ import {
 } from '../lib/venues/arcus'
 import { analyzeSr } from '../lib/venues/sr'
 import { Tape } from '../components/Tape'
+import { VenueDock } from '../components/VenueDock'
 import { pushTape } from '../lib/activity'
 import { safeError } from '../lib/redact'
-import { useSession } from '../lib/session'
+import { VENUE } from '../lib/venues/links'
+import { snapFor } from '../lib/snaps'
+import { ageLabel, fmtPx, fmtUsd } from '../lib/format'
 import { isArmed, isDryRun } from '../lib/vault'
 
 export function Arcus() {
-  const s = useSession()
   const [markets, setMarkets] = useState<ArcusMarket[]>([])
   const [sym, setSym] = useState('BTC-USD')
   const [bbo, setBbo] = useState<{ bid?: string; ask?: string }>({})
   const [sr, setSr] = useState<ReturnType<typeof analyzeSr> | null>(null)
-  const [side, setSide] = useState<'BUY' | 'SELL'>('BUY')
-  const [qty, setQty] = useState('0.001')
   const [err, setErr] = useState<string | null>(null)
+  const snap = snapFor('arcus')
 
   async function load() {
     setErr(null)
     try {
       const m = await fetchArcusMarkets()
-      setMarkets(m.filter((x) => x.status === 'ONLINE').slice(0, 80))
+      setMarkets(m.filter((x) => x.status === 'ONLINE'))
       const book = await fetchArcusBbo(sym)
       setBbo({ bid: book.bestBid?.price, ask: book.bestAsk?.price })
       const candles = await fetchArcusCandles(sym, '15m', 80)
@@ -42,16 +43,18 @@ export function Arcus() {
     return () => clearInterval(id)
   }, [sym])
 
-  function submit() {
-    const ticket = `${side} ${qty} ${sym} @ mark ${sr?.px ?? '—'}`
+  const row = markets.find((m) => m.marketDisplayName === sym)
+
+  function logIntent(side: 'BUY' | 'SELL') {
+    const ticket = `${side} ${sym} @ mark ${sr?.px ?? '—'}`
     if (isDryRun() || !isArmed()) {
-      pushTape('arcus', 'paper', `PAPER ${ticket} (Ed25519 placeOrder not sent)`, { side }, true)
+      pushTape('arcus', 'paper', `PAPER intent ${ticket} — send on Arcus`, { side }, true)
       return
     }
     pushTape(
       'arcus',
       'block',
-      'LIVE Arcus placeOrder is a stub here. Needs ARCUS_API_PRIVATE_KEY (32-byte Ed25519 seed) + Scheme 1 signing from arcus_client.py — not an EVM key.',
+      'LIVE Arcus placeOrder is not in this companion. Use the venue (Ed25519 Scheme 1).',
       { side },
       false,
     )
@@ -61,99 +64,138 @@ export function Arcus() {
     <div className="page">
       <div className="page-h">
         <div>
-          <h1>Arcus · S/R desk</h1>
-          <p>Public REST api.arcus.xyz · swings/ATR/bias ported from sr_loop.py</p>
+          <h1>Arcus companion</h1>
+          <p>Our edge: swing S/R from live 15m candles. Trading UI: app.arcus.xyz</p>
         </div>
         <button className="btn" type="button" onClick={() => void load()}>
           Refresh
         </button>
       </div>
       {err && <div className="bad">{err}</div>}
-      <div className="grid-3">
-        <div className="stat">
-          <div className="lbl">Last / mark</div>
-          <div className="val">{sr?.px ? sr.px.toFixed(2) : '—'}</div>
-        </div>
-        <div className="stat">
-          <div className="lbl">BBO</div>
-          <div className="val">
-            {bbo.bid ?? '—'} / {bbo.ask ?? '—'}
-          </div>
-        </div>
-        <div className="stat">
-          <div className="lbl">Bias · ATR</div>
-          <div className="val">
-            {sr?.bias ?? '—'} · {sr?.atr ? sr.atr.toFixed(2) : '—'}
+      <div className="split">
+        <VenueDock name="Arcus" href={VENUE.arcusTrade(sym)} marketsHref={VENUE.arcusHome} />
+        <div className="panel">
+          <h2>Journal</h2>
+          <div className="panel-body">
+            <div className="kv">
+              <span>Equity</span>
+              <b className="mono">{fmtUsd(snap?.equityUsd)}</b>
+            </div>
+            <div className="kv">
+              <span>Opens</span>
+              <b className="mono">{snap ? snap.opens.length : '—'}</b>
+            </div>
+            <div className="kv">
+              <span>Snap</span>
+              <b className="mono">{ageLabel(snap?.at)}</b>
+            </div>
+            {(snap?.opens || []).map((o) => (
+              <div key={o.market + o.side} className="tiny mono">
+                {o.side} {o.size} {o.market} @{o.entry ?? '—'}
+              </div>
+            ))}
           </div>
         </div>
       </div>
-      <div className="grid-2">
+
+      <div className="ticker">
+        <div>
+          <span>Mark</span>
+          <b className="mono">{row?.markPrice ?? fmtPx(sr?.px)}</b>
+        </div>
+        <div>
+          <span>Index</span>
+          <b className="mono">{row?.oraclePrice || row?.indexPrice || '—'}</b>
+        </div>
+        <div>
+          <span>BBO</span>
+          <b className="mono">
+            <span className="ok">{bbo.bid ?? '—'}</span> / <span className="bad">{bbo.ask ?? '—'}</span>
+          </b>
+        </div>
+        <div>
+          <span>24h</span>
+          <b className="mono">{row?.priceChange24h ?? '—'}</b>
+        </div>
+        <div>
+          <span>Vol $</span>
+          <b className="mono">{row?.volume24hNotional ?? '—'}</b>
+        </div>
+        <div>
+          <span>OI</span>
+          <b className="mono">{row?.openInterest ?? '—'}</b>
+        </div>
+        <div>
+          <span>Funding</span>
+          <b className="mono">{row?.fundingRate ?? '—'}</b>
+        </div>
+        <div>
+          <span>Bias / ATR</span>
+          <b className="mono">
+            {sr?.bias ?? '—'} · {sr?.atr ? sr.atr.toFixed(2) : '—'}
+          </b>
+        </div>
+      </div>
+
+      <div className="split">
         <div className="panel">
-          <h2>Markets</h2>
-          <div style={{ maxHeight: '52vh', overflow: 'auto' }}>
+          <h2>S/R · {sym}</h2>
+          <div className="panel-body">
+            <div className="kv">
+              <span>Support</span>
+              <b className="mono ok">
+                {sr?.support ?? '—'} ({sr?.supportZone ?? '—'})
+              </b>
+            </div>
+            <div className="kv">
+              <span>Resist</span>
+              <b className="mono bad">
+                {sr?.resist ?? '—'} ({sr?.resistZone ?? '—'})
+              </b>
+            </div>
+            <div className="tiny">Highs {sr?.swingHighs.map((n) => n.toFixed(1)).join(', ') || '—'}</div>
+            <div className="tiny">Lows {sr?.swingLows.map((n) => n.toFixed(1)).join(', ') || '—'}</div>
+            <div className="row" style={{ marginTop: 8 }}>
+              <button className="btn btn-buy" type="button" onClick={() => logIntent('BUY')}>
+                Log BUY intent
+              </button>
+              <button className="btn btn-sell" type="button" onClick={() => logIntent('SELL')}>
+                Log SELL intent
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="panel">
+          <h2>Online markets</h2>
+          <div className="scroll">
             <table className="term">
               <thead>
                 <tr>
-                  <th>Symbol</th>
-                  <th>Id</th>
-                  <th>Tick</th>
+                  <th>Market</th>
+                  <th>Mark</th>
+                  <th>24h</th>
+                  <th>OI</th>
                 </tr>
               </thead>
               <tbody>
-                {markets.map((m) => (
+                {markets.slice(0, 80).map((m) => (
                   <tr
                     key={m.marketId}
                     className="clickable"
                     onClick={() => setSym(m.marketDisplayName)}
                   >
                     <td>{m.marketDisplayName}</td>
-                    <td className="mono">{m.marketId}</td>
-                    <td className="mono">{m.tickSize}</td>
+                    <td className="mono">{m.markPrice || m.lastTradePrice || '—'}</td>
+                    <td className="mono">{m.priceChange24h ?? '—'}</td>
+                    <td className="mono">{m.openInterest ?? '—'}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         </div>
-        <div>
-          <div className="panel" style={{ marginBottom: 12 }}>
-            <h2>S/R · {sym}</h2>
-            <div className="panel-body">
-              <div>Support {sr?.support ?? '—'} ({sr?.supportZone ?? '—'})</div>
-              <div>Resist {sr?.resist ?? '—'} ({sr?.resistZone ?? '—'})</div>
-              <div className="tiny">
-                Highs {sr?.swingHighs.map((n) => n.toFixed(1)).join(', ') || '—'}
-              </div>
-            </div>
-          </div>
-          <div className="panel" style={{ marginBottom: 12 }}>
-            <h2>Order ticket</h2>
-            <div className="panel-body ticket">
-              <div className="row">
-                <button className="btn" type="button" onClick={() => setSide('BUY')}>
-                  BUY
-                </button>
-                <button className="btn" type="button" onClick={() => setSide('SELL')}>
-                  SELL
-                </button>
-              </div>
-              <label className="field">
-                Quantity
-                <input value={qty} onChange={(e) => setQty(e.target.value)} />
-              </label>
-              <button className="btn btn-primary" type="button" onClick={submit} disabled={!s.hasKey && !s.dryRun}>
-                {s.dryRun || !s.armed ? 'Paper ticket' : 'Submit (stub)'}
-              </button>
-              <div className="stub">
-                Execution stub: Arcus orders use Ed25519 Scheme 1 (not the EVM vault key). Attach
-                arcus_client.py / a local signer before LIVE. Host allowlist api.arcus.xyz only.
-                Vault is {s.hasKey ? 'present (EVM)' : 'empty'}.
-              </div>
-            </div>
-          </div>
-          <Tape desk="arcus" />
-        </div>
       </div>
+      <Tape desk="arcus" />
     </div>
   )
 }

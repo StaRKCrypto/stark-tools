@@ -37,6 +37,11 @@ export default defineConfig({
       '/proxy/nado': {
         ...proxy('https://api.prod.nado.xyz'),
         rewrite: (p) => p.replace(/^\/proxy\/nado/, ''),
+        configure(p: { on: (ev: string, fn: (req: { setHeader: (k: string, v: string) => void }) => void) => void }) {
+          p.on('proxyReq', (req) => {
+            req.setHeader('Accept-Encoding', 'gzip, deflate, br')
+          })
+        },
       },
       '/proxy/ensemble': {
         ...proxy('https://ensemble-api.open-meteo.com'),

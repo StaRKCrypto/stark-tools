@@ -47,6 +47,40 @@ describe('seadrop', () => {
   })
 })
 
+import { parseNadoSymbols } from '../lib/venues/nado'
+import { parseSnapPayload } from '../lib/snaps'
+import { nadoMarketParam } from '../lib/venues/links'
+
+describe('desk snaps', () => {
+  it('parses nado equity/opens and ignores unknown desks', () => {
+    const snaps = parseSnapPayload({
+      snaps: [
+        {
+          venue: 'nado',
+          equityUsd: 1284.5,
+          opens: [{ market: 'QQQ-PERP', side: 'LONG', size: '0.14', entry: '722.4' }],
+          at: '2026-09-18T22:00:00Z',
+        },
+        { desk: 'unknown', equity: 1 },
+      ],
+    })
+    expect(snaps).toHaveLength(1)
+    expect(snaps[0].venue).toBe('nado')
+    expect(snaps[0].equityUsd).toBe(1284.5)
+    expect(snaps[0].opens[0].market).toBe('QQQ-PERP')
+  })
+})
+
+describe('nado symbols parse', () => {
+  it('reads gateway map', () => {
+    const rows = parseNadoSymbols({
+      data: { symbols: { 'QQQ-PERP': { type: 'perp', product_id: 98, symbol: 'QQQ-PERP' } } },
+    })
+    expect(rows[0].product_id).toBe(98)
+    expect(nadoMarketParam('QQQ-PERP')).toBe('QQQ')
+  })
+})
+
 describe('sr swings', () => {
   it('finds a pivot high', () => {
     const c = [1, 2, 3, 8, 3, 2, 1].map((h, i) => ({
