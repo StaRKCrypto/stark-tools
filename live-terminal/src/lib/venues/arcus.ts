@@ -9,8 +9,19 @@ export interface ArcusMarket {
   tickSize: string
   stepSize: string
   lastPrice?: string
+  lastTradePrice?: string
   markPrice?: string
   indexPrice?: string
+  oraclePrice?: string
+  fundingRate?: string
+  nextFundingRate?: string
+  nextFundingAt?: number
+  priceChange24h?: string
+  volume24h?: string
+  volume24hNotional?: string
+  openInterest?: string
+  type?: string
+  category?: string
 }
 
 export interface Candle {

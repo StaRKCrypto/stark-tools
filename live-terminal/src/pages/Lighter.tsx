@@ -1,30 +1,44 @@
 import { useEffect, useState } from 'react'
-import { fetchLighterBooks, fetchLighterStats, type LighterStat } from '../lib/venues/lighter'
+import {
+  fetchLighterBooks,
+  fetchLighterDetails,
+  fetchLighterFunding,
+  fetchLighterStats,
+  type LighterDetail,
+  type LighterFunding,
+  type LighterStat,
+} from '../lib/venues/lighter'
 import { Tape } from '../components/Tape'
+import { VenueDock } from '../components/VenueDock'
 import { pushTape } from '../lib/activity'
 import { safeError } from '../lib/redact'
-import { useSession } from '../lib/session'
+import { VENUE } from '../lib/venues/links'
+import { fmtFund, fmtNum, fmtPct, fmtUsd } from '../lib/format'
 import { isArmed, isDryRun } from '../lib/vault'
 
+type SortKey = 'vol' | 'oi' | 'chg'
+
 export function Lighter() {
-  const s = useSession()
   const [stats, setStats] = useState<LighterStat[]>([])
+  const [details, setDetails] = useState<LighterDetail[]>([])
+  const [funds, setFunds] = useState<LighterFunding[]>([])
   const [sym, setSym] = useState('BTC')
-  const [side, setSide] = useState<'BUY' | 'SELL'>('BUY')
-  const [qty, setQty] = useState('0.01')
+  const [sort, setSort] = useState<SortKey>('vol')
   const [err, setErr] = useState<string | null>(null)
   const [bookCount, setBookCount] = useState(0)
 
   async function load() {
     try {
-      const [books, st] = await Promise.all([fetchLighterBooks(), fetchLighterStats()])
+      const [books, st, det, fr] = await Promise.all([
+        fetchLighterBooks(),
+        fetchLighterStats(),
+        fetchLighterDetails(),
+        fetchLighterFunding(),
+      ])
       setBookCount(books.length)
-      setStats(
-        [...st].sort(
-          (a, b) =>
-            (b.daily_quote_token_volume || 0) - (a.daily_quote_token_volume || 0),
-        ).slice(0, 80),
-      )
+      setStats(st)
+      setDetails(det.order_book_details || [])
+      setFunds(fr.filter((x) => x.exchange === 'lighter'))
       setErr(null)
     } catch (e) {
       setErr(safeError(e))
@@ -37,18 +51,35 @@ export function Lighter() {
     return () => clearInterval(id)
   }, [])
 
-  const row = stats.find((x) => x.symbol === sym) || stats[0]
+  const rows = details
+    .map((d) => {
+      const st = stats.find((s) => s.symbol === d.symbol)
+      const fund = funds.find((f) => f.symbol === d.symbol)
+      return {
+        ...d,
+        vol: d.daily_quote_token_volume ?? st?.daily_quote_token_volume ?? 0,
+        chg: d.daily_price_change ?? st?.daily_price_change ?? 0,
+        fund: fund?.rate,
+      }
+    })
+    .sort((a, b) => {
+      if (sort === 'oi') return (b.open_interest || 0) - (a.open_interest || 0)
+      if (sort === 'chg') return Math.abs(b.chg) - Math.abs(a.chg)
+      return (b.vol || 0) - (a.vol || 0)
+    })
 
-  function submit() {
-    const t = `${side} ${qty} ${row?.symbol || sym} @ ${row?.last_trade_price ?? '—'}`
+  const row = rows.find((x) => x.symbol === sym) || rows[0]
+
+  function logIntent(side: 'BUY' | 'SELL') {
+    const t = `${side} ${row?.symbol || sym} @ ${row?.last_trade_price ?? '—'}`
     if (isDryRun() || !isArmed()) {
-      pushTape('lighter', 'paper', `PAPER ${t}`, { side }, true)
+      pushTape('lighter', 'paper', `PAPER intent ${t} — send on Lighter`, { side }, true)
       return
     }
     pushTape(
       'lighter',
       'block',
-      'LIVE Lighter send is a stub. Private lighter-*.env signer is intentionally not in this repo.',
+      'LIVE Lighter send is not in this companion. Private signer stays off this host.',
       { side },
       false,
     )
@@ -56,78 +87,105 @@ export function Lighter() {
 
   return (
     <div className="page">
+      <VenueDock
+        name="Lighter"
+        href={VENUE.lighterTrade(row?.symbol || sym)}
+        marketsHref={VENUE.lighterMarkets}
+      />
       <div className="page-h">
         <div>
-          <h1>Lighter · public books</h1>
-          <p>
-            mainnet.zklighter.elliot.ai orderBooks + exchangeStats · {bookCount} markets
-          </p>
+          <h1>{row?.symbol || sym}</h1>
+          <p>{bookCount} public books. Chart/book/ticket on app.lighter.xyz.</p>
         </div>
         <button className="btn" type="button" onClick={() => void load()}>
           Refresh
         </button>
       </div>
       {err && <div className="bad">{err}</div>}
-      <div className="grid-2">
-        <div className="panel">
-          <h2>Stats</h2>
-          <div style={{ maxHeight: '64vh', overflow: 'auto' }}>
-            <table className="term">
-              <thead>
-                <tr>
-                  <th>Sym</th>
-                  <th>Last</th>
-                  <th>Δ 24h</th>
-                  <th>Trades</th>
-                </tr>
-              </thead>
-              <tbody>
-                {stats.map((r) => (
-                  <tr key={r.symbol} className="clickable" onClick={() => setSym(r.symbol)}>
-                    <td>{r.symbol}</td>
-                    <td className="mono">{r.last_trade_price}</td>
-                    <td className={r.daily_price_change >= 0 ? 'ok' : 'bad'}>
-                      {(r.daily_price_change * 100).toFixed(2)}%
-                    </td>
-                    <td className="mono">{r.daily_trades_count}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+
+      <div className="ticker">
+        <div>
+          <span>Mark</span>
+          <b className="mono">{row?.mark_price ?? '—'}</b>
         </div>
         <div>
-          <div className="panel" style={{ marginBottom: 12 }}>
-            <h2>Ticket · {row?.symbol || sym}</h2>
-            <div className="panel-body ticket">
-              <div className="stat">
-                <div className="lbl">Last trade</div>
-                <div className="val">{row?.last_trade_price ?? '—'}</div>
-              </div>
-              <div className="row">
-                <button className="btn" type="button" onClick={() => setSide('BUY')}>
-                  BUY
-                </button>
-                <button className="btn" type="button" onClick={() => setSide('SELL')}>
-                  SELL
-                </button>
-              </div>
-              <label className="field">
-                Size
-                <input value={qty} onChange={(e) => setQty(e.target.value)} />
-              </label>
-              <button className="btn btn-primary" type="button" onClick={submit}>
-                {s.dryRun || !s.armed ? 'Paper ticket' : 'Submit (stub)'}
-              </button>
-              <div className="stub">
-                Execution stub until the RH Lighter API signer is attached. Public market data
-                above is live. Do not commit lighter-*.env.
-              </div>
-            </div>
-          </div>
-          <Tape desk="lighter" />
+          <span>Index</span>
+          <b className="mono">{row?.index_price ?? '—'}</b>
+        </div>
+        <div>
+          <span>Last</span>
+          <b className="mono">{row?.last_trade_price ?? '—'}</b>
+        </div>
+        <div>
+          <span>24h</span>
+          <b className={`mono ${(row?.chg || 0) >= 0 ? 'ok' : 'bad'}`}>{fmtPct(row?.chg, true)}</b>
+        </div>
+        <div>
+          <span>Vol</span>
+          <b className="mono">{fmtUsd(row?.vol)}</b>
+        </div>
+        <div>
+          <span>OI</span>
+          <b className="mono">{fmtNum(row?.open_interest)}</b>
+        </div>
+        <div>
+          <span>Funding</span>
+          <b className="mono">{fmtFund(row?.fund)}</b>
         </div>
       </div>
+
+      <div className="panel">
+        <h2>
+          Public perps
+          <span className="tiny" style={{ marginLeft: 8 }}>
+            sort
+            <button className="btn" type="button" onClick={() => setSort('vol')}>
+              vol
+            </button>
+            <button className="btn" type="button" onClick={() => setSort('oi')}>
+              OI
+            </button>
+            <button className="btn" type="button" onClick={() => setSort('chg')}>
+              24h
+            </button>
+          </span>
+        </h2>
+        <div className="scroll">
+          <table className="term">
+            <thead>
+              <tr>
+                <th>Market</th>
+                <th className="num">Last</th>
+                <th className="num">24h</th>
+                <th className="num">Vol</th>
+                <th className="num">OI</th>
+                <th className="num">Funding</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.slice(0, 120).map((r) => (
+                <tr key={r.symbol} className="clickable" onClick={() => setSym(r.symbol)}>
+                  <td>{r.symbol}</td>
+                  <td className="num mono">{r.last_trade_price ?? r.mark_price ?? '—'}</td>
+                  <td className={`num ${r.chg >= 0 ? 'ok' : 'bad'}`}>{fmtPct(r.chg, true)}</td>
+                  <td className="num mono">{fmtUsd(r.vol)}</td>
+                  <td className="num mono">{fmtNum(r.open_interest)}</td>
+                  <td className="num mono">{fmtFund(r.fund)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div className="row">
+        <button className="btn btn-buy" type="button" onClick={() => logIntent('BUY')}>
+          Log BUY intent
+        </button>
+        <button className="btn btn-sell" type="button" onClick={() => logIntent('SELL')}>
+          Log SELL intent
+        </button>
+      </div>
+      <Tape desk="lighter" />
     </div>
   )
 }

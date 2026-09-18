@@ -12,7 +12,7 @@ export function Tape({ desk }: { desk?: string }) {
 
   return (
     <div className="panel">
-      <h2>Activity</h2>
+      <h2>Activity tape{desk ? ` · ${desk}` : ''}</h2>
       <div className="log">
         <table className="term">
           <thead>
