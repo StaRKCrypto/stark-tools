@@ -1,0 +1,22 @@
+{
+  "updated": "2026-09-18T22:47:31Z",
+  "host": "msi",
+  "farm": "multi",
+  "equity": 23.709579324722593,
+  "start_equity": 15.032627876905497,
+  "drawdown_pct": 57.7208,
+  "halt": false,
+  "halt_drawdown_cfg": 0.0,
+  "ticks_out": 16,
+  "requote_bps": 8.0,
+  "requote_ticks": 5,
+  "max_quote_age_sec": 300.0,
+  "flatten_style": "post_only",
+  "status": "RUNNING",
+  "pair": "WTI-PERP",
+  "productId": 90,
+  "mode": "FLATTEN_LONG",
+  "pos": 0.66,
+  "bid": 95.317,
+  "ask": 95.318
+}
