@@ -1,0 +1,812 @@
+[
+  {
+    "desk": "Take-profits",
+    "ts": "2026-09-18 20:13:48.993 UTC",
+    "t": 0,
+    "symbol": "BLK",
+    "side": "buy",
+    "event": "live_buy",
+    "size": 72861.35,
+    "proof": "LIVE mode",
+    "contract": "6YUGpQAA\u2026pump",
+    "tx": "2VcCUiW8iV\u2026CjTm",
+    "usd": 10
+  },
+  {
+    "desk": "Take-profits",
+    "ts": "2026-09-18 17:31:55.105 UTC",
+    "t": 0,
+    "symbol": "BLK",
+    "side": "buy",
+    "event": "live_buy",
+    "size": 131646.35,
+    "proof": "LIVE mode",
+    "contract": "6YUGpQAA\u2026pump",
+    "tx": "62D2D9Rh3x\u2026PX6e",
+    "usd": 29
+  },
+  {
+    "desk": "Take-profits",
+    "ts": "2026-09-18 15:38:44.528 UTC",
+    "t": 0,
+    "symbol": "BLK",
+    "side": "sell",
+    "event": "live_sell",
+    "size": 168555,
+    "proof": "LIVE mode",
+    "contract": "6YUGpQAA\u2026pump",
+    "tx": "3nwJQvB2HR\u2026PkJL"
+  },
+  {
+    "desk": "Take-profits",
+    "ts": "2026-09-18 15:24:24.670 UTC",
+    "t": 0,
+    "symbol": "BLK",
+    "side": "sell",
+    "event": "live_sell",
+    "size": 337109,
+    "proof": "LIVE mode",
+    "contract": "6YUGpQAA\u2026pump",
+    "tx": "5UgQ84WPFL\u2026m278"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 22:48:33",
+    "t": 1789147113,
+    "symbol": "SKHY",
+    "side": "long",
+    "event": "sync_open",
+    "size": 1.268525,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 22:46:30",
+    "t": 1789146990,
+    "symbol": "SKHY",
+    "side": "long",
+    "event": "scale_in",
+    "size": 2.532864,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 22:38:32",
+    "t": 1789146512,
+    "symbol": "SPCX",
+    "side": "long",
+    "event": "sync_open",
+    "size": 0.130752,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 22:37:20",
+    "t": 1789146440,
+    "symbol": "BABA",
+    "side": "long",
+    "event": "scale_in",
+    "size": 4.2457,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 22:35:14",
+    "t": 1789146314,
+    "symbol": "SPCX",
+    "side": "long",
+    "event": "sync_open",
+    "size": 0.287655,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 22:26:29",
+    "t": 1789145789,
+    "symbol": "SKHY",
+    "side": "long",
+    "event": "sync_open",
+    "size": 1.264339,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 22:24:49",
+    "t": 1789145689,
+    "symbol": "SOFI",
+    "side": "long",
+    "event": "close",
+    "size": 2.068,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 22:24:49",
+    "t": 1789145689,
+    "symbol": "ZEC",
+    "side": "long",
+    "event": "close",
+    "size": 0.0916,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 22:24:22",
+    "t": 1789145662,
+    "symbol": "SKHY",
+    "side": "long",
+    "event": "scale_in",
+    "size": 1.899653,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 22:19:44",
+    "t": 1789145384,
+    "symbol": "ZEC",
+    "side": "long",
+    "event": "open",
+    "size": 0.064176,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 22:16:35",
+    "t": 1789145195,
+    "symbol": "CRWV",
+    "side": "long",
+    "event": "close",
+    "size": 0.346776,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 22:14:42",
+    "t": 1789145082,
+    "symbol": "SKHY",
+    "side": "long",
+    "event": "open",
+    "size": 0.635314,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 22:11:03",
+    "t": 1789144863,
+    "symbol": "SKHY",
+    "side": "long",
+    "event": "open",
+    "size": 0.4256,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 21:52:31",
+    "t": 1789143751,
+    "symbol": "PENGU",
+    "side": "long",
+    "event": "close",
+    "size": 15750.5607,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 21:51:43",
+    "t": 1789143703,
+    "symbol": "BABA",
+    "side": "long",
+    "event": "open",
+    "size": 1.5339,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 21:47:00",
+    "t": 1789143420,
+    "symbol": "PENGU",
+    "side": "long",
+    "event": "sync_open",
+    "size": 15750.5607,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 21:44:40",
+    "t": 1789143280,
+    "symbol": "ZEC",
+    "side": "long",
+    "event": "open",
+    "size": 0.0916,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 21:43:37",
+    "t": 1789143217,
+    "symbol": "PENGU",
+    "side": "long",
+    "event": "scale_in",
+    "size": 24418.6331,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 21:39:05",
+    "t": 1789142945,
+    "symbol": "PONS",
+    "side": "long",
+    "event": "close",
+    "size": 25.4,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 21:33:52",
+    "t": 1789142632,
+    "symbol": "PENGU",
+    "side": "long",
+    "event": "open",
+    "size": 8668.0724,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 21:29:29",
+    "t": 1789142369,
+    "symbol": "UNI",
+    "side": "long",
+    "event": "close",
+    "size": 4.78985,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 21:28:03",
+    "t": 1789142283,
+    "symbol": "SPCX",
+    "side": "long",
+    "event": "open",
+    "size": 0.523009,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 21:04:33",
+    "t": 1789140873,
+    "symbol": "META",
+    "side": "long",
+    "event": "close",
+    "size": 0.103308,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 20:53:35",
+    "t": 1789140215,
+    "symbol": "PLTR",
+    "side": "long",
+    "event": "close",
+    "size": 1.019,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 20:53:35",
+    "t": 1789140215,
+    "symbol": "SPCX",
+    "side": "long",
+    "event": "close",
+    "size": 0.4867,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 20:48:24",
+    "t": 1789139904,
+    "symbol": "META",
+    "side": "long",
+    "event": "sync_open",
+    "size": 0.103308,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 20:39:35",
+    "t": 1789139375,
+    "symbol": "META",
+    "side": "long",
+    "event": "open",
+    "size": 0.187833,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 20:28:01",
+    "t": 1789138681,
+    "symbol": "PLTR",
+    "side": "long",
+    "event": "close",
+    "size": 0.748696,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 20:26:34",
+    "t": 1789138594,
+    "symbol": "BABA",
+    "side": "long",
+    "event": "open",
+    "size": 0.784459,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 20:08:39",
+    "t": 1789137519,
+    "symbol": "BOT",
+    "side": "long",
+    "event": "close",
+    "size": 4.500436,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 20:06:22",
+    "t": 1789137382,
+    "symbol": "PLTR",
+    "side": "long",
+    "event": "open",
+    "size": 0.748696,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 19:59:04",
+    "t": 1789136944,
+    "symbol": "SPCX",
+    "side": "long",
+    "event": "open",
+    "size": 0.4867,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 19:56:58",
+    "t": 1789136818,
+    "symbol": "WLFI",
+    "side": "short",
+    "event": "open",
+    "size": 1839.119,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 19:49:33",
+    "t": 1789136373,
+    "symbol": "CRWV",
+    "side": "long",
+    "event": "sync_open",
+    "size": 0.346776,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 19:48:57",
+    "t": 1789136337,
+    "symbol": "PLTR",
+    "side": "long",
+    "event": "open",
+    "size": 1.019,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 19:42:39",
+    "t": 1789135959,
+    "symbol": "BOT",
+    "side": "long",
+    "event": "open",
+    "size": 4.500436,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 19:41:16",
+    "t": 1789135876,
+    "symbol": "CRWV",
+    "side": "long",
+    "event": "open",
+    "size": 1.387103,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 19:23:45",
+    "t": 1789134825,
+    "symbol": "UNI",
+    "side": "long",
+    "event": "sync_open",
+    "size": 4.78985,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 19:23:45",
+    "t": 1789134825,
+    "symbol": "BTC",
+    "side": "short",
+    "event": "close",
+    "size": 0.000383,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 19:23:45",
+    "t": 1789134825,
+    "symbol": "BABA",
+    "side": "long",
+    "event": "close",
+    "size": 0.098937,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 19:23:45",
+    "t": 1789134825,
+    "symbol": "HYPE",
+    "side": "short",
+    "event": "close",
+    "size": 1.566798,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 19:22:32",
+    "t": 1789134752,
+    "symbol": "AAPL",
+    "side": "long",
+    "event": "close",
+    "size": 0.0604,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 19:22:32",
+    "t": 1789134752,
+    "symbol": "CASHCAT",
+    "side": "short",
+    "event": "close",
+    "size": 288.4,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 19:22:32",
+    "t": 1789134752,
+    "symbol": "SKHY",
+    "side": "long",
+    "event": "close",
+    "size": 0.9598,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 19:12:22",
+    "t": 1789134142,
+    "symbol": "SOFI",
+    "side": "long",
+    "event": "open",
+    "size": 8.269,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 19:09:11",
+    "t": 1789133951,
+    "symbol": "SKHY",
+    "side": "long",
+    "event": "open",
+    "size": 0.9598,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 19:04:27",
+    "t": 1789133667,
+    "symbol": "PONS",
+    "side": "long",
+    "event": "open",
+    "size": 101.1,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 18:58:11",
+    "t": 1789133291,
+    "symbol": "AAPL",
+    "side": "long",
+    "event": "close",
+    "size": 0.124192,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 18:52:43",
+    "t": 1789132963,
+    "symbol": "UNI",
+    "side": "long",
+    "event": "open",
+    "size": 19.159398,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 18:47:07",
+    "t": 1789132627,
+    "symbol": "ENA",
+    "side": "short",
+    "event": "close",
+    "size": 928.37132,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 18:34:53",
+    "t": 1789131893,
+    "symbol": "ENA",
+    "side": "short",
+    "event": "sync_open",
+    "size": 928.37132,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 18:32:09",
+    "t": 1789131729,
+    "symbol": "ENA",
+    "side": "short",
+    "event": "sync_open",
+    "size": 1687.94785,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 18:29:37",
+    "t": 1789131577,
+    "symbol": "ENA",
+    "side": "short",
+    "event": "scale_in",
+    "size": 2532.52989,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 18:28:40",
+    "t": 1789131520,
+    "symbol": "BABA",
+    "side": "long",
+    "event": "sync_open",
+    "size": 0.098937,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 18:26:23",
+    "t": 1789131383,
+    "symbol": "ENA",
+    "side": "short",
+    "event": "open",
+    "size": 844.58204,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 18:22:26",
+    "t": 1789131146,
+    "symbol": "CASHCAT",
+    "side": "short",
+    "event": "open",
+    "size": 524.3,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 18:19:56",
+    "t": 1789130996,
+    "symbol": "BNB",
+    "side": "short",
+    "event": "close",
+    "size": 0.017289,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 18:18:37",
+    "t": 1789130917,
+    "symbol": "AAPL",
+    "side": "long",
+    "event": "open",
+    "size": 0.1097,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 18:13:02",
+    "t": 1789130582,
+    "symbol": "BTC",
+    "side": "short",
+    "event": "close",
+    "size": 0.00143,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 18:13:02",
+    "t": 1789130582,
+    "symbol": "SOL",
+    "side": "short",
+    "event": "close",
+    "size": 0.716,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 18:13:02",
+    "t": 1789130582,
+    "symbol": "XRP",
+    "side": "short",
+    "event": "close",
+    "size": 16.25,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 18:13:02",
+    "t": 1789130582,
+    "symbol": "CRCL",
+    "side": "short",
+    "event": "close",
+    "size": 0.342,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 18:13:02",
+    "t": 1789130582,
+    "symbol": "ZEC",
+    "side": "short",
+    "event": "close",
+    "size": 0.1667,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 18:10:22",
+    "t": 1789130423,
+    "symbol": "BABA",
+    "side": "long",
+    "event": "sync_open",
+    "size": 0.217661,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 18:07:41",
+    "t": 1789130261,
+    "symbol": "HYPE",
+    "side": "short",
+    "event": "open",
+    "size": 1.566798,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 18:05:26",
+    "t": 1789130126,
+    "symbol": "SOL",
+    "side": "short",
+    "event": "close",
+    "size": 0.317697,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 18:02:11",
+    "t": 1789129931,
+    "symbol": "SOL",
+    "side": "short",
+    "event": "sync_open",
+    "size": 0.317697,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 17:50:02",
+    "t": 1789129202,
+    "symbol": "SOL",
+    "side": "short",
+    "event": "open",
+    "size": 1.270787,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 17:49:05",
+    "t": 1789129145,
+    "symbol": "ZEC",
+    "side": "short",
+    "event": "close",
+    "size": 0.327204,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 17:39:30",
+    "t": 1789128570,
+    "symbol": "ZEC",
+    "side": "short",
+    "event": "sync_open",
+    "size": 0.327204,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 17:34:37",
+    "t": 1789128277,
+    "symbol": "ZEC",
+    "side": "short",
+    "event": "open",
+    "size": 0.1667,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 17:23:17",
+    "t": 1789127597,
+    "symbol": "ZEC",
+    "side": "short",
+    "event": "close",
+    "size": 0.9659,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 17:19:18",
+    "t": 1789127358,
+    "symbol": "ZEC",
+    "side": "short",
+    "event": "open",
+    "size": 0.594916,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Arcus",
+    "ts": "2026-09-11 17:16:15",
+    "t": 1789127175,
+    "symbol": "SOL",
+    "side": "short",
+    "event": "close",
+    "size": 0.93937,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 17:04:15",
+    "t": 1789126455,
+    "symbol": "ZEC",
+    "side": "short",
+    "event": "open",
+    "size": 0.9659,
+    "proof": "LIVE journal"
+  },
+  {
+    "desk": "Desk journal",
+    "ts": "2026-09-11 16:58:41",
+    "t": 1789126121,
+    "symbol": "ANSEM",
+    "side": "short",
+    "event": "close",
+    "size": 116.8,
+    "proof": "LIVE journal"
+  }
+]

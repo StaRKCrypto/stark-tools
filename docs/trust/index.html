@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>StaRK Trust Proof — Working desks · Real journals</title>
+<meta name="robots" content="noindex,nofollow,noarchive"/>
+<meta name="description" content="Unlisted trust proof: real trade journals and raw desk recordings. Not marketing."/>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#06090e; --panel:#0d131b; --panel2:#111822; --line:#1b2636;
+  --text:#e4ebf5; --mute:#8797af; --cyan:#3de7ff; --green:#2dd4a8;
+  --gold:#f0b429; --red:#ff6b7a; --amber:#f59e0b;
+}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 "IBM Plex Sans",system-ui,sans-serif;color:var(--text);background:var(--bg)}
+a{color:var(--cyan);text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px 64px}
+.banner{background:#1a1208;border-bottom:1px solid #3d2e14;color:var(--amber);font-size:13px;padding:10px 18px;text-align:center}
+.banner strong{color:#ffd27a}
+header{padding:36px 0 18px}
+h1{margin:0 0 8px;font-size:clamp(1.6rem,3.5vw,2.2rem);letter-spacing:-.02em}
+.sub{color:var(--mute);max-width:62ch;margin:0}
+.badge{display:inline-block;font:500 11px/1 "IBM Plex Mono",monospace;padding:4px 8px;border-radius:6px;border:1px solid var(--line);background:var(--panel2);color:var(--mute);margin-right:6px;margin-bottom:6px}
+.badge.live{border-color:rgba(45,212,168,.45);color:var(--green);background:rgba(45,212,168,.08)}
+.badge.ui{border-color:rgba(240,180,41,.4);color:var(--gold);background:rgba(240,180,41,.08)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:28px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px}
+.card .k{font:500 11px/1.2 "IBM Plex Mono",monospace;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
+.card .v{font-size:1.55rem;font-weight:700;margin:8px 0 4px;font-variant-numeric:tabular-nums}
+.card .d{font-size:12px;color:var(--mute)}
+h2{font-size:1.15rem;margin:36px 0 12px}
+.honest{display:grid;gap:8px}
+.honest .row{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.honest .name{font-weight:600;min-width:140px}
+.honest .detail{color:var(--mute);font-size:13px;flex:1}
+.table-wrap{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);max-height:420px;overflow-y:auto}
+table{width:100%;border-collapse:collapse;font:13px/1.4 "IBM Plex Mono",monospace}
+th{position:sticky;top:0;background:#0a1018;text-align:left;padding:10px 12px;color:var(--mute);font-weight:500;border-bottom:1px solid var(--line);font-size:11px;text-transform:uppercase;letter-spacing:.03em}
+td{padding:8px 12px;border-bottom:1px solid rgba(27,38,54,.7);vertical-align:top}
+tr:hover td{background:rgba(61,231,255,.03)}
+.side-long{color:var(--green)}.side-short,.side-sell{color:var(--red)}.side-buy{color:var(--green)}
+.clips{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.clip{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.clip video{width:100%;display:block;background:#000;aspect-ratio:16/9;object-fit:contain}
+.clip .meta{padding:12px 14px}
+.clip .meta strong{display:block;margin-bottom:4px}
+.clip .meta span{font-size:12px;color:var(--mute)}
+.note{font-size:13px;color:var(--mute);border-left:3px solid var(--line);padding:8px 12px;margin:16px 0}
+footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--mute)}
+</style>
+</head>
+<body>
+<div class="banner"><strong>UNLISTED · noindex</strong> — Private trust preview for owner. Not linked from marketing. Do not announce on X.</div>
+<div class="wrap">
+<header>
+  <div style="margin-bottom:10px">
+    <span class="badge live">REAL JOURNALS</span>
+    <span class="badge">NO INVENTED FILLS</span>
+    <span class="badge">SECRETS REDACTED</span>
+  </div>
+  <h1>Working desks · Real journals</h1>
+  <p class="sub">StaRK Crypto Bots trust proof built from the owner’s own trade journals and raw desk screen captures. Stats and fills below are computed from JSONL / logs on disk — not AI-slop demo desks.</p>
+</header>
+
+<section class="grid" id="stats">
+  <div class="card"><div class="k">Arcus journal events</div><div class="v" id="s-arcus-n">—</div><div class="d" id="s-arcus-d">opens / closes / symbols</div></div>
+  <div class="card"><div class="k">Desk journal events</div><div class="v" id="s-desk-n">—</div><div class="d" id="s-desk-d">overnight bot-trades</div></div>
+  <div class="card"><div class="k">Nado farm cycles</div><div class="v" id="s-nado-n">—</div><div class="d" id="s-nado-d">equity · drawdown</div></div>
+  <div class="card"><div class="k">Take-profits LIVE</div><div class="v" id="s-tp-n">—</div><div class="d" id="s-tp-d">buys · sells (truncated)</div></div>
+</section>
+
+<section>
+  <h2>Honest labels</h2>
+  <div class="honest" id="honest"></div>
+  <p class="note">LIVE journal proof = fills derived from on-disk JSONL. Raw desk recording = screen capture of the live UI (not a substitute for a fill journal). Paper/marketing UI teasers on the public landing are separate and are not used here.</p>
+</section>
+
+<section>
+  <h2>Recent fills <span style="font-weight:400;color:var(--mute);font-size:13px">(from journals · scroll)</span></h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Time</th><th>Desk</th><th>Symbol</th><th>Side</th><th>Event</th><th>Size</th><th>Proof</th></tr>
+      </thead>
+      <tbody id="fills-body"><tr><td colspan="7">Loading fills.json…</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Raw desk recordings</h2>
+  <p class="note" style="margin-top:0">Source: <code>/workspace/demo-capture/cinematic/v3/raw/{arcus,nado,lighter}-raw.mp4</code> — unedited captures used in the trust film.</p>
+  <div class="clips">
+    <div class="clip">
+      <video controls playsinline preload="metadata" src="media/arcus-raw.mp4"></video>
+      <div class="meta"><strong id="lt-arcus">Arcus</strong><span>Raw desk · journal-backed</span></div>
+    </div>
+    <div class="clip">
+      <video controls playsinline preload="metadata" src="media/nado-raw.mp4"></video>
+      <div class="meta"><strong id="lt-nado">Nado</strong><span>Raw farm / desk · log-backed</span></div>
+    </div>
+    <div class="clip">
+      <video controls playsinline preload="metadata" src="media/lighter-raw.mp4"></video>
+      <div class="meta"><strong id="lt-lighter">Lighter</strong><span>Raw desk recording · UI proof</span></div>
+    </div>
+  </div>
+</section>
+
+
+<section>
+  <h2>Product film</h2>
+  <p class="note" style="margin-top:0">Assembled from the three raw desk captures only. Lower-thirds use journal stats — no fake PnL cards.</p>
+  <div class="clip" style="max-width:900px">
+    <video controls playsinline preload="metadata" poster="media/TRUST-PROOF-preview.gif" src="media/TRUST-PROOF.mp4"></video>
+    <div class="meta"><strong>TRUST-PROOF.mp4</strong><span>1080p · factual VO · <a href="media/TRUST-PROOF.mp4">download</a> · <a href="media/TRUST-PROOF-preview.gif">GIF preview</a></span></div>
+  </div>
+</section>
+
+<footer>
+  Sources: arcus-trades.jsonl, overnight/arcus-trades.jsonl, arcus-trade_journal.json, overnight/bot-trades.jsonl, nado/farm_qqq.log, taking-profits/signals/*.jsonl.<br/>
+  Wallets truncated · contracts truncated · no private keys. Generated for private preview · <span id="gen">—</span>
+</footer>
+</div>
+<script>
+async function load(){
+  const [stats, fills] = await Promise.all([
+    fetch('stats.json').then(r=>r.json()),
+    fetch('fills.json').then(r=>r.json()),
+  ]);
+  document.getElementById('gen').textContent = stats.generated || '';
+  const a = stats.arcus, d = stats.desk_journal, n = stats.nado_farm, t = stats.take_profits;
+  document.getElementById('s-arcus-n').textContent = a.journal_events;
+  document.getElementById('s-arcus-d').textContent = `${a.opens} opens · ${a.closes} closes · ${a.symbols} symbols · open now: ${a.open_positions.join(', ')}`;
+  document.getElementById('s-desk-n').textContent = d.events;
+  document.getElementById('s-desk-d').textContent = `${d.opens} opens · ${d.closes} closes · ${d.symbols} symbols`;
+  document.getElementById('s-nado-n').textContent = n.cycles;
+  document.getElementById('s-nado-d').textContent = `eq ${n.init_equity.toFixed(4)} → ${n.final_equity.toFixed(4)} · dd ${n.final_dd_pct}% · ${n.status}`;
+  document.getElementById('s-tp-n').textContent = `${t.live_buys}+${t.live_sells}`;
+  document.getElementById('s-tp-d').textContent = `${t.symbol} · ${t.contract_redacted} · ${t.mode}`;
+
+  const honest = document.getElementById('honest');
+  honest.innerHTML = (stats.bots_honest||[]).map(b=>{
+    const cls = b.label.includes('LIVE') ? 'live' : 'ui';
+    return `<div class="row"><span class="name">${b.name}</span><span class="badge ${cls}">${b.label}</span><span class="detail">${b.detail}</span></div>`;
+  }).join('');
+
+  const lt = stats.film_lower_thirds||{};
+  if(lt.arcus) document.getElementById('lt-arcus').textContent = lt.arcus;
+  if(lt.nado) document.getElementById('lt-nado').textContent = lt.nado;
+  if(lt.lighter) document.getElementById('lt-lighter').textContent = lt.lighter;
+
+  const tb = document.getElementById('fills-body');
+  tb.innerHTML = fills.map(f=>{
+    const side = (f.side||'').toLowerCase();
+    const sc = side==='long'||side==='buy'?'side-long': (side==='short'||side==='sell'?'side-short':'');
+    const size = f.size==null?'—': (typeof f.size==='number'? f.size : f.size);
+    const extra = f.contract? ` <span style="color:#8797af">${f.contract}</span>` : '';
+    return `<tr>
+      <td>${f.ts||'—'}</td>
+      <td>${f.desk||''}</td>
+      <td>${f.symbol||''}${extra}</td>
+      <td class="${sc}">${f.side||''}</td>
+      <td>${f.event||''}</td>
+      <td>${size}</td>
+      <td>${f.proof||''}</td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="7">No fills</td></tr>';
+}
+load().catch(e=>{
+  document.getElementById('fills-body').innerHTML = `<tr><td colspan="7">Failed to load: ${e}</td></tr>`;
+});
+</script>
+</body>
+</html>
