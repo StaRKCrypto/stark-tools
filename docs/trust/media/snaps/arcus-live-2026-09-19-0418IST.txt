@@ -1,0 +1,10 @@
+ARCUS redacted live snapshot (trust film / no secrets)
+Time: 2026-09-19 04:18 IST
+ARMED=1 LIVE=1 ENTRY=alo_first
+Equity ≈ $80.2
+Opens: 5 — MU LONG, TSLA SHORT, MSFT SHORT, DRAM LONG, SPCX SHORT
+book_ok=1 (last book 04:16:34 IST open=5)
+Last SCAN: SPCX 04:17:53 IST | MU 04:17:28 IST | MSFT 04:17:03 IST
+Last LIVE OK: SPCX short maker_alo 01:24:24 IST; MSFT short maker_alo 01:15:52 IST
+Last MAKER SEND: SPCX 01:24:21 IST
+24/7 watcher+loop running.
