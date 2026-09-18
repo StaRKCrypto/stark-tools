@@ -68,7 +68,7 @@ Optional later: pump.fun **fee share** to team wallets (up to 10) if you add par
 - Can add tiers later (e.g. 0.1% lite / 0.5% full) — start simple.
 
 ### G) What to put on the coin page
-- Image: your Grok Imagine logo (when ready)  
+- Image: official orange/purple hollow hexagon S — `BOTS-logo-official.png` (locked)  
 - Description: access pass + GitHub + X + landing  
 - Website: landing  
 - X: @StaRKCryptoBots  
@@ -107,5 +107,5 @@ NFA
 
 - [ ] Confirm Plan **1** (0–2 SOL) or **2** (≤5 SOL) creator buy  
 - [ ] Confirm hold gate **0.5% = 5M** (on 1B supply)  
-- [ ] Drop Grok Imagine logo when ready  
+- [x] Logo locked: hexagon official mark (`BOTS-logo-official.png`)  
 - [ ] Say **launch** only when ready — pack stays draft until then  

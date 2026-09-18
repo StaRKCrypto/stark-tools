@@ -19,7 +19,7 @@
 | Hold gate | **~0.5% = 5,000,000 $BOTS** |
 | Creator buy | **Plan 2 light: ≤ 5 SOL**, **one wallet**, disclosed in launch post |
 | Bundle / multi-wallet | **Forbidden** |
-| Logo | User Grok Imagine file (when delivered) — interim pack has BOTS wordmark |
+| Logo | Official **orange/purple hollow hexagon S** mark (`BOTS-logo-official.png` / `stark-token-logo.png`) + StarkBots banner/cover |
 | Home links | Landing + GitHub + @StaRKCryptoBots |
 
 **Money story (public):**  
@@ -36,9 +36,9 @@ Access pass for StaRK desks. No custom tax. Creator fees fund tools. Hold ~0.5% 
 - [x] Personal pointer from @_Starkcrypto  
 - [x] Listing pack + params docs  
 - [x] Ticker `$BOTS` locked  
+- [x] Final **logo** locked — hexagon S (orange/purple) + StarkBots banner  
 
 ### Still need before “launch”
-- [x] Final **logo** from you (Grok Imagine) — locked hexagon S + StarkBots banner  
 - [ ] Fresh **creator wallet** (Phantom/Solflare) — seed offline only  
 - [ ] ~**5–10 SOL** in that wallet (fees + ≤5 SOL creator buy + buffer)  
 - [ ] Confirm launch copy one last time  
@@ -52,7 +52,7 @@ Access pass for StaRK desks. No custom tax. Creator fees fund tools. Hold ~0.5% 
 2. Create coin:  
    - Name `StaRK Bots`  
    - Ticker `BOTS`  
-   - Image = final logo  
+   - Image = `BOTS-logo-official.png` (hexagon mark)  
    - Description = listing pack text  
    - Website / X / GitHub filled  
 3. Creator buy **≤5 SOL** (same wallet) — optional 0 if you prefer cleaner.  
@@ -64,6 +64,8 @@ Access pass for StaRK desks. No custom tax. Creator fees fund tools. Hold ~0.5% 
    - Dexscreener socials when available  
    - One @_Starkcrypto post with CA in main text  
 6. Do **not** put CA only in replies.
+
+Full checklist: `LAUNCH-DAY-CHECKLIST.md`.
 
 ---
 
@@ -124,8 +126,8 @@ NFA · tools can break · access pass ≠ promised return
 
 ## 8) Go / no-go
 
-**GO when:** logo ready + funded creator wallet + you’re okay with ≤5 SOL buy + you’ll stay online for CA blast.  
-**NO-GO if:** logo unfinished, wallet unsafe, or you’re tempted to multi-wallet snipe your own launch.
+**GO when:** funded creator wallet + you’re okay with ≤5 SOL buy + you’ll stay online for CA blast + you say **launch**.  
+**NO-GO if:** wallet unsafe, tempted to multi-wallet snipe your own launch, or you have not said **launch**.
 
 ---
 

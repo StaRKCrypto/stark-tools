@@ -2,9 +2,9 @@
 
 **Status:** Draft only. No coin created. No CA yet.
 
-**Locked logo (user Grok Imagine):** hexagon S mark — `docs/launch/BOTS-logo-official.png`
-**Brand banner:** `docs/launch/starkbots-banner-master.jpg` / cover crop `starkbots-cover-1500x500.png`
-  
+**Locked logo (user Grok Imagine):** orange/purple hollow hexagon “S” mark — `docs/launch/BOTS-logo-official.png`  
+**Brand banner:** `docs/launch/starkbots-banner-master.jpg` / X cover `docs/launch/starkbots-cover-1500x500.png`
+
 **Brand:** [@StaRKCryptoBots](https://x.com/StaRKCryptoBots) · Personal [@_Starkcrypto](https://x.com/_Starkcrypto)  
 **Landing:** https://starkcrypto.github.io/stark-tools/  
 **GitHub hub:** https://github.com/StaRKCrypto/stark-tools  
@@ -15,18 +15,18 @@
 
 **Locked ticker: `$BOTS`** (user pick). Name stays **StaRK Bots**.
 
-**Locked logo:** option 1 — BOTS cyan wordmark on dark circle (`docs/launch/BOTS-logo-official.png`).
+**Locked logo:** official hexagon mark — hollow chrome hex with orange (left) / purple-magenta (right) circuitry glow on black (`docs/launch/BOTS-logo-official.png` · same file as `stark-token-logo.png`).
 
 | Field | Recommendation | Why |
 |------|----------------|-----|
 | **Name** | `StaRK Bots` | Matches X + landing |
 | **Ticker** | `BOTS` | Chosen — short, matches StaRK Bots product |
 | **Alt ticker** | `STARK` / `STKB` | Fallbacks only if needed |
-| **Image** | `stark-token-logo.png` (square) | Same Stark visual language |
+| **Image** | `BOTS-logo-official.png` (1000×1000) | Official hexagon mark for pump.fun |
 | **Chain** | Solana (pump.fun) | Per original plan |
 | **Framing** | Tool **access pass** | Not APR / not “will 10x” |
 
-**Pick one ticker before launch** and stick to it everywhere.
+**Pick one ticker before launch** and stick to it everywhere. Ticker is locked to **BOTS**.
 
 ---
 
@@ -70,12 +70,14 @@ If pump.fun offers **GitHub / creator fee share**, attach `StaRKCrypto` GitHub o
 
 - Use a **fresh** Phantom/Solflare wallet for creator.  
 - Seed on paper only — **never** paste into bots, GitHub, or chat.  
-- Fund with a little SOL for fees only.  
+- Fund with ~**5–10 SOL** (fees + ≤5 SOL creator buy + buffer).  
 - Do not connect this wallet to random “token creator” sites.
 
 ---
 
 ## 5) Launch-day checklist (same day, same CA)
+
+See also: `LAUNCH-DAY-CHECKLIST.md`.
 
 After mint exists, paste **one** CA everywhere:
 
@@ -108,14 +110,16 @@ After mint exists, paste **one** CA everywhere:
 
 ---
 
-## 8) Pre-launch decisions for you
+## 8) Pre-launch status
 
-Reply with picks:
+Locked:
 
-1. Final **name** (default StaRK Bots)  
-2. Final **ticker** (`STARK` / `STKB` / `SRK` / custom)  
-3. Approve **logo** or request changes  
-4. Confirm you’re ready for me to open pump.fun and fill the form (still wait for your “launch now”)  
+1. **Name** StaRK Bots  
+2. **Ticker** `$BOTS`  
+3. **Logo** hexagon official mark (this pack)  
+4. **Economics** 1B / no custom tax / ≤5 SOL one-wallet creator buy / ~0.5% (5M) hold gate  
+
+**STOP until user says `launch`.** Pack stays draft. Nothing created on-chain.
 
 ---
 
