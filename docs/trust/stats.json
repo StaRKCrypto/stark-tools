@@ -1,17 +1,16 @@
 {
-  "generated": "2026-09-19T04:23+05:30",
+  "generated": "2026-09-19T04:29+05:30",
   "headline": "Working desks \u00b7 Journals \u00b7 24/7 \u00b7 CA soon",
   "film": {
     "path": "/workspace/demo-capture/live-product-film/TRUST-PROOF.mp4",
-    "duration_s": 81.3,
+    "duration_s": 67.2,
     "resolution": "1920x1080",
-    "sources": [
-      "app.arcus.xyz venue snap + ui-refs",
-      "app.lighter.xyz venue live capture",
-      "app.nado.xyz venue live capture + MSI dashboards",
-      "live Arcus snap 2026-09-19 04:18 IST",
-      "overnight/arcus-trades.jsonl + farm_qqq.log + farm_status_live.json"
-    ]
+    "body": [
+      "broll/arcus-REAL-website.mp4 (PRIMARY 30s)",
+      "broll/lighter-venue-live.mp4",
+      "broll/nado-venue-live.mp4"
+    ],
+    "note": "REAL venue websites \u2014 not our UI"
   },
   "sources": [
     "arcus-trades.jsonl + overnight/arcus-trades.jsonl",
