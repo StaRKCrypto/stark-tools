@@ -8,5 +8,5 @@ Illustrative operator loop — **not** executable production code.
 4. Log intent — no live send in this teaser
 5. Hosted version: routing, risk checks, venue connectors (gated)
 
-**Hold to access:** ~0.5% of official coin after launch.  
+**Access:** open at launch; later premium may need ~0.5% hold.  
 Public sample ≠ full product.

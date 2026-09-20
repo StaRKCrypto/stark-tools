@@ -144,7 +144,7 @@
       '<div class="stg-card" role="dialog" aria-modal="true" aria-labelledby="stg-lock-title">' +
       '<div class="stg-pill">Locked</div>' +
       '<h2 id="stg-lock-title">Free trial ended (5 min / day)</h2>' +
-      '<p>Full access after $BOTS launch — hold ~0.5% unlocks hosted tools</p>' +
+      '<p>Desks open after $BOTS launch; later premium may need ~0.5% hold</p>' +
       '<div class="stg-cta">' +
       '<a class="stg-btn" href="' + LANDING + '" target="_blank" rel="noopener noreferrer">Open landing →</a>' +
       '<a class="stg-link" href="' + LANDING + '" target="_blank" rel="noopener noreferrer">' + LANDING + '</a>' +

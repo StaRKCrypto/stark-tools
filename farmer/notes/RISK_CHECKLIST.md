@@ -10,4 +10,4 @@ Tick before any **hosted** session (not applicable to this public notes-only tea
 
 Public repo ships **notes only** — no execution.
 
-Hold ~0.5% of `YOUR_TOKEN_CA_HERE` (after launch) for hosted access.
+Open at launch. Later premium may need ~0.5% of `YOUR_TOKEN_CA_HERE` for access.

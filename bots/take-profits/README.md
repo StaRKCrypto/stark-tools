@@ -3,7 +3,7 @@
 **StaRK Bots** · [@starkcryptollc](https://x.com/starkcryptollc) · [@_Starkcrypto](https://x.com/_Starkcrypto)  
 GitHub: [StaRKCrypto](https://github.com/StaRKCrypto)
 
-> **Hold to access.** Hosted tools require holding **~0.5%** of the official coin  
+> **Open at launch.** Desks are free to try. Later premium tools may need **~0.5%** hold of the official coin  
 > (`YOUR_TOKEN_CA_HERE` — CA added after launch).  
 > Public repo = authenticity samples + docs teaser.  
 > Full hosted access is gated. Source samples are **NOT** the full product.
@@ -31,4 +31,4 @@ Fake **bag tracker** JSON/UI stub for a multi-chain take-profit watcher story
 
 ## CTA
 
-Hold ~0.5% of `YOUR_TOKEN_CA_HERE` (after launch) for hosted **Take Profits** tooling.
+Open at launch. Later premium may need ~0.5% of `YOUR_TOKEN_CA_HERE` for **Take Profits** tooling.

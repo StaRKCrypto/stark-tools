@@ -3,7 +3,7 @@
 **Hard stop:** Do **not** create the coin, fund a creator buy, or post a CA until the user explicitly says **`launch`**.  
 This file is prep only.
 
-**Locked:** Name `StaRK Bots` · Ticker `BOTS` · 1B supply · no custom tax · ≤5 SOL creator buy (one wallet) · hold gate ~0.5% = 5M · logo = hexagon official PNG.
+**Locked:** Name `StaRK Bots` · Ticker `BOTS` · 1B supply · no custom tax · ≤5 SOL creator buy (one wallet) · open access at launch · later premium ~0.5% = 5M · logo = hexagon official PNG.
 
 ---
 
@@ -75,3 +75,10 @@ Paste the **same** CA in main text / fields — never CA-only in a random reply:
 ---
 
 *Checklist only. No on-chain action until user says launch.*
+
+## Post-create fees (same hour)
+
+- [ ] Confirm coin admin fee recipient = **100% creator/admin wallet**
+- [ ] Do **not** add GitHub org as fee recipient
+- [ ] GitHub repo stays in description / landing (trust), not as fee sink
+- [ ] Optional later: split to cold admin pubkey via fee share (bps sum 10000)

@@ -6,7 +6,7 @@ weather edge without shipping keys in public samples.
 
 ## Public vs hosted
 
-| Public teaser | Hosted (hold ~0.5%) |
+| Public teaser | Open at launch · premium later |
 |---|---|
 | Landing copy + fake city board | Live scan, scoring, optional arm |
 | No wallet vault | Device wallet + CLOB path |

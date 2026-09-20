@@ -19,7 +19,7 @@ StaRK Bots sits in the middle.
 
 We build **real desks** we actually use — support/resistance, farming, mint alerts, portfolio, weather markets, take-profits — then publish **clean public samples** so people can verify the idea, while **hosted convenience** stays behind a simple rule:
 
-> Hold about **~0.5%** of the official coin → unlock hosted tools.  
+> Desks **open at launch**. Later premium tools may need **~0.5%** hold.  
 > Source teasers stay public. Live signing keys never go on GitHub.
 
 The coin is an **access pass**, not a promised return. Code and identity come first. CA comes when the public proof is already live.
@@ -42,7 +42,7 @@ The coin is an **access pass**, not a promised return. Code and identity come fi
 ```
 ┌─────────────────┐     ┌──────────────────┐     ┌────────────────────┐
 │  Public teasers │ --> │  Demo / paper UI │ --> │  Hosted full desk  │
-│  (GitHub)       │     │  (X clips)       │     │  (~0.5% hold gate) │
+│  (GitHub)       │     │  (X clips)       │     │  (open now · premium ~0.5% later) │
 └─────────────────┘     └──────────────────┘     └────────────────────┘
         ↑                                                  │
         └──────── live keys & full brains stay private ────┘
@@ -89,7 +89,7 @@ Hub index: [stark-tools](https://github.com/StaRKCrypto/stark-tools)
 1. Paste a contract / symbol.  
 2. **Scan** → swing highs/lows → support & resistance on a candlestick chart.  
 3. **Demo Trade** → paper order near support → blotter fill + PnL.  
-4. Hosted version later: same UX, live data, optional auto — behind hold gate. Live API keys stay on *your* machine or our private host — not in the public repo.
+4. Hosted version later: same UX, live data, optional auto — open first; premium hold later. Live API keys stay on *your* machine or our private host — not in the public repo.
 
 **Example: Nimbus Weather**
 
@@ -107,7 +107,7 @@ Hub index: [stark-tools](https://github.com/StaRKCrypto/stark-tools)
 
 ## Why the coin (when it launches)
 
-- **Access:** ~0.5% hold unlocks hosted convenience.  
+- **Access:** open at launch; later premium may need ~0.5% hold.  
 - **Alignment:** people using the desks have skin in the brand.  
 - **Honesty:** we do **not** market it as APR, points farming, or “this will 10x.”  
 - **Order we follow:** secrets scrubbed → GitHub public → brand X + demos → **coin last**.
@@ -160,7 +160,7 @@ More desks (Arcus, Lighter, Nado, Mint, Portfolio, Nimbus, Profit Taking, Bound,
 
 1. Finish remaining desk demo drops (Nimbus weather, Profit Taking, Bound, Monk, …)
 2. One public landing page (single front door for tools + GitHub + X)
-3. Hosted unlock: connect wallet, hold ~0.5% of official coin
+3. Later premium: connect wallet, hold ~0.5% of official coin
 4. Coin launch **last** — CA only on official channels (brand X, GitHub, landing)
 5. Keep iterating desks in public without exposing live keys
 

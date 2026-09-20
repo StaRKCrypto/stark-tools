@@ -26,8 +26,8 @@ So “tax = 5% buy / 5% sell” is the wrong mental model here. Think **creator 
 
 ### A) Supply
 - **Accept 1B $BOTS** (pump.fun default).  
-- Hold-gate math stays easy: **~0.5% ≈ 5,000,000 $BOTS**.  
-- Publish that number on landing after CA exists.
+- Hold math reserved for **later premium**: **~0.5% ≈ 5,000,000 $BOTS**.  
+- Publish after CA exists — **not** as a launch unlock wall.
 
 ### B) Tax / fees (what to tell the market)
 - **Do not promise custom taxes.**  
@@ -62,10 +62,10 @@ Optional later: pump.fun **fee share** to team wallets (up to 10) if you add par
 - LP on PumpSwap is platform-handled (often burned) — you don’t “own LP” like old launches.  
 - Don’t promise “locked LP we control” unless true.
 
-### F) Hold gate (product, not token tax)
-- **~0.5% of supply** = hosted unlock.  
-- 0.5% of 1B = **5M $BOTS**.  
-- Can add tiers later (e.g. 0.1% lite / 0.5% full) — start simple.
+### F) Access model (product, not token tax)
+- **Launch:** desks open to everyone (try first).  
+- **Later premium:** ~0.5% of supply = **5M $BOTS** may unlock new paid/premium modules.  
+- Do **not** market a hold wall on day one.
 
 ### G) What to put on the coin page
 - Image: official orange/purple hollow hexagon S — `BOTS-logo-official.png` (locked)  
@@ -85,7 +85,7 @@ $BOTS — StaRK Bots access pass
 Supply: 1B (pump.fun)
 No custom tax — platform fees only
 Creator fees → fund desks
-Hosted unlock: hold ~0.5% (5M $BOTS)
+Desks open at launch · later premium may need ~0.5% hold (5M $BOTS)
 
 Code: github.com/StaRKCrypto/stark-tools
 Site: starkcrypto.github.io/stark-tools
@@ -106,6 +106,6 @@ NFA
 ## Decision checklist for you
 
 - [ ] Confirm Plan **1** (0–2 SOL) or **2** (≤5 SOL) creator buy  
-- [ ] Confirm hold gate **0.5% = 5M** (on 1B supply)  
+- [x] Access model: **open at launch** · ~0.5% = 5M reserved for **later premium**  
 - [x] Logo locked: hexagon official mark (`BOTS-logo-official.png`)  
 - [ ] Say **launch** only when ready — pack stays draft until then  

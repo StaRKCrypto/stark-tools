@@ -41,7 +41,8 @@ Public code teasers: github.com/StaRKCrypto/stark-tools
 Demos + brand: x.com/StaRKCryptoBots
 Landing: starkcrypto.github.io/stark-tools
 
-Hold ~0.5% unlocks hosted tools (after setup).
+Desks open to everyone at launch.
+Later premium tools may need ~0.5% $BOTS hold.
 Live keys stay private. Samples stay public.
 
 Not financial advice. Tools can break. Coin is an access pass — not a promised return.
@@ -50,7 +51,7 @@ Not financial advice. Tools can break. Coin is an access pass — not a promised
 **Shorter bio (if character-limited):**
 
 ```
-StaRK Bots ($BOTS) access pass. Open desks + public code. Hosted unlock ~0.5% hold. github.com/StaRKCrypto/stark-tools · x.com/StaRKCryptoBots · NFA
+StaRK Bots ($BOTS) — open desks + public code. Free to try at launch; later premium may need ~0.5% hold. github.com/StaRKCrypto/stark-tools · x.com/StaRKCryptoBots · NFA
 ```
 
 ---
@@ -104,7 +105,8 @@ After mint exists, paste **one** CA everywhere:
 
 ## 7) After launch (product)
 
-1. Wire hold-gate: wallet connect → balance ≥ ~0.5% → unlock hosted desks  
+1. Ship desks **open to everyone** at launch (no hold wall)
+2. Later: premium modules may gate at ~0.5% (5M $BOTS) hold  
 2. Keep source teasers public  
 3. Ship next desks as demos on X, then hosted  
 
@@ -117,7 +119,7 @@ Locked:
 1. **Name** StaRK Bots  
 2. **Ticker** `$BOTS`  
 3. **Logo** hexagon official mark (this pack)  
-4. **Economics** 1B / no custom tax / ≤5 SOL one-wallet creator buy / ~0.5% (5M) hold gate  
+4. **Economics** 1B / no custom tax / ≤5 SOL one-wallet creator buy / desks open at launch / ~0.5% hold = **later premium only**  
 
 **STOP until user says `launch`.** Pack stays draft. Nothing created on-chain.
 

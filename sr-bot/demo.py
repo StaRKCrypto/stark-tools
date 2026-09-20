@@ -4,7 +4,7 @@ sr-bot PUBLIC TEASER — synthetic OHLCV + simple swing Support/Resistance.
 
 NOT the full product. No live exchanges. No API keys. No SMC/fibs/trading.
 
-Hold ~0.5% of official coin (YOUR_TOKEN_CA_HERE after launch) for hosted access.
+Open at launch. Later premium may need ~0.5% of YOUR_TOKEN_CA_HERE.
 Brand: @starkcryptollc (StaRK Bots) · @_Starkcrypto
 """
 

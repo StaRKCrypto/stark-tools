@@ -7,7 +7,7 @@
 **StaRK Bots** · X [@starkcryptollc](https://x.com/starkcryptollc) · Personal [@_Starkcrypto](https://x.com/_Starkcrypto)  
 GitHub: [StaRKCrypto](https://github.com/StaRKCrypto)
 
-> **Hold to access.** Hosted tools require holding **~0.5%** of the official coin  
+> **Open at launch.** Desks are free to try. Later premium tools may need **~0.5%** hold of the official coin  
 > (`YOUR_TOKEN_CA_HERE` — contract address added after launch).  
 > This public org/user = **authenticity samples + docs teasers**.  
 > Full hosted access is gated. Source samples are **NOT** the full product.

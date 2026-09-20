@@ -6,4 +6,4 @@
 - No external APIs are called
 - Do not treat as weather or trading advice
 
-Gate: hold ~0.5% of `YOUR_TOKEN_CA_HERE` (after launch) for hosted access.
+Open at launch. Later premium may need ~0.5% of `YOUR_TOKEN_CA_HERE`.

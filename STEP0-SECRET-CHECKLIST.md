@@ -35,7 +35,7 @@ rg -n --hidden -g '!.git' -e '\b[1-9A-HJ-NP-Za-km-z]{80,}\b'
 
 Every README must state:
 
-> Hosted tools require holding **~0.5%** of the official coin
+> Open at launch; later premium may need **~0.5%** of the official coin
 > (`YOUR_TOKEN_CA_HERE` — CA added after launch).  
 > Public repo = authenticity samples + docs teaser.  
 > Full hosted access is gated. Source samples are **NOT** the full product.

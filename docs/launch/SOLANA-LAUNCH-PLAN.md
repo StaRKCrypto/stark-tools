@@ -4,7 +4,7 @@
 **Venue:** pump.fun → PumpSwap (after graduate)  
 **Name:** StaRK Bots  
 **Ticker:** $BOTS  
-**Primary money path:** creator fees + disclosed bag + hold-gate hosted tools  
+**Primary money path:** creator fees + disclosed bag + open desks now · premium hold-gate later  
 **Status:** Plan only — do not launch until user says **launch**
 
 ---
@@ -16,14 +16,14 @@
 | Supply | Accept pump.fun **1B** $BOTS |
 | Custom tax | **None** (platform fees only) |
 | Creator fee | Claim from pump.fun → fund desks / infra |
-| Hold gate | **~0.5% = 5,000,000 $BOTS** |
+| Access | **Open at launch** · later premium may need **~0.5% = 5,000,000 $BOTS** |
 | Creator buy | **Plan 2 light: ≤ 5 SOL**, **one wallet**, disclosed in launch post |
 | Bundle / multi-wallet | **Forbidden** |
 | Logo | Official **orange/purple hollow hexagon S** mark (`BOTS-logo-official.png` / `stark-token-logo.png`) + StarkBots banner/cover |
 | Home links | Landing + GitHub + @StaRKCryptoBots |
 
 **Money story (public):**  
-Access pass for StaRK desks. No custom tax. Creator fees fund tools. Hold ~0.5% for hosted unlock.
+Access pass for StaRK desks. No custom tax. Creator fees fund tools. Desks open at launch; later premium may need ~0.5% hold.
 
 ---
 
@@ -71,7 +71,7 @@ Full checklist: `LAUNCH-DAY-CHECKLIST.md`.
 
 ## 4) First 24–48 hours
 
-- Push product: “hold 5M $BOTS → hosted desks coming”  
+- Push product: “desks open now · premium hold ~5M later”  
 - Ship one update on X (new desk progress / gate WIP)  
 - Claim creator fees when meaningful — don’t drain optics day one with huge sells  
 - If graduating: set Dexscreener socials; keep narrative on tools not charts  
@@ -82,7 +82,7 @@ Full checklist: `LAUNCH-DAY-CHECKLIST.md`.
 
 ## 5) Week 1–2 (make the money durable)
 
-1. **Hold gate v1** on landing or hosted app: connect wallet → balance ≥ 5M $BOTS → unlock.  
+1. **Open access v1** — no hold wall. Later **premium gate**: connect wallet → balance ≥ 5M $BOTS → unlock new modules.  
 2. Keep code teasers public.  
 3. Use creator fees for RPC / hosting / next demos.  
 4. Optional: fee-share wallets if you add a real teammate later.
@@ -94,7 +94,7 @@ Full checklist: `LAUNCH-DAY-CHECKLIST.md`.
 ```
 Volume → pump creator fees → cash for infra
      ↘
-Holders ≥ 0.5% → hosted tools (reason to hold)
+Open desks now · later holders ≥ 0.5% → premium tools (reason to hold)
      ↘
 Disclosed creator bag → optional sells into strength
 ```
@@ -111,7 +111,7 @@ $BOTS is live — StaRK Bots access pass
 Solana · pump.fun
 1B supply · no custom tax
 Creator fees → fund desks
-Hold ~0.5% (5M) → hosted unlock
+Open at launch · later ~0.5% (5M) → premium
 
 CA: <PASTE>
 
