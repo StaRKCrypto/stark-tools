@@ -1,6 +1,7 @@
 # StaRK Bots — Project Overview
 
 **Brand X:** [@StaRKCryptoBots](https://x.com/StaRKCryptoBots)  
+**YouTube:** [@starksystems-y2r](https://www.youtube.com/@starksystems-y2r)  
 **Personal:** [@_Starkcrypto](https://x.com/_Starkcrypto)  
 **Code hub:** [github.com/StaRKCrypto/stark-tools](https://github.com/StaRKCrypto/stark-tools)  
 
@@ -136,6 +137,7 @@ Contract address will be posted only on official channels (`@StaRKCryptoBots`, G
 ## Follow along
 
 - X brand: https://x.com/StaRKCryptoBots  
+- YouTube: https://www.youtube.com/@starksystems-y2r  
 - GitHub hub: https://github.com/StaRKCrypto/stark-tools  
 - First bot thread (S/R): https://x.com/StaRKCryptoBots/status/2100351594118410397  
 
@@ -168,6 +170,7 @@ More desks (Arcus, Lighter, Nado, Mint, Portfolio, Nimbus, Profit Taking, Bound,
 
 - Star & browse: https://github.com/StaRKCrypto/stark-tools  
 - Brand X: https://x.com/StaRKCryptoBots  
+- YouTube: https://www.youtube.com/@starksystems-y2r  
 - Personal: https://x.com/_Starkcrypto  
 - First demo (S/R): https://x.com/StaRKCryptoBots/status/2100351594118410397  
 

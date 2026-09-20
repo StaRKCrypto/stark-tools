@@ -20,7 +20,7 @@
 | Creator buy | **Plan 2 light: ≤ 5 SOL**, **one wallet**, disclosed in launch post |
 | Bundle / multi-wallet | **Forbidden** |
 | Logo | Official **orange/purple hollow hexagon S** mark (`BOTS-logo-official.png` / `stark-token-logo.png`) + StarkBots banner/cover |
-| Home links | Landing + GitHub + @StaRKCryptoBots |
+| Home links | Landing + GitHub + @StaRKCryptoBots + YouTube @starksystems-y2r |
 
 **Money story (public):**  
 Access pass for StaRK desks. No custom tax. Creator fees fund tools. Desks open at launch; later premium may need ~0.5% hold.
@@ -118,6 +118,7 @@ CA: <PASTE>
 Site: starkcrypto.github.io/stark-tools
 Code: github.com/StaRKCrypto/stark-tools
 X: @StaRKCryptoBots
+YouTube: youtube.com/@starksystems-y2r
 
 NFA · tools can break · access pass ≠ promised return
 ```

@@ -15,7 +15,7 @@ This file is prep only.
   - Local: `/workspace/demo-capture/launch/BOTS-logo-official.png`  
   - Repo mirror: `docs/launch/BOTS-logo-official.png` (1000×1000 hexagon mark)  
 - [ ] Listing **description** copied from `PUMPFUN-LISTING-PACK.md` §2  
-- [ ] Socials ready: website `https://starkcrypto.github.io/stark-tools/` · X `https://x.com/StaRKCryptoBots` · GitHub `https://github.com/StaRKCrypto/stark-tools`  
+- [ ] Socials ready: website `https://starkcrypto.github.io/stark-tools/` · X `https://x.com/StaRKCryptoBots` · YouTube `https://www.youtube.com/@starksystems-y2r` · GitHub `https://github.com/StaRKCrypto/stark-tools`  
 - [ ] X cover optional: `starkbots-cover-1500x500.png`  
 - [ ] Tabs open (draft only): pump.fun create · landing editor · GitHub · Dexscreener · X @StaRKCryptoBots · X @_Starkcrypto  
 - [ ] User has said **`launch`** — if not, **STOP HERE**
@@ -34,6 +34,7 @@ Only after user says **launch**:
 | Description | Paste from listing pack |
 | Website | `https://starkcrypto.github.io/stark-tools/` |
 | Twitter/X | `https://x.com/StaRKCryptoBots` |
+| YouTube | `https://www.youtube.com/@starksystems-y2r` |
 | GitHub | `https://github.com/StaRKCrypto/stark-tools` |
 
 - [ ] Connect **creator** wallet only  
@@ -58,7 +59,7 @@ Paste the **same** CA in main text / fields — never CA-only in a random reply:
 - [ ] **Landing** CA box — `starkcrypto.github.io/stark-tools`  
 - [ ] **GitHub** hub `README.md` + `LANDING.md` + `docs/launch/*` CA placeholders  
 - [ ] Major teaser READMEs “Token CA” lines (as applicable)  
-- [ ] **Dexscreener** socials (website + X + GitHub) when listing appears  
+- [ ] **Dexscreener** socials (website + X + YouTube + GitHub) when listing appears  
 - [ ] **Pin reply** on @StaRKCryptoBots pin thread (CA in reply body)  
 - [ ] **@_Starkcrypto** shout / pointer post with CA in main text  
 - [ ] **@StaRKCryptoBots** launch post (use draft in `SOLANA-LAUNCH-PLAN.md` §7)

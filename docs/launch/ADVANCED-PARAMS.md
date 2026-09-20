@@ -11,6 +11,7 @@
 | Description | from PUMPFUN-LISTING-PACK.md |
 | Website | https://starkcrypto.github.io/stark-tools/ |
 | X | https://x.com/StaRKCryptoBots |
+| YouTube | https://www.youtube.com/@starksystems-y2r |
 | Telegram | empty |
 | Pool pair | **SOL** |
 | Send creator rewards to | **Creator** |
