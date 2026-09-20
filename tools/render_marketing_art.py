@@ -9,6 +9,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 ROOT = Path(__file__).resolve().parents[1] / "docs"
 ASSETS = ROOT / "assets"
 BG = Path(__file__).resolve().parent / "hero-bg-notext.png"
+SECTION_BG = Path(__file__).resolve().parent / "section-bg-notext.png"
 
 CYAN = (61, 231, 255)
 VIOLET = (139, 108, 255)
@@ -111,61 +112,66 @@ def make_hero() -> None:
     print("wrote", out_png, rgb.size)
 
 
-def card_bg(size=(1920, 1080)) -> Image.Image:
+def section_canvas(size=(1920, 1080)) -> Image.Image:
+    """Black fintech floor matching the live 01-hero.jpg (bokeh candles, empty center)."""
     W, H = size
-    img = Image.new("RGB", (W, H), BG_DARK)
-    d = ImageDraw.Draw(img, "RGBA")
-    d.ellipse((-400, -280, 720, 520), fill=(61, 231, 255, 28))
-    d.ellipse((1280, -200, 2200, 620), fill=(139, 108, 255, 32))
-    d.ellipse((400, 760, 1600, 1400), fill=(45, 212, 168, 18))
-    # faint grid
-    for x in range(0, W, 48):
-        d.line([(x, 0), (x, H)], fill=(27, 38, 54, 90), width=1)
-    for y in range(0, H, 48):
-        d.line([(0, y), (W, y)], fill=(27, 38, 54, 90), width=1)
-    return img.filter(ImageFilter.GaussianBlur(0.4))
+    bg = Image.open(SECTION_BG).convert("RGB").resize((W, H), Image.Resampling.LANCZOS)
+    # Darken the middle so type/cards stay crisp.
+    veil = Image.new("RGBA", (W, H), (0, 0, 0, 70))
+    return Image.alpha_composite(bg.convert("RGBA"), veil)
+
+
+def glass_card(img: Image.Image, box, radius: int, glow: tuple[int, int, int]) -> None:
+    x0, y0, x1, y1 = box
+    glow_layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    gd = ImageDraw.Draw(glow_layer)
+    pad = 22
+    gd.rounded_rectangle([x0 - pad, y0 - pad, x1 + pad, y1 + pad], radius=radius + 10, fill=(*glow, 55))
+    img.alpha_composite(glow_layer.filter(ImageFilter.GaussianBlur(18)))
+    d = ImageDraw.Draw(img)
+    d.rounded_rectangle(box, radius=radius, fill=(6, 8, 12, 210), outline=(*glow, 210), width=2)
 
 
 def make_how() -> None:
     W, H = 1920, 1080
-    img = card_bg((W, H)).convert("RGBA")
+    img = section_canvas((W, H))
     d = ImageDraw.Draw(img)
-    title = font("Inter-Bold.ttf", 64)
-    d.text((120, 72), "How it works", font=title, fill=TEXT)
-    sub = font("Inter-Regular.ttf", 28)
-    d.text((120, 160), "One pipeline. Public proof first. Keys never on GitHub.", font=sub, fill=MUTE)
+    title = "How it works"
+    tf = font("Inter-Bold.ttf", 72)
+    d.text((center_x(d, title, tf, W), 88), title, font=tf, fill=TEXT)
+    sub = "Public proof first. Desks open at launch. Keys never on GitHub."
+    sf = font("Inter-Regular.ttf", 28)
+    d.text((center_x(d, sub, sf, W), 178), sub, font=sf, fill=MUTE)
 
     cards = [
-        ("01", "VERIFY", "Public teasers", "Clean sample repos.\nInspect the craft.\nNo live wallets or\nsigning keys in the open."),
-        ("02", "WATCH", "Paper demos", "Each desk shown on X —\nscan, arm, paper fill.\nClearly labeled demo.\nNot live trading."),
-        ("03", "ACCESS", "Open first", "Desks open at launch.\nNo day-one hold wall.\nLater premium may need\n~0.5% hold."),
+        (CYAN, "01", "Public teasers", "Inspect sample repos.\nNo live wallets.\nNo signing keys in the open."),
+        (VIOLET, "02", "Paper demos", "Each desk on X —\nscan, arm, paper fill.\nLabeled demo, not live."),
+        ((180, 140, 255), "03", "Open first", "Open at launch.\nNo day-one hold wall.\nPremium later ~0.5%."),
     ]
-    x0, y0, cw, ch, gap = 120, 250, 540, 640, 40
-    for i, (n, kicker, h, body) in enumerate(cards):
+    x0, y0, cw, ch, gap = 150, 280, 520, 560, 30
+    for i, (glow, n, h, body) in enumerate(cards):
         x = x0 + i * (cw + gap)
-        rounded(d, [x, y0, x + cw, y0 + ch], 28, fill=PANEL, outline=LINE, width=2)
-        nf = mono(22, bold=True)
-        d.text((x + 36, y0 + 36), f"{n}  /  {kicker}", font=nf, fill=CYAN)
-        hf = font("Inter-Bold.ttf", 40)
-        d.text((x + 36, y0 + 96), h, font=hf, fill=TEXT)
-        d.rounded_rectangle([x + 36, y0 + 160, x + 140, y0 + 166], radius=3, fill=VIOLET if i == 2 else CYAN)
-        bf = font("Inter-Regular.ttf", 28)
-        d.multiline_text((x + 36, y0 + 200), body, font=bf, fill=MUTE, spacing=10)
-        if i < 2:
-            ax = x + cw + 4
-            d.polygon([(ax, y0 + ch / 2 - 12), (ax + 22, y0 + ch / 2), (ax, y0 + ch / 2 + 12)], fill=CYAN)
+        glass_card(img, [x, y0, x + cw, y0 + ch], 36, glow)
+        d = ImageDraw.Draw(img)
+        d.text((x + 44, y0 + 48), n, font=font("Inter-Bold.ttf", 56), fill=glow)
+        d.text((x + 44, y0 + 140), h, font=font("Inter-SemiBold.ttf", 36), fill=TEXT)
+        d.multiline_text((x + 44, y0 + 220), body, font=font("Inter-Regular.ttf", 26), fill=MUTE, spacing=12)
 
-    foot = font("Inter-Medium.ttf", 22)
-    d.text((120, 980), "StaRK Bots  ·  Code first. Coin last. NFA.", font=foot, fill=(120, 136, 160))
+    foot = "StaRK Bots  ·  Code first. Coin last. NFA."
+    ff = font("Inter-Medium.ttf", 22)
+    d.text((center_x(d, foot, ff, W), 1008), foot, font=ff, fill=(120, 136, 160))
     save_pair(img, "02-how")
 
 
 def make_stack() -> None:
     W, H = 1920, 1080
-    img = card_bg((W, H)).convert("RGBA")
+    img = section_canvas((W, H))
     d = ImageDraw.Draw(img)
-    d.text((120, 64), "The stack", font=font("Inter-Bold.ttf", 64), fill=TEXT)
-    d.text((120, 148), "First wave of desks — public teasers + paper demos. More shipping.", font=font("Inter-Regular.ttf", 26), fill=MUTE)
+    d.text((120, 72), "The stack", font=font("Inter-Bold.ttf", 64), fill=TEXT)
+    d.text((120, 156), "First wave — public teasers + paper demos. More shipping.", font=font("Inter-Regular.ttf", 26), fill=MUTE)
+    brand = "StaRK Bots"
+    bf = font("Inter-SemiBold.ttf", 28)
+    d.text((W - 120 - d.textbbox((0, 0), brand, font=bf)[2], 80), brand, font=bf, fill=TEXT)
 
     desks = [
         ("01", "S/R Desk", "Zones → paper trade"),
@@ -181,48 +187,62 @@ def make_stack() -> None:
         ("11", "Farmer", "Volume-farm notes"),
         ("12", "Weather bot", "Weather agent sample"),
     ]
-    cols, rows = 4, 3
-    x0, y0, cw, ch, gx, gy = 120, 230, 420, 220, 20, 20
+    cols = 4
+    x0, y0, cw, ch, gx, gy = 120, 230, 420, 220, 20, 18
+    glows = [CYAN, VIOLET, CYAN, VIOLET]
     for i, (n, name, blurb) in enumerate(desks):
         c, r = i % cols, i // cols
         x = x0 + c * (cw + gx)
         y = y0 + r * (ch + gy)
-        rounded(d, [x, y, x + cw, y + ch], 22, fill=PANEL2, outline=LINE, width=2)
-        d.text((x + 28, y + 28), n, font=mono(18, bold=True), fill=CYAN)
+        glass_card(img, [x, y, x + cw, y + ch], 24, glows[c])
+        d = ImageDraw.Draw(img)
+        d.text((x + 28, y + 28), n, font=font("Inter-Medium.ttf", 18), fill=CYAN)
         d.text((x + 28, y + 70), name, font=font("Inter-SemiBold.ttf", 30), fill=TEXT)
         d.text((x + 28, y + 128), blurb, font=font("Inter-Regular.ttf", 22), fill=MUTE)
 
-    d.text((120, 1008), "StaRK Bots  ·  11+ desk teasers  ·  sample source public", font=font("Inter-Medium.ttf", 22), fill=(120, 136, 160))
+    foot = "11+ desk teasers  ·  sample source public"
+    ff = font("Inter-Medium.ttf", 22)
+    d.text((center_x(d, foot, ff, W), 1010), foot, font=ff, fill=(120, 136, 160))
     save_pair(img, "03-stack")
 
 
 def make_access() -> None:
     W, H = 1920, 1080
-    img = card_bg((W, H)).convert("RGBA")
+    img = section_canvas((W, H))
     d = ImageDraw.Draw(img)
-    d.text((120, 72), "Access pass — not a promise", font=font("Inter-Bold.ttf", 58), fill=TEXT)
-    d.text((120, 160), "Open desks on day one. Premium is later — not a launch wall.", font=font("Inter-Regular.ttf", 28), fill=MUTE)
+    title = "Access"
+    tf = font("Inter-Bold.ttf", 80)
+    d.text((center_x(d, title, tf, W), 80), title, font=tf, fill=TEXT)
+    sub = "Open at launch. Premium later. Not a promise."
+    sf = font("Inter-Regular.ttf", 28)
+    d.text((center_x(d, sub, sf, W), 180), sub, font=sf, fill=MUTE)
 
-    rows = [
-        (GREEN, "Open at launch", "Everyone can use desks when we ship. No day-one hold gate."),
-        (GOLD, "Premium later ~0.5%", "Hosted convenience may later need a small hold. Coin is an access pass."),
-        (CYAN, "Code teasers stay public", "Inspect the idea on GitHub. Craft is visible. Samples stay readable."),
-        (VIOLET, "Live keys stay private", "Signing keys never go in public repos, previews, or chats."),
-    ]
-    y = 250
-    for color, title, body in rows:
-        rounded(d, [120, y, 1800, y + 150], 22, fill=PANEL, outline=LINE, width=2)
-        d.ellipse([156, y + 54, 188, y + 86], fill=color)
-        d.text((220, y + 32), title, font=font("Inter-SemiBold.ttf", 32), fill=TEXT)
-        d.text((220, y + 82), body, font=font("Inter-Regular.ttf", 24), fill=MUTE)
-        y += 170
+    glass_card(img, [160, 280, 920, 620], 36, CYAN)
+    glass_card(img, [1000, 280, 1760, 620], 36, VIOLET)
+    d = ImageDraw.Draw(img)
+    d.text((210, 340), "Open at launch", font=font("Inter-SemiBold.ttf", 40), fill=TEXT)
+    d.text((210, 420), "Desks are open day one.", font=font("Inter-Regular.ttf", 28), fill=MUTE)
+    d.text((210, 470), "No hold wall at launch.", font=font("Inter-Regular.ttf", 28), fill=CYAN)
+    d.text((1050, 340), "Premium later", font=font("Inter-SemiBold.ttf", 40), fill=TEXT)
+    d.text((1050, 420), "Hosted extras may later need", font=font("Inter-Regular.ttf", 28), fill=MUTE)
+    d.text((1050, 470), "~0.5% hold. Access pass, not APR.", font=font("Inter-Regular.ttf", 28), fill=VIOLET)
 
-    d.text((120, 1000), "NFA  ·  Paper demos ≠ live trading  ·  No APR / 10x claims", font=font("Inter-Medium.ttf", 22), fill=(120, 136, 160))
+    glass_card(img, [160, 680, 920, 900], 28, CYAN)
+    glass_card(img, [1000, 680, 1760, 900], 28, VIOLET)
+    d = ImageDraw.Draw(img)
+    d.text((210, 730), "Code teasers stay public", font=font("Inter-SemiBold.ttf", 28), fill=TEXT)
+    d.text((210, 790), "Inspect the idea on GitHub.", font=font("Inter-Regular.ttf", 24), fill=MUTE)
+    d.text((1050, 730), "Live keys stay private", font=font("Inter-SemiBold.ttf", 28), fill=TEXT)
+    d.text((1050, 790), "Never in repos, previews, or chats.", font=font("Inter-Regular.ttf", 24), fill=MUTE)
+
+    foot = "NFA  ·  Paper demos ≠ live trading  ·  No 10x claims"
+    ff = font("Inter-Medium.ttf", 22)
+    d.text((center_x(d, foot, ff, W), 1008), foot, font=ff, fill=(120, 136, 160))
     save_pair(img, "04-access")
 
 
 if __name__ == "__main__":
-    make_hero()
+    # Do not regenerate 01-hero — live jpg wordmark is already correct.
     make_how()
     make_stack()
     make_access()
