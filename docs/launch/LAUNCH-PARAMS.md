@@ -69,9 +69,10 @@ Optional later: pump.fun **fee share** to team wallets (up to 10) if you add par
 
 ### G) What to put on the coin page
 - Image: official orange/purple hollow hexagon S — `BOTS-logo-official.png` (locked)  
-- Description: access pass + GitHub + X + landing  
+- Description: access pass + GitHub + X + YouTube + landing  
 - Website: landing  
 - X: @StaRKCryptoBots  
+- YouTube: @starksystems-y2r  
 - GitHub: StaRKCrypto / stark-tools  
 - **No APR language**
 

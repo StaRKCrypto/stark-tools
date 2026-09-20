@@ -1,5 +1,6 @@
 **Landing page:** https://starkcrypto.github.io/stark-tools/  
 **X:** https://x.com/StaRKCryptoBots  
+**YouTube:** https://www.youtube.com/@starksystems-y2r  
 **Pin:** https://x.com/StaRKCryptoBots/status/2100370890215043249
 
 # stark-tools — Public Teaser Packs
@@ -72,3 +73,4 @@ MIT — see [`LICENSE`](./LICENSE). Teaser code only; hosted product terms apply
 - Landing copy: [`LANDING.md`](./LANDING.md)
 - X org: [x.com/starkcryptollc](https://x.com/starkcryptollc)
 - Personal: [x.com/_Starkcrypto](https://x.com/_Starkcrypto)
+- YouTube: [youtube.com/@starksystems-y2r](https://www.youtube.com/@starksystems-y2r)

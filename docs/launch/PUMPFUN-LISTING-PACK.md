@@ -6,6 +6,7 @@
 **Brand banner:** `docs/launch/starkbots-banner-master.jpg` / X cover `docs/launch/starkbots-cover-1500x500.png`
 
 **Brand:** [@StaRKCryptoBots](https://x.com/StaRKCryptoBots) · Personal [@_Starkcrypto](https://x.com/_Starkcrypto)  
+**YouTube:** [youtube.com/@starksystems-y2r](https://www.youtube.com/@starksystems-y2r)  
 **Landing:** https://starkcrypto.github.io/stark-tools/  
 **GitHub hub:** https://github.com/StaRKCrypto/stark-tools  
 
@@ -39,6 +40,7 @@ S/R · farms · mints · portfolio · weather · take-profits · more coming.
 
 Public code teasers: github.com/StaRKCrypto/stark-tools
 Demos + brand: x.com/StaRKCryptoBots
+YouTube: youtube.com/@starksystems-y2r
 Landing: starkcrypto.github.io/stark-tools
 
 Desks open to everyone at launch.
@@ -60,8 +62,9 @@ StaRK Bots ($BOTS) — open desks + public code. Free to try at launch; later pr
 
 1. Website: `https://starkcrypto.github.io/stark-tools/`  
 2. Twitter/X: `https://x.com/StaRKCryptoBots`  
-3. Telegram: *(add if/when you create one — optional)*  
-4. GitHub: `https://github.com/StaRKCrypto/stark-tools`  
+3. YouTube: `https://www.youtube.com/@starksystems-y2r`  
+4. Telegram: *(add if/when you create one — optional)*  
+5. GitHub: `https://github.com/StaRKCrypto/stark-tools`  
 
 If pump.fun offers **GitHub / creator fee share**, attach `StaRKCrypto` GitHub org/user.
 
@@ -87,7 +90,7 @@ After mint exists, paste **one** CA everywhere:
 - [ ] Brand X bio (optional short “CA: …” once live)  
 - [ ] GitHub hub README + org README  
 - [ ] Each major teaser README “Token CA” line  
-- [ ] Dexscreener socials (X + website + GitHub)  
+- [ ] Dexscreener socials (X + YouTube + website + GitHub)  
 - [ ] Personal `@_Starkcrypto` one pointer post with CA  
 
 **Never** drop CA only in a random reply (reply-snipe risk).
