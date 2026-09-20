@@ -1,6 +1,7 @@
 # StaRK Bots — Project Overview
 
 **Brand X:** [@StaRKCryptoBots](https://x.com/StaRKCryptoBots)  
+**YouTube:** [@starksystems-y2r](https://www.youtube.com/@starksystems-y2r)  
 **Personal:** [@_Starkcrypto](https://x.com/_Starkcrypto)  
 **Code hub:** [github.com/StaRKCrypto/stark-tools](https://github.com/StaRKCrypto/stark-tools)  
 
