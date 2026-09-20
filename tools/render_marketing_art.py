@@ -26,6 +26,13 @@ MONO = Path("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf")
 MONO_B = Path("/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf")
 
 
+def save_pair(img: Image.Image, stem: str) -> None:
+    rgb = img.convert("RGB")
+    rgb.save(ASSETS / f"{stem}.png", "PNG", optimize=True)
+    rgb.save(ASSETS / f"{stem}.jpg", "JPEG", quality=92, optimize=True, progressive=True)
+    print("wrote", stem)
+
+
 def font(name: str, size: int) -> ImageFont.FreeTypeFont:
     return ImageFont.truetype(str(FONT_DIR / name), size)
 
@@ -150,8 +157,7 @@ def make_how() -> None:
 
     foot = font("Inter-Medium.ttf", 22)
     d.text((120, 980), "StaRK Bots  ·  Code first. Coin last. NFA.", font=foot, fill=(120, 136, 160))
-    img.convert("RGB").save(ASSETS / "02-how.png", "PNG", optimize=True)
-    print("wrote 02-how.png")
+    save_pair(img, "02-how")
 
 
 def make_stack() -> None:
@@ -187,8 +193,7 @@ def make_stack() -> None:
         d.text((x + 28, y + 128), blurb, font=font("Inter-Regular.ttf", 22), fill=MUTE)
 
     d.text((120, 1008), "StaRK Bots  ·  11+ desk teasers  ·  sample source public", font=font("Inter-Medium.ttf", 22), fill=(120, 136, 160))
-    img.convert("RGB").save(ASSETS / "03-stack.png", "PNG", optimize=True)
-    print("wrote 03-stack.png")
+    save_pair(img, "03-stack")
 
 
 def make_access() -> None:
@@ -213,8 +218,7 @@ def make_access() -> None:
         y += 170
 
     d.text((120, 1000), "NFA  ·  Paper demos ≠ live trading  ·  No APR / 10x claims", font=font("Inter-Medium.ttf", 22), fill=(120, 136, 160))
-    img.convert("RGB").save(ASSETS / "04-access.png", "PNG", optimize=True)
-    print("wrote 04-access.png")
+    save_pair(img, "04-access")
 
 
 if __name__ == "__main__":
