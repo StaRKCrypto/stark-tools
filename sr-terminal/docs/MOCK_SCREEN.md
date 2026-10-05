@@ -13,7 +13,7 @@
 │  101.40  ▓▓▓▓░░  22k  │                                           │
 ├───────────────────────────────────────────────────────────────────┤
 │  status: TEASER ONLY — no live routing · no keys                  │
-│  gate: hold ~0.5% official coin for hosted desk                   │
+│  access: open at launch · premium ~0.5% later                     │
 └───────────────────────────────────────────────────────────────────┘
 ```
 

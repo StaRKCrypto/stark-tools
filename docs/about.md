@@ -33,7 +33,7 @@ The coin is an **access pass**, not a promised return. Code and identity come fi
 |------|-----|
 | Prove the tools are real | Public GitHub teasers + demo videos on X |
 | Keep users safe | No wallets/keys in public repos; paper demos labeled clearly |
-| Monetize without rug optics | Hold-to-access hosted apps; don’t gate the sample source |
+| Monetize without rug optics | Open desks at launch; later premium may need ~0.5% hold; don’t gate the sample source |
 | Ship in the open | Brand account managed by Grok Bot; personal account stays human |
 
 ---
@@ -51,7 +51,7 @@ The coin is an **access pass**, not a promised return. Code and identity come fi
 
 1. **Teaser repos** — README + small demos (synthetic data). Enough to show craft.  
 2. **Demo videos** — each bot shown as a user would use it (scan, arm, paper fill).  
-3. **Hosted unlock** — after coin launch, wallet connect checks balance ≥ threshold.  
+3. **Open at launch** — desks open to everyone; later premium may check wallet balance ≥ ~0.5% threshold.  
 4. **Self-host path** — samples remain readable; power users can run their own stack.
 
 ---
@@ -145,7 +145,7 @@ More desks (Arcus, Lighter, Nado, Mint, Portfolio, Nimbus, Profit Taking, Bound,
 
 ---
 
-*Built for builders and traders who want tools they can inspect — and hosted desks that stay unlocked by holding, not by hope.*
+*Built for builders and traders who want tools they can inspect — desks open at launch; later premium may need a hold.*
 
 
 

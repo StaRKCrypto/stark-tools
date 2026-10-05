@@ -38,7 +38,7 @@ Every README must state:
 > Open at launch; later premium may need **~0.5%** of the official coin
 > (`YOUR_TOKEN_CA_HERE` — CA added after launch).  
 > Public repo = authenticity samples + docs teaser.  
-> Full hosted access is gated. Source samples are **NOT** the full product.
+> Later premium may be gated. Source samples are **NOT** the full product.
 
 ## Sign-off
 

@@ -5,7 +5,7 @@
 > **Open at launch.** Desks are free to try. Later premium tools may need **~0.5%** hold of the official coin  
 > (`YOUR_TOKEN_CA_HERE` — CA added after launch).  
 > Public repo = authenticity samples + docs teaser.  
-> Full hosted access is gated. Source samples are **NOT** the full product.
+> Later premium may be gated. Source samples are **NOT** the full product.
 
 ## What this sample is
 

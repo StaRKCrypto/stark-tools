@@ -156,7 +156,7 @@ def main() -> None:
 
     print("\n" + "-" * 64)
     print("Hosted SR Bot: paste CA → live chart → full S/R stack.")
-    print("Gate: hold ~0.5% of official coin (YOUR_TOKEN_CA_HERE after launch).")
+    print("Access: open at launch; later premium may need ~0.5% hold (YOUR_TOKEN_CA_HERE).")
     print("Missing here on purpose: SMC, fibs, live trading, exchange keys.")
     print("=" * 64)
 

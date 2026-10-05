@@ -22,6 +22,6 @@ Illustrative notes only. **Not** a runnable farm. **Not** financial advice.
 - Keys, seeds, or venue credentials
 - Auto-hedge / flatten routines
 
-**Gate:** hold ~0.5% of `YOUR_TOKEN_CA_HERE` (after launch) for hosted Farmer.
+**Access:** open at launch; later premium may need ~0.5% of `YOUR_TOKEN_CA_HERE`.
 
 Brand: @starkcryptollc · @_Starkcrypto
