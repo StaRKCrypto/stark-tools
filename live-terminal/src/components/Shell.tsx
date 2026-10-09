@@ -1,7 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import { useSession } from '../lib/session'
 import { isArmed, isDryRun, setArmed, setDryRun } from '../lib/vault'
 import { VaultDrawer } from './VaultDrawer'
+import { TrustStrip } from './TrustStrip'
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const s = useSession()
@@ -13,15 +15,36 @@ export function Shell({ children }: { children: React.ReactNode }) {
   return (
     <div className="stage">
       <header className="topbar">
+        <NavLink to="/" className="brand">
+          StaRK <span>OPS</span>
+        </NavLink>
+        <nav className="tabs">
+          <NavLink to="/" end className={({ isActive }) => (isActive ? 'tab on' : 'tab')}>
+            Markets
+          </NavLink>
+          <NavLink to="/nimbus" className={({ isActive }) => (isActive ? 'tab on' : 'tab')}>
+            Nimbus
+          </NavLink>
+          <NavLink to="/mint" className={({ isActive }) => (isActive ? 'tab on' : 'tab')}>
+            Mint
+          </NavLink>
+          <NavLink to="/arcus" className={({ isActive }) => (isActive ? 'tab on' : 'tab')}>
+            Arcus
+          </NavLink>
+          <NavLink to="/lighter" className={({ isActive }) => (isActive ? 'tab on' : 'tab')}>
+            Lighter
+          </NavLink>
+          <NavLink to="/nado" className={({ isActive }) => (isActive ? 'tab on' : 'tab')}>
+            Nado
+          </NavLink>
+        </nav>
         <span className={`pill ${s.dryRun ? 'pill-ok' : 'pill-bad'}`}>
-          {s.dryRun ? 'DRY_RUN' : 'LIVE MODE'}
+          {s.dryRun ? 'DRY_RUN' : 'LIVE'}
         </span>
         <span className={`pill ${s.armed ? 'pill-warn' : 'pill-info'}`}>
           {s.armed ? 'ARMED' : 'DISARMED'}
         </span>
-        <span className="addr">
-          {s.address ? s.address : 'no vault'}
-        </span>
+        <span className="addr">{s.address || 'no vault'}</span>
         <span className="spacer" />
         <label className="chk">
           <input
@@ -72,10 +95,9 @@ export function Shell({ children }: { children: React.ReactNode }) {
         </button>
       </header>
       <p className="banner">
-        <strong>Burner keys only.</strong> We cannot recover keys. Keys live in
-        localStorage on this device — never committed, never logged in full.
-        Clear vault when done. NFA. Not an announcement.
+        Burner keys only. Keys stay in this browser. Clear vault when done. NFA. Not an announcement.
       </p>
+      <TrustStrip />
       {children}
       {s.vaultOpen && <VaultDrawer />}
     </div>

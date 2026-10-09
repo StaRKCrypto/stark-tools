@@ -3,9 +3,13 @@ import { runScan, type CityScanRow, type ScanResult } from '../lib/nimbus/scan'
 import { placeNimbusOrder } from '../lib/nimbus/orders'
 import { STRATEGY } from '../lib/nimbus/engine'
 import { Tape } from '../components/Tape'
+import { VenueDock } from '../components/VenueDock'
 import { safeError } from '../lib/redact'
 import { useSession } from '../lib/session'
 import { pushTape } from '../lib/activity'
+import { VENUE } from '../lib/venues/links'
+import { snapFor } from '../lib/snaps'
+import { ageLabel, fmtUsd } from '../lib/format'
 
 export function Nimbus() {
   const s = useSession()
@@ -15,6 +19,7 @@ export function Nimbus() {
   const [side, setSide] = useState<'YES' | 'NO'>('YES')
   const [usd, setUsd] = useState('6')
   const [msg, setMsg] = useState<string | null>(null)
+  const snap = snapFor('nimbus')
 
   async function onScan() {
     setBusy(true)
@@ -40,6 +45,7 @@ export function Nimbus() {
   const top = sel?.buckets.find((b) => b.side && b.kellyStake > 0) || sel?.buckets[0]
   const token = side === 'YES' ? top?.yesTokenId : top?.noTokenId
   const px = side === 'YES' ? top?.yesPrice : top?.noPrice
+  const eventHref = sel?.slug ? VENUE.polymarketEvent(sel.slug) : VENUE.polymarketHome
 
   async function send() {
     if (!sel || !top || !token || px == null) return
@@ -60,34 +66,47 @@ export function Nimbus() {
     <div className="page">
       <div className="page-h">
         <div>
-          <h1>Nimbus · weather CLOB</h1>
+          <h1>Nimbus companion</h1>
           <p>
-            Engine: minEdge {(STRATEGY.minEdge * 100).toFixed(0)}¢ · fee {(STRATEGY.feeHaircut * 100).toFixed(0)}¢ ·
+            Engine minEdge {(STRATEGY.minEdge * 100).toFixed(0)}¢ · fee {(STRATEGY.feeHaircut * 100).toFixed(0)}¢ ·
             tickets ${STRATEGY.minTicketUsd}–${STRATEGY.maxTicketUsd} · cap ${STRATEGY.hardCapUsd}
           </p>
         </div>
-        <button
-          className="btn btn-primary"
-          type="button"
-          data-testid="nimbus-scan"
-          disabled={busy}
-          onClick={onScan}
-        >
+        <button className="btn btn-buy" type="button" data-testid="nimbus-scan" disabled={busy} onClick={onScan}>
           {busy ? 'Scanning…' : 'Scan markets'}
         </button>
       </div>
       {msg && <div className="tiny">{msg}</div>}
-      <div className="grid-2">
+      <div className="split">
+        <VenueDock name="Polymarket" href={eventHref} marketsHref={VENUE.polymarketHome} />
+        <div className="panel">
+          <h2>Journal</h2>
+          <div className="panel-body">
+            <div className="kv">
+              <span>Equity</span>
+              <b className="mono">{fmtUsd(snap?.equityUsd)}</b>
+            </div>
+            <div className="kv">
+              <span>Snap</span>
+              <b className="mono">{ageLabel(snap?.at)}</b>
+            </div>
+            {sel && (
+              <div className="tiny">
+                Selected {sel.city} · obs {sel.observedMax?.toFixed(1) ?? '—'} · edge{' '}
+                {(sel.bestEdge * 100).toFixed(1)}¢
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="split">
         <div className="panel">
           <h2>
             Cities{' '}
-            {busy
-              ? '· scanning'
-              : scan
-                ? `· ${scan.cities.length} · ${scan.durationMs}ms`
-                : ''}
+            {busy ? '· scanning' : scan ? `· ${scan.cities.length} · ${scan.durationMs}ms` : ''}
           </h2>
-          <div style={{ overflow: 'auto', maxHeight: '62vh' }}>
+          <div className="scroll">
             <table className="term">
               <thead>
                 <tr>
@@ -105,7 +124,7 @@ export function Nimbus() {
                     key={c.cityKey}
                     className="clickable"
                     onClick={() => setSel(c)}
-                    style={sel?.cityKey === c.cityKey ? { background: '#15202c' } : undefined}
+                    style={sel?.cityKey === c.cityKey ? { background: '#161a22' } : undefined}
                   >
                     <td>
                       <div>{c.city}</div>
@@ -123,9 +142,7 @@ export function Nimbus() {
                     </td>
                     <td className="mono">{(c.bestEdge * 100).toFixed(1)}¢</td>
                     <td className="tiny">
-                      {c.ladder?.reason ||
-                        c.buckets.find((b) => b.side)?.reason ||
-                        '—'}
+                      {c.ladder?.reason || c.buckets.find((b) => b.side)?.reason || '—'}
                     </td>
                   </tr>
                 ))}
@@ -155,12 +172,10 @@ export function Nimbus() {
           </div>
         </div>
         <div>
-          <div className="panel" style={{ marginBottom: 12 }}>
-            <h2>Ticket</h2>
+          <div className="panel" style={{ marginBottom: 8 }}>
+            <h2>Paper intent</h2>
             <div className="panel-body ticket">
-              <div className="tiny">
-                {sel ? `${sel.city} · ${sel.title}` : 'Select a city'}
-              </div>
+              <div className="tiny">{sel ? `${sel.city} · ${sel.title}` : 'Select a city'}</div>
               {top && (
                 <>
                   <div>
@@ -179,25 +194,29 @@ export function Nimbus() {
                     <input value={usd} onChange={(e) => setUsd(e.target.value)} />
                   </label>
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-buy"
                     type="button"
                     data-testid="nimbus-send"
                     onClick={send}
                     disabled={!s.hasKey}
                   >
-                    {s.dryRun || !s.armed ? 'Send paper order' : 'Send / attempt live'}
+                    {s.dryRun || !s.armed ? 'Log paper order' : 'Attempt live (Node CLOB)'}
                   </button>
+                  {sel?.slug && (
+                    <a href={VENUE.polymarketEvent(sel.slug)} target="_blank" rel="noreferrer">
+                      Open this event on Polymarket
+                    </a>
+                  )}
                 </>
               )}
               <div className="stub">
-                Live Polymarket CLOB (FAK→GTC, pUSD) is implemented in Node Nimbus
-                <code> clob.ts</code>. This browser host can paper-log and read public midpoint; L2 API
-                credential derivation is not reliable here. Keep DRY_RUN on.
+                Live CLOB posts are not reliable in the browser. Paper-log here; send on Polymarket or
+                Node Nimbus.
               </div>
             </div>
           </div>
           {sel && (
-            <div className="panel" style={{ marginBottom: 12 }}>
+            <div className="panel">
               <h2>Buckets</h2>
               <table className="term">
                 <thead>
@@ -225,9 +244,9 @@ export function Nimbus() {
               </table>
             </div>
           )}
-          <Tape desk="nimbus" />
         </div>
       </div>
+      <Tape desk="nimbus" />
     </div>
   )
 }
