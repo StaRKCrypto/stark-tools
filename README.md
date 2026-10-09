@@ -1,3 +1,4 @@
+**Website:** https://stark-bot.com  
 **Landing page:** https://starkcrypto.github.io/stark-tools/  
 **Try apps (paper):** https://starkcrypto.github.io/stark-tools/apps/  
 **Live Studio (client keys stay in browser):** https://starkcrypto.github.io/stark-tools/live-studio/  
@@ -7,7 +8,7 @@
 
 # stark-tools — Public Teaser Packs
 
-**StaRK Bots** · Brand X [@StaRKCryptoBots](https://x.com/StaRKCryptoBots) · Personal [@_Starkcrypto](https://x.com/_Starkcrypto)  
+**StaRK Bots** · Website [stark-bot.com](https://stark-bot.com) · Brand X [@StaRKCryptoBots](https://x.com/StaRKCryptoBots) · Personal [@_Starkcrypto](https://x.com/_Starkcrypto)  
 GitHub: [StaRKCrypto](https://github.com/StaRKCrypto)
 
 > **Open at launch.** Desks are free to try. Later premium tools may need **~0.5%** hold of the official coin  
