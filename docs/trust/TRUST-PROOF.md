@@ -22,7 +22,7 @@ StaRK bots run **ON the real venues** — not a fake UI.
 2. **Lighter RH** — **volume farming** & **open interest farming** on the real Lighter desk; respects fee tier (prefer maker when taker costs); **keeps trading activity organic**.
 3. **Nado** — volume/OI/points-style farming per venue docs; post-only / fee-aware so you don’t bleed edge just to print volume. Behavior **depends on each perp DEX fee formula / docs** (maker free vs taker charged).
 4. **OpenSea Mint Sniper** — **OpenSea mint scanner 24/7 all chains**; auto-mints to wallets the user added (SeaDrop / public free only).
-5. **Close** — Organic activity. Fee-aware. Real venues. CA soon. $BOTS.
+5. **Close** — Organic activity. Fee-aware. Real venues. CA soon. $STARKBOT.
 
 ## Film (~86s · 1080p)
 
@@ -34,7 +34,7 @@ StaRK bots run **ON the real venues** — not a fake UI.
 | Nado | `broll/nado-venue-live.mp4` | `app.nado.xyz · LIVE` · volume/OI/points · post-only · fee-aware |
 | Nado dash | `trust-snaps/nado-live-dashboard.png` | Fee-aware farming per venue docs |
 | Mint | `cinematic/v3/raw/mint-sniper-raw.mp4` | OpenSea Mint Sniper · 24/7 · all chains · SeaDrop/public |
-| Close | end card | Organic · Fee-aware · Real venues · CA soon · $BOTS |
+| Close | end card | Organic · Fee-aware · Real venues · CA soon · $STARKBOT |
 
 **VO:** edge-tts (`en-US-ChristopherNeural`, −8%) burned in. No invented PnL. No tweet.
 

@@ -14,20 +14,19 @@
 
 ## 1) Recommended listing
 
-**Locked ticker: `$BOTS`** (user pick). Name stays **StaRK Bots**.
+**Locked ticker: `$STARKBOT`.** Name stays **StaRK Bots**.
 
 **Locked logo:** official hexagon mark — hollow chrome hex with orange (left) / purple-magenta (right) circuitry glow on black (`docs/launch/BOTS-logo-official.png` · same file as `stark-token-logo.png`).
 
 | Field | Recommendation | Why |
 |------|----------------|-----|
 | **Name** | `StaRK Bots` | Matches X + landing |
-| **Ticker** | `BOTS` | Chosen — short, matches StaRK Bots product |
-| **Alt ticker** | `STARK` / `STKB` | Fallbacks only if needed |
+| **Ticker** | `STARKBOT` | Confirmed |
 | **Image** | `BOTS-logo-official.png` (1000×1000) | Official hexagon mark for pump.fun |
 | **Chain** | Solana (pump.fun) | Per original plan |
 | **Framing** | Tool **access pass** | Not APR / not “will 10x” |
 
-**Pick one ticker before launch** and stick to it everywhere. Ticker is locked to **BOTS**.
+Ticker is **$STARKBOT** everywhere. Do not publish a second symbol.
 
 ---
 
@@ -44,7 +43,7 @@ YouTube: youtube.com/@starksystems-y2r
 Landing: starkcrypto.github.io/stark-tools
 
 Desks open to everyone at launch.
-Later premium tools may need ~0.5% $BOTS hold.
+Any later hold is a placeholder — not set. Ticker is $STARKBOT.
 Live keys stay private. Samples stay public.
 
 Not financial advice. Tools can break. Coin is an access pass — not a promised return.
@@ -53,7 +52,7 @@ Not financial advice. Tools can break. Coin is an access pass — not a promised
 **Shorter bio (if character-limited):**
 
 ```
-StaRK Bots ($BOTS) — open desks + public code. Free to try at launch; later premium may need ~0.5% hold. github.com/StaRKCrypto/stark-tools · x.com/StaRKCryptoBots · NFA
+StaRK Bots ($STARKBOT) — open desks + public code. Supply and fees are placeholders. github.com/StaRKCrypto/stark-tools · x.com/StaRKCryptoBots · NFA
 ```
 
 ---
@@ -109,7 +108,7 @@ After mint exists, paste **one** CA everywhere:
 ## 7) After launch (product)
 
 1. Ship desks **open to everyone** at launch (no hold wall)
-2. Later: premium modules may gate at ~0.5% (5M $BOTS) hold  
+2. Later: any hold size for $STARKBOT is a placeholder — not set  
 2. Keep source teasers public  
 3. Ship next desks as demos on X, then hosted  
 
@@ -120,9 +119,9 @@ After mint exists, paste **one** CA everywhere:
 Locked:
 
 1. **Name** StaRK Bots  
-2. **Ticker** `$BOTS`  
+2. **Ticker** `$STARKBOT`  
 3. **Logo** hexagon official mark (this pack)  
-4. **Economics** 1B / no custom tax / ≤5 SOL one-wallet creator buy / desks open at launch / ~0.5% hold = **later premium only**  
+4. **Economics** supply, fees, allocation, and liquidity are placeholders — not set  
 
 **STOP until user says `launch`.** Pack stays draft. Nothing created on-chain.
 
