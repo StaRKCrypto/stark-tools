@@ -1,0 +1,20 @@
+# StaRK Bots static site for Namecheap / LiteSpeed.
+# GitHub Pages ignores this file. It does not deploy anything by itself.
+DirectoryIndex index.html
+Options -Indexes
+
+<IfModule mod_mime.c>
+  AddType image/svg+xml .svg
+  AddType application/manifest+json .webmanifest
+  AddType application/javascript .js
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^privacy$ privacy/ [R=301,L]
+  RewriteRule ^terms$ terms/ [R=301,L]
+  RewriteRule ^__grok/manifest\.webmanifest$ /site.webmanifest [R=301,L]
+  RewriteRule ^__grok/icon-180\.png$ /icon-180.png [R=301,L]
+</IfModule>
+
+ErrorDocument 404 /404.html

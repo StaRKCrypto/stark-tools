@@ -1,0 +1,41 @@
+:root{
+  --bg:#06090e; --panel:#0d131b; --panel2:#111822; --line:#1b2636;
+  --text:#e4ebf5; --mute:#8797af; --cyan:#3de7ff; --violet:#8b6cff;
+  --green:#2dd4a8; --gold:#f0b429;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:16px/1.65 "IBM Plex Sans",system-ui,sans-serif;color:var(--text);
+  background:
+    radial-gradient(900px 480px at 85% -10%, rgba(139,108,255,.18), transparent 55%),
+    radial-gradient(800px 420px at 0% 0%, rgba(61,231,255,.12), transparent 50%),
+    var(--bg)}
+a{color:var(--cyan)} a:hover{text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--panel);color:var(--text);padding:8px 12px;border-radius:8px;z-index:40}
+.skip:focus{left:12px}
+.wrap{max-width:800px;margin:0 auto;padding:0 22px 64px}
+nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 0;position:sticky;top:0;z-index:20;
+  background:rgba(6,9,14,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.logo{font-weight:700;font-size:18px;letter-spacing:.01em;display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none}
+.logo img{width:32px;height:32px;border-radius:6px;display:block}
+.logo i{color:var(--cyan);font-style:normal}
+.nav-links{margin-left:auto;display:flex;gap:16px;font-size:14px;align-items:center;flex-wrap:wrap}
+.nav-links a{color:var(--mute);text-decoration:none}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--text)}
+h1{font-size:clamp(32px,5vw,44px);line-height:1.08;margin:28px 0 12px;letter-spacing:-.03em}
+.lead{color:var(--mute);margin:0 0 8px}
+.updated{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--gold);margin:0 0 28px}
+h2{font-size:22px;margin:32px 0 8px;letter-spacing:-.02em}
+p,li{color:var(--mute)}
+li{margin:8px 0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:18px 0}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);color:var(--mute);font-size:13px}
+footer nav{position:static;background:none;border:0;backdrop-filter:none;padding:0 0 12px;gap:14px}
+footer a{color:var(--cyan)}
+.quiet{color:var(--mute)}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+@media(max-width:640px){
+  .wrap{padding:0 16px 48px}
+  .nav-links{margin-left:0;width:100%}
+}

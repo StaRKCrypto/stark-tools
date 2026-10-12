@@ -67,7 +67,7 @@ Local layout for bot teasers: [`bots/`](./bots/).
 ```
 Public GitHub  →  authenticity + teaser samples
 Desks at launch →  open to everyone (no hold wall)
-Later premium  →  may need ~0.5% hold (~5M $BOTS; CA after launch)
+Later premium  →  hold threshold not set ($STARKBOT; CA after launch)
 ```
 
 Token CA placeholder: **`YOUR_TOKEN_CA_HERE`**

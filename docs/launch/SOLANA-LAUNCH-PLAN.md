@@ -1,10 +1,10 @@
-# $BOTS Solana launch plan (LOCKED DIRECTION)
+# $STARKBOT Solana launch plan (LOCKED DIRECTION)
 
 **Chain:** Solana  
 **Venue:** pump.fun → PumpSwap (after graduate)  
 **Name:** StaRK Bots  
-**Ticker:** $BOTS  
-**Primary money path:** creator fees + disclosed bag + open desks now · premium hold-gate later  
+**Ticker:** $STARKBOT  
+**Primary money path:** open desks now · any fee or hold figure is a placeholder  
 **Status:** Plan only — do not launch until user says **launch**
 
 ---
@@ -13,17 +13,17 @@
 
 | Item | Decision |
 |------|----------|
-| Supply | Accept pump.fun **1B** $BOTS |
-| Custom tax | **None** (platform fees only) |
-| Creator fee | Claim from pump.fun → fund desks / infra |
-| Access | **Open at launch** · later premium may need **~0.5% = 5,000,000 $BOTS** |
+| Supply | Placeholder — not set |
+| Fees / tax | Placeholder — not set |
+| Creator fee | Placeholder — not set |
+| Access | **Open at launch** · any later hold is a placeholder — not set |
 | Creator buy | **Plan 2 light: ≤ 5 SOL**, **one wallet**, disclosed in launch post |
 | Bundle / multi-wallet | **Forbidden** |
 | Logo | Official **orange/purple hollow hexagon S** mark (`BOTS-logo-official.png` / `stark-token-logo.png`) + StarkBots banner/cover |
 | Home links | Landing + GitHub + @StaRKCryptoBots + YouTube @starksystems-y2r |
 
 **Money story (public):**  
-Access pass for StaRK desks. No custom tax. Creator fees fund tools. Desks open at launch; later premium may need ~0.5% hold.
+Access pass for StaRK desks. $STARKBOT is not issued. Supply and fees are placeholders. Desks on the site are paper.
 
 ---
 
@@ -35,7 +35,7 @@ Access pass for StaRK desks. No custom tax. Creator fees fund tools. Desks open 
 - [x] Landing: https://starkcrypto.github.io/stark-tools/  
 - [x] Personal pointer from @_Starkcrypto  
 - [x] Listing pack + params docs  
-- [x] Ticker `$BOTS` locked  
+- [x] Ticker `$STARKBOT` locked  
 - [x] Final **logo** locked — hexagon S (orange/purple) + StarkBots banner  
 
 ### Still need before “launch”
@@ -51,7 +51,7 @@ Access pass for StaRK desks. No custom tax. Creator fees fund tools. Desks open 
 1. Connect creator wallet on **pump.fun** (desktop).  
 2. Create coin:  
    - Name `StaRK Bots`  
-   - Ticker `BOTS`  
+   - Ticker `STARKBOT`  
    - Image = `BOTS-logo-official.png` (hexagon mark)  
    - Description = listing pack text  
    - Website / X / GitHub filled  
@@ -71,7 +71,7 @@ Full checklist: `LAUNCH-DAY-CHECKLIST.md`.
 
 ## 4) First 24–48 hours
 
-- Push product: “desks open now · premium hold ~5M later”  
+- Push product: “desks are paper · $STARKBOT is not issued · hold size is not set”  
 - Ship one update on X (new desk progress / gate WIP)  
 - Claim creator fees when meaningful — don’t drain optics day one with huge sells  
 - If graduating: set Dexscreener socials; keep narrative on tools not charts  
@@ -82,7 +82,7 @@ Full checklist: `LAUNCH-DAY-CHECKLIST.md`.
 
 ## 5) Week 1–2 (make the money durable)
 
-1. **Open access v1** — no hold wall. Later **premium gate**: connect wallet → balance ≥ 5M $BOTS → unlock new modules.  
+1. **Open access v1** — no hold wall. Any later hold size for $STARKBOT is a placeholder — not set.  
 2. Keep code teasers public.  
 3. Use creator fees for RPC / hosting / next demos.  
 4. Optional: fee-share wallets if you add a real teammate later.
@@ -94,7 +94,7 @@ Full checklist: `LAUNCH-DAY-CHECKLIST.md`.
 ```
 Volume → pump creator fees → cash for infra
      ↘
-Open desks now · later holders ≥ 0.5% → premium tools (reason to hold)
+Open desks now · later hold size is a placeholder — not set
      ↘
 Disclosed creator bag → optional sells into strength
 ```
@@ -106,12 +106,12 @@ This beats “high tax on a dead RH-chain meme” for *your* setup.
 ## 7) Launch tweet (draft)
 
 ```
-$BOTS is live — StaRK Bots access pass
+$STARKBOT — StaRK Bots access pass
 
 Solana · pump.fun
-1B supply · no custom tax
-Creator fees → fund desks
-Open at launch · later ~0.5% (5M) → premium
+Supply: placeholder — not set
+Fees: placeholder — not set
+CA: Coming at launch until pasted for real
 
 CA: <PASTE>
 

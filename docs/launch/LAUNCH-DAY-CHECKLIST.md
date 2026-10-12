@@ -1,9 +1,9 @@
-# $BOTS launch-day checklist (DRAFT · DO NOT LAUNCH YET)
+# $STARKBOT launch-day checklist (DRAFT · DO NOT LAUNCH YET)
 
 **Hard stop:** Do **not** create the coin, fund a creator buy, or post a CA until the user explicitly says **`launch`**.  
 This file is prep only.
 
-**Locked:** Name `StaRK Bots` · Ticker `BOTS` · 1B supply · no custom tax · ≤5 SOL creator buy (one wallet) · open access at launch · later premium ~0.5% = 5M · logo = hexagon official PNG.
+**Locked:** Name `StaRK Bots` · Ticker `$STARKBOT` · supply, fees, allocation, and liquidity are placeholders — not set · logo = hexagon official PNG.
 
 ---
 
@@ -29,7 +29,7 @@ Only after user says **launch**:
 | Field | Value |
 |-------|--------|
 | Name | `StaRK Bots` |
-| Ticker / symbol | `BOTS` |
+| Ticker / symbol | `STARKBOT` |
 | Image | `BOTS-logo-official.png` (hexagon) |
 | Description | Paste from listing pack |
 | Website | `https://starkcrypto.github.io/stark-tools/` |
@@ -56,7 +56,7 @@ Only after user says **launch**:
 
 Paste the **same** CA in main text / fields — never CA-only in a random reply:
 
-- [ ] **Landing** CA box — `starkcrypto.github.io/stark-tools`  
+- [ ] **Website** `docs/site-config.js` — set `contractAddress` to the mint and no other value. An empty string keeps stark-bot.com on “Coming at launch” and leaves Copy disabled. Do not invent an address.
 - [ ] **GitHub** hub `README.md` + `LANDING.md` + `docs/launch/*` CA placeholders  
 - [ ] Major teaser READMEs “Token CA” lines (as applicable)  
 - [ ] **Dexscreener** socials (website + X + YouTube + GitHub) when listing appears  

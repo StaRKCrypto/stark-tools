@@ -12,7 +12,8 @@
 
   var PREFIX = 'starkbots_trial_v1';
   var DEFAULT_SECONDS = 300;
-  var LANDING = 'https://starkcrypto.github.io/stark-tools/';
+  var LANDING = '../../';
+  var LANDING_LABEL = 'stark-bot.com';
   var STYLE_ID = 'stark-trial-gate-css';
   var ROOT_ID = 'stark-trial-gate-root';
 
@@ -82,6 +83,7 @@
       '.stg-btn{appearance:none;border:0;cursor:pointer;border-radius:10px;padding:12px 20px;font-weight:700;font-size:14px;',
       'background:linear-gradient(90deg,#3de7ff,#8b6cff);color:#061018}',
       '.stg-btn:hover{filter:brightness(1.06)}',
+      '.stg-btn:focus-visible{outline:2px solid #3de7ff;outline-offset:2px}',
       '.stg-link{color:#3de7ff;font-size:13px;font-weight:600;text-decoration:none}',
       '.stg-link:hover{text-decoration:underline}',
       '.stg-fine{font-size:11px;color:#6b7a90;margin-top:14px!important}',
@@ -127,7 +129,7 @@
       '<h2 id="stg-start-title">Start your free paper trial</h2>' +
       '<p>5 minutes per browser per calendar day. Full paper UI — no wallet connect, no keys, not live trading.</p>' +
       '<div class="stg-cta"><button type="button" class="stg-btn" id="stg-start-btn">Start trial · 5:00</button></div>' +
-      '<p class="stg-fine">CA soon · NFA · Paper only</p>' +
+      '<p class="stg-fine">Coming at launch · NFA · Paper only</p>' +
       '</div>';
     root.appendChild(overlay);
     overlay.querySelector('#stg-start-btn').addEventListener('click', function () {
@@ -144,12 +146,12 @@
       '<div class="stg-card" role="dialog" aria-modal="true" aria-labelledby="stg-lock-title">' +
       '<div class="stg-pill">Locked</div>' +
       '<h2 id="stg-lock-title">Free trial ended (5 min / day)</h2>' +
-      '<p>Desks open after $BOTS launch; later premium may need ~0.5% hold</p>' +
+      '<p>Paper trial for today is over. $STARKBOT is not issued. Contract address: Coming at launch. Not financial advice.</p>' +
       '<div class="stg-cta">' +
-      '<a class="stg-btn" href="' + LANDING + '" target="_blank" rel="noopener noreferrer">Open landing →</a>' +
-      '<a class="stg-link" href="' + LANDING + '" target="_blank" rel="noopener noreferrer">' + LANDING + '</a>' +
+      '<a class="stg-btn" href="' + LANDING + '">Open landing</a>' +
+      '<a class="stg-link" href="' + LANDING + '">' + LANDING_LABEL + '</a>' +
       '</div>' +
-      '<p class="stg-fine">CA soon · NFA · Paper only</p>' +
+      '<p class="stg-fine">Coming at launch · NFA · Paper only</p>' +
       '</div>';
     root.appendChild(overlay);
   }

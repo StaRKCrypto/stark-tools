@@ -1,7 +1,7 @@
-# $BOTS launch parameters — ideas & recommendation
+# $STARKBOT launch parameters — ideas & recommendation
 
 **Platform:** Solana · pump.fun (primary)  
-**Name:** StaRK Bots · **Ticker:** $BOTS  
+**Name:** StaRK Bots · **Ticker:** $STARKBOT  
 **Status:** Draft only — not launched  
 
 ---
@@ -12,31 +12,30 @@ You do **not** freely set classic “BSC-style” tax/supply on pump.fun:
 
 | Parameter | Who controls it |
 |-----------|-----------------|
-| **Supply** | Platform — typically **1,000,000,000** ($BOTS) · 6 decimals |
+| **Supply** | Placeholder — not set. Do not publish a supply figure. |
 | **Mint authority** | Platform (you can’t mint more later) |
 | **Trade “tax”** | Platform fee schedule (bonding curve + after graduate) |
-| **Creator take** | **Creator fee** share of trade fees (claimable) — not a custom 5% sell tax |
+| **Creator take** | Placeholder — not set. Do not publish a fee or tax percent. |
 | **You set** | Name, ticker, image, description, socials, **how much you buy**, messaging |
 
-So “tax = 5% buy / 5% sell” is the wrong mental model here. Think **creator fee + how you buy at launch**.
+Do not publish a buy or sell tax. Any fee figure stays a placeholder until it is decided.
 
 ---
 
 ## Recommended setup for StaRK (tools access pass)
 
 ### A) Supply
-- **Accept 1B $BOTS** (pump.fun default).  
-- Hold math reserved for **later premium**: **~0.5% ≈ 5,000,000 $BOTS**.  
-- Publish after CA exists — **not** as a launch unlock wall.
+- **Placeholder — not set.** Do not copy an old supply number onto the site or the launch post.
+- Any later hold size is also a placeholder — not set.
+- Publish figures only after they are decided, and only together with the contract address.
 
 ### B) Tax / fees (what to tell the market)
-- **Do not promise custom taxes.**  
-- Say: *“Trading uses pump.fun / PumpSwap fees; creators earn a small creator-fee share to fund tools.”*  
-- Rough ballpark (platform-set, can change): ~**1–1.25%** total per trade on curve; creator gets a **slice** (often ~0.3% tier early — verify on pump.fun UI day-of).  
-- After graduation: fee tiers by mcap; creator fee often **drops** as mcap rises.
+- **Placeholder — not set.** Do not promise a fee percent.
+- Do not reuse supply or fee figures from the retired draft.
+- If the venue shows a platform fee on launch day, read it in the UI before saying anything. Do not invent one here.
 
 **Brand line:**  
-> No arbitrary sell tax. Platform fees only. Creator fees fund StaRK desks.
+> Fees are not published yet. $STARKBOT is an access pass for StaRK desks, not a promised return.
 
 ### C) Dev / creator buy (3 options)
 
@@ -50,21 +49,18 @@ So “tax = 5% buy / 5% sell” is the wrong mental model here. Think **creator 
 No multi-wallet bundle. Matches your “no fake launch volume” rule.
 
 ### D) Creator fee use (after claims)
-Suggested split (policy, not on-chain unless you use fee-share):
-- **50%** hosted infra / APIs  
-- **30%** new desks / demos  
-- **20%** liquidity top-ups / contingency  
+How any creator fee is split is a **placeholder — not set.** Do not publish a percentage split.
 
-Optional later: pump.fun **fee share** to team wallets (up to 10) if you add partners.
+Optional later: a venue fee-share tool, only if the recipient wallets are real and disclosed.
 
 ### E) Graduation / LP
-- Aim to **graduate** (~platform threshold, often ~$69k mcap / ~85 SOL buy volume — confirm UI).  
+- Graduation threshold: **placeholder — confirm in the venue UI.** Do not publish a market-cap or volume figure from an old draft.  
 - LP on PumpSwap is platform-handled (often burned) — you don’t “own LP” like old launches.  
 - Don’t promise “locked LP we control” unless true.
 
 ### F) Access model (product, not token tax)
 - **Launch:** desks open to everyone (try first).  
-- **Later premium:** ~0.5% of supply = **5M $BOTS** may unlock new paid/premium modules.  
+- **Later premium:** hold size is a **placeholder — not set.** Do not market a percent of supply.  
 - Do **not** market a hold wall on day one.
 
 ### G) What to put on the coin page
@@ -81,15 +77,15 @@ Optional later: pump.fun **fee share** to team wallets (up to 10) if you add par
 ## Suggested “launch tweet” economics blurb
 
 ```
-$BOTS — StaRK Bots access pass
+$STARKBOT — StaRK Bots access pass
 
-Supply: 1B (pump.fun)
-No custom tax — platform fees only
-Creator fees → fund desks
-Desks open at launch · later premium may need ~0.5% hold (5M $BOTS)
+Supply: placeholder — not set
+Fees: placeholder — not set
+Desks are paper until launch copy is final
+CA: Coming at launch
 
 Code: github.com/StaRKCrypto/stark-tools
-Site: starkcrypto.github.io/stark-tools
+Site: stark-bot.com
 NFA
 ```
 
@@ -107,6 +103,6 @@ NFA
 ## Decision checklist for you
 
 - [ ] Confirm Plan **1** (0–2 SOL) or **2** (≤5 SOL) creator buy  
-- [x] Access model: **open at launch** · ~0.5% = 5M reserved for **later premium**  
+- [x] Access model: **open at launch** · hold size is a placeholder — not set  
 - [x] Logo locked: hexagon official mark (`BOTS-logo-official.png`)  
 - [ ] Say **launch** only when ready — pack stays draft until then  
