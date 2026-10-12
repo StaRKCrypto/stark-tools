@@ -1,0 +1,14 @@
+/* Small-screen and focus fixes for paper desks. Desktop layout stays put. */
+@media (max-width: 860px) {
+  html, body { overflow: auto !important; height: auto !important; }
+  .main, .body { display: block !important; height: auto !important; min-height: 0 !important; }
+  .chart-wrap { height: 52vh; min-height: 240px; }
+  .topbar { height: auto !important; min-height: 48px; flex-wrap: wrap; row-gap: 8px; }
+  main { width: auto !important; max-width: 100% !important; padding: 28px 16px 48px !important; }
+  .grid, .pair, .hero, .kpis { grid-template-columns: 1fr !important; }
+  .top { flex-direction: column; align-items: flex-start !important; gap: 12px; }
+}
+a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible {
+  outline: 2px solid #3de7ff;
+  outline-offset: 2px;
+}

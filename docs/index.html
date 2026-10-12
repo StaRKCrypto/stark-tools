@@ -4,15 +4,29 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>StaRK Bots — Tools you can inspect. Access you hold.</title>
-<meta name="description" content="StaRK Bots: open trading desks with public GitHub teasers, paper demos on X, and open desks at launch · premium hold later. Code first. Coin last."/>
+<meta name="description" content="StaRK Bots paper desks you can inspect. $STARKBOT is not issued. The contract address reads Coming at launch. Not financial advice."/>
+<link rel="canonical" href="https://stark-bot.com/"/>
 <meta property="og:title" content="StaRK Bots"/>
-<meta property="og:description" content="Tools you can inspect. Access you hold. Code first. Coin last."/>
-<meta property="og:url" content="https://starkcrypto.github.io/stark-tools/"/>
-<meta property="og:image" content="https://starkcrypto.github.io/stark-tools/assets/01-hero.jpg?v=2"/>
+<meta property="og:description" content="Paper desks you can inspect. The $STARKBOT contract address comes at launch. Not financial advice."/>
+<meta property="og:url" content="https://stark-bot.com/"/>
+<meta property="og:image" content="https://stark-bot.com/assets/01-hero.jpg"/>
+<meta property="og:image:alt" content="StaRK Bots — tools you can inspect, access you hold"/>
+<meta property="og:image:width" content="1600"/>
+<meta property="og:image:height" content="900"/>
+<meta property="og:type" content="website"/>
+<meta property="og:locale" content="en_US"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:site" content="@StaRKCryptoBots"/>
-<meta name="twitter:image" content="https://starkcrypto.github.io/stark-tools/assets/01-hero.jpg?v=2"/>
+<meta name="twitter:title" content="StaRK Bots"/>
+<meta name="twitter:description" content="Paper desks you can inspect. The $STARKBOT contract address comes at launch. Not financial advice."/>
+<meta name="twitter:image" content="https://stark-bot.com/assets/01-hero.jpg"/>
+<meta name="twitter:image:alt" content="StaRK Bots — tools you can inspect, access you hold"/>
+<meta name="theme-color" content="#06090e"/>
+<meta name="color-scheme" content="dark"/>
+<link rel="icon" href="favicon.ico" sizes="any"/>
 <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="icon-180.png"/>
+<link rel="manifest" href="site.webmanifest"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
@@ -29,29 +43,32 @@ body{margin:0;font:16px/1.6 "IBM Plex Sans",system-ui,sans-serif;color:var(--tex
     radial-gradient(800px 420px at 0% 0%, rgba(61,231,255,.12), transparent 50%),
     var(--bg)}
 a{color:var(--cyan);text-decoration:none} a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
 .skip{position:absolute;left:-999px;top:8px;background:var(--panel);color:var(--text);padding:8px 12px;border-radius:8px;z-index:40}
 .skip:focus{left:12px}
 .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
 nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 0;position:sticky;top:0;z-index:20;
   background:rgba(6,9,14,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.logo{font-weight:700;font-size:18px;letter-spacing:.01em;display:flex;align-items:center;gap:10px}
+.logo{font-weight:700;font-size:18px;letter-spacing:.01em;display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none}
 .logo img{width:32px;height:32px;border-radius:6px;display:block}
 .logo i{color:var(--cyan);font-style:normal}
 .nav-links{margin-left:auto;display:flex;gap:18px;font-size:14px;align-items:center}
 .nav-links a{color:var(--mute)} .nav-links a:hover{color:var(--text);text-decoration:none}
-.menu-btn{display:none;margin-left:auto;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px 12px;cursor:pointer}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:12px;font-weight:600;border:1px solid transparent;text-decoration:none!important;font-size:15px}
+.menu-btn{display:none;margin-left:auto;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px 12px;cursor:pointer;min-height:44px;min-width:44px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:12px;font-weight:600;border:1px solid transparent;text-decoration:none!important;font-size:15px;min-height:44px}
 .btn-primary{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#041018!important;box-shadow:0 8px 28px rgba(61,231,255,.18)}
 .btn-ghost{background:var(--panel2);border-color:var(--line);color:var(--text)!important}
 .btn-ghost:hover{border-color:var(--cyan)}
-.hero{display:grid;grid-template-columns:1.08fr .92fr;gap:40px;align-items:center;padding:56px 0 36px}
+.risk{margin:14px 0 0;padding:10px 14px;border-radius:12px;border:1px solid rgba(240,180,41,.4);background:rgba(240,180,41,.08);color:var(--gold);font-size:14px}
+.hero{display:grid;grid-template-columns:1.08fr .92fr;gap:40px;align-items:center;padding:36px 0 36px}
 .pill{display:inline-flex;gap:8px;align-items:center;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
   color:var(--gold);border:1px solid rgba(240,180,41,.45);background:rgba(240,180,41,.08);padding:6px 12px;border-radius:999px;margin-bottom:16px}
 .hero h1{font-size:clamp(36px,5.2vw,54px);line-height:1.06;margin:0 0 16px;letter-spacing:-.03em}
 .hero .lead{font-size:18px;color:var(--mute);margin:0 0 24px;max-width:38em}
 .cta{display:flex;flex-wrap:wrap;gap:10px}
-.socials{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;font-size:13px;font-family:"IBM Plex Mono",monospace}
+.socials{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;font-size:13px;font-family:"IBM Plex Mono",monospace;align-items:center}
 .socials a{color:var(--mute)} .socials a:hover{color:var(--cyan);text-decoration:none}
+.socials .quiet{color:var(--mute)}
 .statrow{display:flex;flex-wrap:wrap;gap:28px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
 .stat strong{display:block;font-size:22px;color:var(--text);letter-spacing:-.02em} .stat span{font-size:12px;color:var(--mute)}
 .hero-media{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.4)}
@@ -77,26 +94,40 @@ h2{font-size:clamp(26px,3vw,34px);margin:0 0 10px;letter-spacing:-.02em}
 .panel li strong{color:var(--text)}
 .ca-box{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:16px 18px;border-radius:14px;
   background:rgba(240,180,41,.06);border:1px dashed rgba(240,180,41,.4);margin-top:14px}
-.ca-box code{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--gold)}
+.ca-box code{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--gold);word-break:break-all}
+.ca-hint{margin:8px 0 0;font-size:13px;color:var(--mute)}
+.copy-btn{font:600 14px/1 "IBM Plex Sans",system-ui,sans-serif;padding:12px 16px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--text);cursor:pointer;min-height:44px}
+.copy-btn:disabled{opacity:.45;cursor:not-allowed}
+.token-wrap{overflow-x:auto;margin-top:14px;border:1px solid var(--line);border-radius:14px}
+.token-table{width:100%;border-collapse:collapse;font-size:14px;min-width:320px}
+.token-table th,.token-table td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.token-table th{color:var(--mute);font-weight:500;width:38%}
+.token-table tr:last-child th,.token-table tr:last-child td{border-bottom:0}
+.ph{color:var(--gold);font-family:"IBM Plex Mono",monospace;font-size:12px}
 .faq details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 10px}
-.faq summary{cursor:pointer;font-weight:600}
+.faq summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center}
 .faq p{color:var(--mute);margin:10px 0 0;font-size:14px}
 .card.soon{opacity:.92;border-style:dashed}
 .soon-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--gold);border:1px solid rgba(240,180,41,.4);padding:3px 8px;border-radius:999px;background:rgba(240,180,41,.08)}
 footer{padding:32px 0 64px;border-top:1px solid var(--line);color:var(--mute);font-size:13px}
 footer .row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+footer nav{display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:0 0 12px;position:static;background:none;border:0;backdrop-filter:none}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .card:hover,.step:hover{transform:none}
+}
 @media(max-width:900px){
   .hero,.steps,.grid{grid-template-columns:1fr}
   .nav-links{display:none}
-  .menu-btn{display:inline-flex}
-  .nav-links.open{display:flex;flex-direction:column;align-items:stretch;position:absolute;right:22px;top:62px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;min-width:200px;box-shadow:0 16px 40px rgba(0,0,0,.4)}
+  .menu-btn{display:inline-flex;align-items:center;justify-content:center}
+  .nav-links.open{display:flex;flex-direction:column;align-items:stretch;position:absolute;left:22px;right:22px;top:62px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0;box-shadow:0 16px 40px rgba(0,0,0,.4);max-height:calc(100vh - 80px);overflow:auto}
   .hero{padding:28px 0 20px;gap:20px}
   section{padding:36px 0}
   .hero h1{font-size:clamp(30px,9vw,42px);letter-spacing:-.025em}
   .hero .lead{font-size:16px;margin-bottom:18px}
   .btn{padding:11px 16px}
   .statrow{gap:16px}
-  .nav-links.open{left:22px;right:22px;min-width:0}
 }
 @media(max-width:640px){
   .wrap{padding:0 16px}
@@ -105,200 +136,296 @@ footer .row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px}
   .logo{font-size:16px}
   h2{font-size:clamp(22px,7vw,28px)}
   .card,.step{min-height:0;padding:16px}
+  .nav-links.open{left:16px;right:16px}
 }
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <div class="wrap">
-  <nav>
-    <div class="logo"><img src="assets/BOTS-logo-nav.png" alt="StaRK Bots hexagon mark"/>StaRK <i>Bots</i></div>
+  <nav aria-label="Primary">
+    <a class="logo" href="./"><img src="assets/BOTS-logo-nav.png" alt=""/>StaRK <i>Bots</i></a>
     <button class="menu-btn" id="menu" type="button" aria-label="Menu" aria-controls="nav" aria-expanded="false">Menu</button>
     <div class="nav-links" id="nav">
       <a href="#how">How</a>
       <a href="#stack">Stack</a>
+      <a href="#launch">Launch</a>
       <a href="#demos">Demos</a>
       <a href="#coming">Coming</a>
       <a href="#plans">Plans</a>
       <a href="#faq">FAQ</a>
       <a href="apps/">Apps</a>
-      <a href="live-studio/">Live Studio</a>
-      <a href="https://github.com/StaRKCrypto/stark-tools" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://x.com/StaRKCryptoBots" target="_blank" rel="noopener">X</a>
-      <a href="https://www.youtube.com/@starksystems-y2r" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://github.com/StaRKCrypto/stark-tools" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://x.com/StaRKCryptoBots" target="_blank" rel="noopener noreferrer">X</a>
     </div>
   </nav>
 
-  <header class="hero" id="main">
+  <p class="risk" role="note">Not financial advice. $STARKBOT is not issued. No price. Contract address: Coming at launch. Paper desks only — nothing here signs a trade.</p>
+
+  <main id="main">
+  <header class="hero">
     <div>
       <div class="pill">Code first · Coin last · NFA</div>
       <h1>Tools you can inspect.<br/>Access you hold.</h1>
-      <p class="lead">Open desks for S/R, farms, mints, portfolio, weather markets, and take-profits. Public GitHub teasers. Paper demos on X. Open at launch · later premium may need ~0.5% hold. Live signing keys never go public.</p>
+      <p class="lead">Open desks for S/R, farms, mints, portfolio, weather markets, and take-profits. Public samples in this repository. Paper demos on X. Desks stay open to try. Live signing keys never go public.</p>
       <div class="cta">
-        <a class="btn btn-primary" href="https://github.com/StaRKCrypto/stark-tools">Open GitHub hub</a>
-        <a class="btn btn-ghost" href="apps/">Apps</a>
-        <a class="btn btn-ghost" href="live-studio/">Live Studio</a>
+        <a class="btn btn-primary" href="#launch">$STARKBOT launch</a>
+        <a class="btn btn-ghost" href="https://github.com/StaRKCrypto/stark-tools">Open GitHub hub</a>
+        <a class="btn btn-ghost" href="apps/">Paper apps</a>
         <a class="btn btn-ghost" href="https://x.com/StaRKCryptoBots/status/2100370890215043249">Pinned overview</a>
         <a class="btn btn-ghost" href="https://github.com/StaRKCrypto/stark-tools/blob/main/docs/ABOUT-STARK-BOTS.md">Full article</a>
       </div>
       <div class="socials">
-        <a href="https://x.com/StaRKCryptoBots" target="_blank" rel="noopener">X · @StaRKCryptoBots</a>
-        <a href="https://github.com/StaRKCrypto/stark-tools" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://www.youtube.com/@starksystems-y2r" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://x.com/StaRKCryptoBots" target="_blank" rel="noopener noreferrer">X · @StaRKCryptoBots</a>
+        <a href="https://x.com/_Starkcrypto" target="_blank" rel="noopener noreferrer">X · @_Starkcrypto</a>
+        <a href="https://github.com/StaRKCrypto/stark-tools" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.youtube.com/@starksystems-y2r" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a href="mailto:ceo@stark-bot.com">ceo@stark-bot.com</a>
+        <span class="quiet">Discord · no public link in this repo</span>
       </div>
       <div class="live">
         <span class="chip">● Landing live</span>
-        <span class="chip">● Demos shipped</span>
-        <span class="chip">● CA soon</span>
-        <span class="chip">● Many more desks coming</span>
+        <span class="chip">● Paper desks shipped</span>
+        <span class="chip">● CA coming at launch</span>
       </div>
       <div class="statrow">
-        <div class="stat"><strong>11+</strong><span>desk teasers</span></div>
-        <div class="stat"><strong>Open</strong><span>at launch · premium later</span></div>
+        <div class="stat"><strong>15</strong><span>samples in this repo</span></div>
+        <div class="stat"><strong>Open</strong><span>paper desks to try</span></div>
         <div class="stat"><strong>Public</strong><span>sample source</span></div>
       </div>
     </div>
     <div class="hero-media"><img src="assets/01-hero.jpg?v=2" width="1600" height="900" alt="StaRK Bots — tools you can inspect, access you hold"/></div>
   </header>
 
-  <section id="how">
-    <h2>How it works</h2>
-    <p class="sub">One pipeline for every desk: prove the idea in public, keep keys private. Desks open at launch; later premium may need ~0.5% hold.</p>
+  <section id="how" aria-labelledby="how-title">
+    <h2 id="how-title">How it works</h2>
+    <p class="sub">One pipeline for every desk: prove the idea in public, keep keys private.</p>
     <div class="fig"><img src="assets/02-how.png?v=4" width="1920" height="1080" alt="How StaRK Bots works: public teasers, paper demos, open at launch"/></div>
     <div class="steps">
-      <div class="step"><div class="n">01 / VERIFY</div><h3>Public teasers</h3><p>Clean sample repos on GitHub. Inspect the craft. No live wallets or signing keys in the open.</p></div>
-      <div class="step"><div class="n">02 / WATCH</div><h3>Paper demos</h3><p>Each bot shown end-to-end on @StaRKCryptoBots — scan, arm, paper fill. Clearly labeled demo.</p></div>
-      <div class="step"><div class="n">03 / ACCESS</div><h3>Open first</h3><p>At launch desks stay open to everyone. Later premium tools may need ~0.5% hold. Coin is an access pass — not a promised return.</p></div>
+      <div class="step"><div class="n">01 / VERIFY</div><h3>Public teasers</h3><p>Clean sample folders in this repository. Inspect the craft. No live wallets or signing keys in the open.</p></div>
+      <div class="step"><div class="n">02 / WATCH</div><h3>Paper demos</h3><p>Each bot shown on @StaRKCryptoBots — scan, arm, paper fill. Clearly labeled demo.</p></div>
+      <div class="step"><div class="n">03 / ACCESS</div><h3>Open first</h3><p>Desks on this site are paper and open to try. The coin is an access pass idea, not a promised return. Any later hold rule is unpublished.</p></div>
     </div>
   </section>
 
-  <section id="stack">
-    <h2>The stack</h2>
-    <p class="sub">First wave of desks with public teasers + demos. Many more in the pipeline.</p>
+  <section id="stack" aria-labelledby="stack-title">
+    <h2 id="stack-title">The stack</h2>
+    <p class="sub">Tools that actually live in this repository. Paper links open a desk on this site. Source links open the sample folder on GitHub.</p>
     <div class="fig"><img src="assets/03-stack.png?v=4" width="1920" height="1080" alt="StaRK Bots desk stack"/></div>
-    <div class="grid" id="bots"></div>
+    <div class="grid" id="bots">
+      <article class="card"><h3>S/R Desk</h3><p>Synthetic candles and a simple swing support/resistance demo. No live keys.</p><div class="links"><a href="https://github.com/StaRKCrypto/stark-tools/tree/main/sr-bot" target="_blank" rel="noopener noreferrer">Source</a></div></article>
+      <article class="card"><h3>S/R Terminal</h3><p>Paper desk notes and mock screens for the same S/R idea.</p><div class="links"><a href="https://github.com/StaRKCrypto/stark-tools/tree/main/sr-terminal" target="_blank" rel="noopener noreferrer">Source</a></div></article>
+      <article class="card"><h3>Arcus S/R</h3><p>Paper zone detector on synthetic candles, with a kill switch on the desk.</p><div class="links"><a href="apps/arcus/">Paper</a> · <a href="https://github.com/StaRKCrypto/stark-tools/tree/main/bots/arcus-sr" target="_blank" rel="noopener noreferrer">Source</a></div></article>
+      <article class="card"><h3>Lighter</h3><p>Synthetic quotes and desk notes. The page here is a paper ladder.</p><div class="links"><a href="apps/lighter/">Paper</a> · <a href="https://github.com/StaRKCrypto/stark-tools/tree/main/bots/lighter-bot" target="_blank" rel="noopener noreferrer">Source</a></div></article>
+      <article class="card"><h3>Nado Farm</h3><p>A fake book snapshot and farm notes. The page here simulates fills.</p><div class="links"><a href="apps/nado/">Paper</a> · <a href="https://github.com/StaRKCrypto/stark-tools/tree/main/bots/nado-bot" target="_blank" rel="noopener noreferrer">Source</a></div></article>
+      <article class="card"><h3>Mint Scout</h3><p>A fake mint watchlist and candidate file. The page here is a paper sniper log.</p><div class="links"><a href="apps/mint-sniper/">Paper</a> · <a href="https://github.com/StaRKCrypto/stark-tools/tree/main/bots/mint-scout" target="_blank" rel="noopener noreferrer">Source</a></div></article>
+      <article class="card"><h3>RH FCFS notes</h3><p>Latency notes and a fake alert sample. No session material in the folder.</p><div class="links"><a href="https://github.com/StaRKCrypto/stark-tools/tree/main/bots/rh-fcfs-sniper" target="_blank" rel="noopener noreferrer">Source</a></div></article>
+      <article class="card"><h3>Portfolio</h3><p>Demo bag UI with hardcoded sample stats. Not a connected wallet.</p><div class="links"><a href="apps/portfolio/">Paper</a> · <a href="https://github.com/StaRKCrypto/stark-tools/tree/main/stark-portfolio" target="_blank" rel="noopener noreferrer">Source</a></div></article>
+      <article class="card"><h3>Nimbus</h3><p>Weather-desk stub and a fake city board. The page here is a dry-run.</p><div class="links"><a href="apps/nimbus/">Paper</a> · <a href="https://github.com/StaRKCrypto/stark-tools/tree/main/bots/nimbus-desk" target="_blank" rel="noopener noreferrer">Source</a></div></article>
+      <article class="card"><h3>Take Profits</h3><p>A fake bag tracker. The page here walks a paper take-profit ladder.</p><div class="links"><a href="apps/take-profits/">Paper</a> · <a href="https://github.com/StaRKCrypto/stark-tools/tree/main/bots/take-profits" target="_blank" rel="noopener noreferrer">Source</a></div></article>
+      <article class="card"><h3>Bound DD</h3><p>Due-diligence checklist stub. The page here scores a sample token.</p><div class="links"><a href="apps/bound/">Paper</a> · <a href="https://github.com/StaRKCrypto/stark-tools/tree/main/bound" target="_blank" rel="noopener noreferrer">Source</a></div></article>
+      <article class="card"><h3>Monk Pair</h3><p>Synthetic BTC versus ETH relative-strength demo.</p><div class="links"><a href="apps/monk/">Paper</a> · <a href="https://github.com/StaRKCrypto/stark-tools/tree/main/bots/monk-pair" target="_blank" rel="noopener noreferrer">Source</a></div></article>
+      <article class="card"><h3>Farmer</h3><p>Volume-farm strategy notes only. No live loop and no keys.</p><div class="links"><a href="https://github.com/StaRKCrypto/stark-tools/tree/main/farmer" target="_blank" rel="noopener noreferrer">Source</a></div></article>
+      <article class="card"><h3>Weather bot</h3><p>Docs teaser plus a fake forecast sample. Pairs with the Nimbus desk.</p><div class="links"><a href="https://github.com/StaRKCrypto/stark-tools/tree/main/weather-bot" target="_blank" rel="noopener noreferrer">Source</a></div></article>
+      <article class="card"><h3>Live terminal</h3><p>Operator source for a local UI. It is not hosted on this site, and it is not a public product page.</p><div class="links"><a href="https://github.com/StaRKCrypto/stark-tools/tree/main/live-terminal" target="_blank" rel="noopener noreferrer">Source</a></div></article>
+    </div>
   </section>
 
-  <section id="apps-preview">
-    <h2>Try desks (free 5-min paper trial)</h2>
-    <p class="sub">Public paper desks on GitHub Pages — Free test · 5 min/day · Paper only. Not live trading. No keys baked in. Start a trial, poke around; open desks after $BOTS launch; later premium may need ~0.5% hold.</p>
+  <section id="launch" aria-labelledby="launch-title">
+    <h2 id="launch-title">Launch · $STARKBOT</h2>
+    <p class="sub">The coin is not issued. Figures below that are not a real address are marked placeholders. Nothing in this table is a promise.</p>
+    <div class="fig"><img src="assets/04-access.png?v=4" width="1920" height="1080" alt="Access pass: open at launch, keys private"/></div>
+    <div class="panel">
+      <ul>
+        <li><strong>Not issued.</strong> No price on this page.</li>
+        <li><strong>Code samples stay public</strong> so anyone can inspect the idea.</li>
+        <li><strong>Live keys stay private</strong> — never in public repos or on this site.</li>
+        <li><strong>Not financial advice.</strong> Paper demos are not live trading.</li>
+      </ul>
+      <div class="ca-box">
+        <div>
+          <div style="font-size:12px;color:var(--mute);margin-bottom:4px">Official contract address</div>
+          <code id="ca">Coming at launch</code>
+          <p class="ca-hint" id="ca-hint">Copy stays off until the address is published.</p>
+        </div>
+        <button class="copy-btn" id="copy-ca" type="button" disabled aria-disabled="true" aria-describedby="ca-hint">Copy address</button>
+      </div>
+      <p class="visually-hidden" id="copy-status" role="status"></p>
+      <div class="token-wrap">
+        <table class="token-table">
+          <caption class="visually-hidden">$STARKBOT launch fields. Unpublished figures are placeholders.</caption>
+          <tbody>
+            <tr><th scope="row">Name</th><td>StaRK Bots</td></tr>
+            <tr><th scope="row">Working symbol</th><td>$STARKBOT <span class="ph">— not a deployed token</span></td></tr>
+            <tr><th scope="row">Status</th><td>Not issued</td></tr>
+            <tr><th scope="row">Contract</th><td id="ca-row">Coming at launch</td></tr>
+            <tr><th scope="row">Chain</th><td><span class="ph">Placeholder — not set</span></td></tr>
+            <tr><th scope="row">Supply</th><td><span class="ph">Placeholder — not set</span></td></tr>
+            <tr><th scope="row">Fees / tax</th><td><span class="ph">Placeholder — not set</span></td></tr>
+            <tr><th scope="row">Allocation</th><td><span class="ph">Placeholder — not set</span></td></tr>
+            <tr><th scope="row">Liquidity</th><td><span class="ph">Placeholder — not set</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="ca-hint">Draft notes in the repository are not copied here. When a contract exists, it will be the same address on this page, on @StaRKCryptoBots, on @_Starkcrypto, and in the READMEs.</p>
+    </div>
+  </section>
+
+  <section id="disclaimer" aria-labelledby="disclaimer-title">
+    <h2 id="disclaimer-title">Not financial advice</h2>
+    <div class="panel" role="note">
+      <p style="margin:0 0 10px">Nothing on stark-bot.com is financial, investment, legal, or trading advice. $STARKBOT is not issued. There is no contract, no price, and no promised return. Paper desks use simulated fills and sample data. Nothing on this site signs a trade or holds a key.</p>
+      <p style="margin:0">Questions: <a href="mailto:ceo@stark-bot.com">ceo@stark-bot.com</a>. Read the <a href="terms/">terms</a> and <a href="privacy/">privacy notice</a>.</p>
+    </div>
+  </section>
+
+  <section id="apps-preview" aria-labelledby="apps-title">
+    <h2 id="apps-title">Try the paper desks</h2>
+    <p class="sub">Nine paper desks are hosted here. Free test, five minutes a day in your browser, paper only. Not live trading. No keys. The contract address is still “Coming at launch”.</p>
     <div class="panel" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
       <div style="color:var(--mute);font-size:14px;max-width:36em">
         Arcus · Lighter · Nado · Mint Sniper · Nimbus (dry-run) · Portfolio · Take Profits · Bound · Monk
       </div>
-      <a class="btn btn-ghost" href="apps/">Open free paper desks →</a>
-      <a class="btn btn-ghost" href="live-studio/">Live Studio</a>
+      <a class="btn btn-ghost" href="apps/">Open paper desks</a>
     </div>
   </section>
 
-  <section id="demos">
-    <h2>Live demos</h2>
-    <p class="sub">Paper / demo only — not live fills. Brand posts managed by Grok Bot.</p>
-    <div class="grid" id="demo-grid"></div>
-  </section>
-
-  <section id="access">
-    <h2>Access pass — not a promise</h2>
-    <div class="fig"><img src="assets/04-access.png?v=4" width="1920" height="1080" alt="Access pass: open at launch, premium later, keys private"/></div>
-    <div class="panel">
-      <ul>
-        <li><strong>Open at launch</strong> — later premium tools may need ~0.5% hold.</li>
-        <li><strong>Code teasers stay public</strong> so anyone can inspect the idea.</li>
-        <li><strong>Live keys stay private</strong> — never in public repos or preview chats.</li>
-        <li><strong>No APR / “will 10x” claims.</strong> NFA. Paper demos ≠ live trading.</li>
-      </ul>
-      <div class="ca-box">
-        <div>
-          <div style="font-size:12px;color:var(--mute);margin-bottom:4px">Official token CA</div>
-          <code id="ca">Coming soon — will be posted here + @StaRKCryptoBots + READMEs the same day</code>
-        </div>
-      </div>
+  <section id="demos" aria-labelledby="demos-title">
+    <h2 id="demos-title">Paper demos on X</h2>
+    <p class="sub">Posts on the brand account. Paper / demo only — not live fills.</p>
+    <div class="grid" id="demo-grid">
+      <article class="card"><h3>Project pin</h3><p>Overview post — why, how, stack, plans.</p><div class="links"><a href="https://x.com/StaRKCryptoBots/status/2100370890215043249" target="_blank" rel="noopener noreferrer">On X</a></div></article>
+      <article class="card"><h3>S/R Desk</h3><p>Candlestick paper trade.</p><div class="links"><a href="https://x.com/StaRKCryptoBots/status/2100351594118410397" target="_blank" rel="noopener noreferrer">On X</a></div></article>
+      <article class="card"><h3>Arcus</h3><p>Auto S/R zones and a kill switch.</p><div class="links"><a href="https://x.com/StaRKCryptoBots/status/2100353834023624999" target="_blank" rel="noopener noreferrer">On X</a></div></article>
+      <article class="card"><h3>Lighter</h3><p>Ladder and S/R paper desk.</p><div class="links"><a href="https://x.com/StaRKCryptoBots/status/2100354470123114593" target="_blank" rel="noopener noreferrer">On X</a></div></article>
+      <article class="card"><h3>Nado Farm</h3><p>Farm desk sim fills.</p><div class="links"><a href="https://x.com/StaRKCryptoBots/status/2100355083913302274" target="_blank" rel="noopener noreferrer">On X</a></div></article>
+      <article class="card"><h3>Mint Sniper</h3><p>Arm, alert, paper attempt.</p><div class="links"><a href="https://x.com/StaRKCryptoBots/status/2100364266989932909" target="_blank" rel="noopener noreferrer">On X</a></div></article>
+      <article class="card"><h3>Portfolio</h3><p>Demo bag and PnL view.</p><div class="links"><a href="https://x.com/StaRKCryptoBots/status/2100365065790906428" target="_blank" rel="noopener noreferrer">On X</a></div></article>
+      <article class="card"><h3>Nimbus</h3><p>Weather market paper ticket.</p><div class="links"><a href="https://x.com/StaRKCryptoBots/status/2100371853067862051" target="_blank" rel="noopener noreferrer">On X</a></div></article>
+      <article class="card"><h3>Profit Taking</h3><p>Ladder paper take-profit.</p><div class="links"><a href="https://x.com/StaRKCryptoBots/status/2100372248804638746" target="_blank" rel="noopener noreferrer">On X</a></div></article>
+      <article class="card"><h3>Bound</h3><p>DD checklist demo.</p><div class="links"><a href="https://x.com/StaRKCryptoBots/status/2100372625683845471" target="_blank" rel="noopener noreferrer">On X</a></div></article>
+      <article class="card"><h3>Monk</h3><p>BTC/ETH relative-strength paper signal.</p><div class="links"><a href="https://x.com/StaRKCryptoBots/status/2100373079763439808" target="_blank" rel="noopener noreferrer">On X</a></div></article>
     </div>
   </section>
 
-  <section id="coming">
-    <h2>Many more on the way</h2>
-    <p class="sub">This is the first wave. More desks are in build — same rule: public teaser → paper demo → open desks · premium later.</p>
+  <section id="coming" aria-labelledby="coming-title">
+    <h2 id="coming-title">Many more on the way</h2>
+    <p class="sub">This is the first wave that exists in the repo. More desks are ideas — same rule: public teaser, then a paper demo.</p>
     <div class="grid">
-      <div class="card soon"><h3>Perp copy desk</h3><p>Signal → size → paper/live toggle for perps venues.</p><div class="links"><span class="soon-tag">COMING</span></div></div>
-      <div class="card soon"><h3>Funding harvester</h3><p>Watch funding / basis and flag harvest windows.</p><div class="links"><span class="soon-tag">COMING</span></div></div>
+      <div class="card soon"><h3>Perp copy desk</h3><p>Signal, size, and a paper or live toggle for perp venues.</p><div class="links"><span class="soon-tag">COMING</span></div></div>
+      <div class="card soon"><h3>Funding harvester</h3><p>Watch funding and basis, and flag harvest windows.</p><div class="links"><span class="soon-tag">COMING</span></div></div>
       <div class="card soon"><h3>Liquidation radar</h3><p>Cluster liquidations and map heat around S/R.</p><div class="links"><span class="soon-tag">COMING</span></div></div>
       <div class="card soon"><h3>Wallet intel</h3><p>Watch labeled wallets and alert on size moves.</p><div class="links"><span class="soon-tag">COMING</span></div></div>
-      <div class="card soon"><h3>Options / vol desk</h3><p>Simple IV / skew board for hedgers.</p><div class="links"><span class="soon-tag">COMING</span></div></div>
-      <div class="card soon"><h3>Alert router</h3><p>One pipe: Telegram / Discord / X DMs for all desks.</p><div class="links"><span class="soon-tag">COMING</span></div></div>
-      <div class="card soon"><h3>Multi-chain TP v2</h3><p>Richer ladders, trailing, bag groups.</p><div class="links"><span class="soon-tag">COMING</span></div></div>
+      <div class="card soon"><h3>Options / vol desk</h3><p>A simple IV and skew board for hedgers.</p><div class="links"><span class="soon-tag">COMING</span></div></div>
+      <div class="card soon"><h3>Alert router</h3><p>One pipe for Telegram, Discord, and X DMs. Discord has no public invite in this repo, so it is not linked.</p><div class="links"><span class="soon-tag">COMING</span></div></div>
+      <div class="card soon"><h3>Multi-chain TP v2</h3><p>Richer ladders, trailing stops, and bag groups.</p><div class="links"><span class="soon-tag">COMING</span></div></div>
       <div class="card soon"><h3>Strategy studio</h3><p>Compose desks into playbooks you can share.</p><div class="links"><span class="soon-tag">COMING</span></div></div>
       <div class="card soon"><h3>Your request?</h3><p>Tell @StaRKCryptoBots what desk you want next.</p><div class="links"><a href="https://x.com/StaRKCryptoBots">Ask on X</a></div></div>
     </div>
-    <p class="sub" style="margin-top:18px">Shipping cadence: new paper demos on X as they harden — then premium modules may add a ~0.5% hold gate.</p>
   </section>
 
-  <section id="plans">
-    <h2>What’s next</h2>
-    <p class="sub">Launch order we’re following.</p>
+  <section id="plans" aria-labelledby="plans-title">
+    <h2 id="plans-title">What’s next</h2>
+    <p class="sub">Order the public site is following. The coin is still last.</p>
     <div class="steps">
-      <div class="step"><div class="n">DONE</div><h3>Proof layer</h3><p>GitHub teasers, X demos, pin article, landing — first wave live, more desks shipping.</p></div>
-      <div class="step"><div class="n">NEXT</div><h3>Personal pointer</h3><p>@_Starkcrypto confirms brand ownership and points here.</p></div>
-      <div class="step"><div class="n">THEN</div><h3>Coin + open desks</h3><p>pump.fun last. CA everywhere same day. Desks open; premium hold later.</p></div>
+      <div class="step"><div class="n">DONE</div><h3>Proof layer</h3><p>Repository samples, X demos, and this landing page. More desks can ship as paper.</p></div>
+      <div class="step"><div class="n">NEXT</div><h3>Same address everywhere</h3><p>@_Starkcrypto and @StaRKCryptoBots will point at the contract only when it exists, in the main post, not only in a reply.</p></div>
+      <div class="step"><div class="n">THEN</div><h3>Coin</h3><p>The address is pasted into one config value. This page, both X accounts, and the READMEs update the same day.</p></div>
     </div>
   </section>
 
-  <section id="faq">
-    <h2>FAQ</h2>
+  <section id="faq" aria-labelledby="faq-title">
+    <h2 id="faq-title">FAQ</h2>
     <div class="faq">
-      <details open><summary>Is this financial advice?</summary><p>No. Everything here is NFA. Tools can break. Paper demos are synthetic.</p></details>
-      <details><summary>Where is the contract address?</summary><p>Not live yet. When launched, CA will appear on this page, @StaRKCryptoBots, and official GitHub READMEs together — never only in a reply.</p></details>
-      <details><summary>Who runs @StaRKCryptoBots?</summary><p>Brand posts are managed by Grok Bot for StaRKCrypto. Personal account: @_Starkcrypto.</p></details>
-      <details><summary>Can I self-host?</summary><p>Public teasers are meant to be readable. Core desks open; later premium is what a ~0.5% hold may unlock.</p></details>
+      <details open><summary>Is this financial advice?</summary><p>No. Tools can break. Paper demos are synthetic. Read the disclaimer above.</p></details>
+      <details><summary>Where is the contract address?</summary><p>It reads “Coming at launch” until it is published. The copy button stays off while the config value is empty. When it exists, the same address will be on this page, @StaRKCryptoBots, @_Starkcrypto, and the official READMEs — never only in a reply.</p></details>
+      <details><summary>What are the tokenomics?</summary><p>They are not set on this site. Supply, fees, allocation, liquidity, and chain are labeled placeholders. Do not treat a draft note in the repository as a published figure.</p></details>
+      <details><summary>Who runs @StaRKCryptoBots?</summary><p>Brand posts are managed for StaRKCrypto. The personal account is <a href="https://x.com/_Starkcrypto">@_Starkcrypto</a>. Email <a href="mailto:ceo@stark-bot.com">ceo@stark-bot.com</a>.</p></details>
+      <details><summary>Is there a Discord?</summary><p>Discord is named as a future alert route. This repository has no invite URL, so the site does not link one.</p></details>
+      <details><summary>Can I self-host?</summary><p>The public samples are readable. Paper desks on this site are the hosted demos. Live keys are not included.</p></details>
     </div>
   </section>
+  </main>
 
   <footer>
     <div class="row">
       <a class="btn btn-primary" href="https://x.com/StaRKCryptoBots">Follow @StaRKCryptoBots</a>
-      <a class="btn btn-ghost" href="https://github.com/StaRKCrypto/stark-tools">Star GitHub hub</a>
-      <a class="btn btn-ghost" href="https://www.youtube.com/@starksystems-y2r" target="_blank" rel="noopener">YouTube</a>
-      <a class="btn btn-ghost" href="https://x.com/StaRKCryptoBots/status/2100506806254461058">Landing announce</a>
+      <a class="btn btn-ghost" href="https://x.com/_Starkcrypto">@_Starkcrypto</a>
+      <a class="btn btn-ghost" href="https://github.com/StaRKCrypto/stark-tools">GitHub hub</a>
+      <a class="btn btn-ghost" href="mailto:ceo@stark-bot.com">ceo@stark-bot.com</a>
     </div>
-    StaRKCrypto · Brand managed by Grok Bot · Personal @_Starkcrypto · MIT on public teasers · NFA<br/>
-    <span style="opacity:.75">https://starkcrypto.github.io/stark-tools/</span>
+    <nav aria-label="Footer">
+      <a href="privacy/">Privacy</a>
+      <a href="terms/">Terms</a>
+      <a href="apps/">Paper apps</a>
+      <a href="#disclaimer">Not financial advice</a>
+      <span class="quiet">Discord · no public link in this repo</span>
+    </nav>
+    StaRKCrypto · Brand @StaRKCryptoBots · Personal @_Starkcrypto · MIT on public samples<br/>
+    <span style="opacity:.75">https://stark-bot.com</span>
   </footer>
 </div>
+<script src="site-config.js"></script>
 <script>
-const bots=[
-  {h:'S/R Desk',p:'Paste a coin → map support & resistance → paper trade.',g:'https://github.com/StaRKCrypto/sr-bot'},
-  {h:'Arcus S/R',p:'Auto zones, paper tickets, kill switch.',g:'https://github.com/StaRKCrypto/arcus-sr'},
-  {h:'Lighter',p:'Order ladder + S/R paper MM-style desk.',g:'https://github.com/StaRKCrypto/lighter-bot'},
-  {h:'Nado Farm',p:'Venue farm desk with sim fills & PnL.',g:'https://github.com/StaRKCrypto/nado-bot'},
-  {h:'Mint Scout',p:'Watchlist → arm → alert → paper sniper log.',g:'https://github.com/StaRKCrypto/mint-scout'},
-  {h:'Portfolio',p:'Bag view, marks, and PnL (demo wallet).',g:'https://github.com/StaRKCrypto/stark-portfolio'},
-  {h:'Nimbus',p:'Polymarket-style weather markets → paper ticket.',g:'https://github.com/StaRKCrypto/nimbus-desk'},
-  {h:'Take Profits',p:'2× ladder watchers → paper TP fill.',g:'https://github.com/StaRKCrypto/take-profits'},
-  {h:'Bound DD',p:'Token checklist / scoring UI.',g:'https://github.com/StaRKCrypto/bound'},
-  {h:'Monk Pair',p:'BTC vs ETH relative-strength paper signal.',g:'https://github.com/StaRKCrypto/monk-pair'},
-  {h:'Farmer',p:'Volume-farm strategy notes (no live keys).',g:'https://github.com/StaRKCrypto/farmer'},
-  {h:'Weather bot',p:'Weather agent sample docs.',g:'https://github.com/StaRKCrypto/weather-bot'},
-];
-const demos=[
-  {h:'📌 Project pin',p:'Full overview thread — why, how, stack, plans.',x:'https://x.com/StaRKCryptoBots/status/2100370890215043249'},
-  {h:'S/R Desk',p:'First bot teaser with candlestick paper trade.',x:'https://x.com/StaRKCryptoBots/status/2100351594118410397',g:'https://github.com/StaRKCrypto/sr-bot'},
-  {h:'Arcus',p:'Auto S/R zones + kill switch demo.',x:'https://x.com/StaRKCryptoBots/status/2100353834023624999',g:'https://github.com/StaRKCrypto/arcus-sr'},
-  {h:'Lighter',p:'Ladder + S/R paper desk.',x:'https://x.com/StaRKCryptoBots/status/2100354470123114593',g:'https://github.com/StaRKCrypto/lighter-bot'},
-  {h:'Nado Farm',p:'Farm desk sim fills.',x:'https://x.com/StaRKCryptoBots/status/2100355083913302274',g:'https://github.com/StaRKCrypto/nado-bot'},
-  {h:'Mint Sniper',p:'Arm → alert → paper attempt.',x:'https://x.com/StaRKCryptoBots/status/2100364266989932909',g:'https://github.com/StaRKCrypto/mint-scout'},
-  {h:'Portfolio',p:'Demo bag + PnL view.',x:'https://x.com/StaRKCryptoBots/status/2100365065790906428',g:'https://github.com/StaRKCrypto/stark-portfolio'},
-  {h:'Nimbus',p:'Weather market paper ticket.',x:'https://x.com/StaRKCryptoBots/status/2100371853067862051',g:'https://github.com/StaRKCrypto/nimbus-desk'},
-  {h:'Profit Taking',p:'2× ladder paper TP.',x:'https://x.com/StaRKCryptoBots/status/2100372248804638746',g:'https://github.com/StaRKCrypto/take-profits'},
-  {h:'Bound',p:'DD checklist demo.',x:'https://x.com/StaRKCryptoBots/status/2100372625683845471',g:'https://github.com/StaRKCrypto/bound'},
-  {h:'Monk',p:'BTC/ETH RS paper signal.',x:'https://x.com/StaRKCryptoBots/status/2100373079763439808',g:'https://github.com/StaRKCrypto/monk-pair'},
-];
-document.getElementById('bots').innerHTML=bots.map(b=>`<div class="card"><h3>${b.h}</h3><p>${b.p}</p><div class="links"><a href="${b.g}">GitHub</a></div></div>`).join('');
-document.getElementById('demo-grid').innerHTML=demos.map(d=>`<div class="card"><h3>${d.h}</h3><p>${d.p}</p><div class="links"><a href="${d.x}">Demo</a>${d.g?` · <a href="${d.g}">Repo</a>`:''}</div></div>`).join('');
-const btn=document.getElementById('menu'), nav=document.getElementById('nav');
-const setOpen=open=>{nav.classList.toggle('open',open);btn.setAttribute('aria-expanded',open?'true':'false')};
-btn.onclick=()=>setOpen(!nav.classList.contains('open'));
-nav.querySelectorAll('a').forEach(a=>a.onclick=()=>setOpen(false));
-document.addEventListener('keydown',e=>{if(e.key==='Escape')setOpen(false)});
+(function () {
+  var raw = "";
+  if (window.STARK_SITE && typeof window.STARK_SITE.contractAddress === "string") {
+    raw = window.STARK_SITE.contractAddress.trim();
+  }
+  var blocked = /^(coming at launch|your_token_ca_here|placeholder|tbd|todo|n\/a|na|none|unset|not set|coming soon)$/i;
+  var published = raw.length > 0 && !blocked.test(raw);
+  var caEl = document.getElementById("ca");
+  var rowEl = document.getElementById("ca-row");
+  var btn = document.getElementById("copy-ca");
+  var hint = document.getElementById("ca-hint");
+  var status = document.getElementById("copy-status");
+  var shown = published ? raw : "Coming at launch";
+  if (caEl) caEl.textContent = shown;
+  if (rowEl) rowEl.textContent = shown;
+  if (btn) {
+    btn.disabled = !published;
+    btn.setAttribute("aria-disabled", published ? "false" : "true");
+    if (published) {
+      if (hint) hint.textContent = "This is the published contract address.";
+      btn.addEventListener("click", function () {
+        var done = function () {
+          btn.textContent = "Copied";
+          if (status) status.textContent = "Contract address copied.";
+          setTimeout(function () { btn.textContent = "Copy address"; }, 1600);
+        };
+        var fail = function () {
+          btn.textContent = "Copy failed";
+          if (status) status.textContent = "Could not copy. Select the address instead.";
+        };
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(raw).then(done, fail);
+        } else {
+          try {
+            var ta = document.createElement("textarea");
+            ta.value = raw;
+            ta.setAttribute("readonly", "");
+            ta.style.position = "fixed";
+            ta.style.left = "-999px";
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy") ? done() : fail();
+            ta.remove();
+          } catch (err) { fail(); }
+        }
+      });
+    }
+  }
+
+  var menu = document.getElementById("menu");
+  var nav = document.getElementById("nav");
+  function setOpen(open) {
+    nav.classList.toggle("open", open);
+    menu.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+  menu.addEventListener("click", function () { setOpen(!nav.classList.contains("open")); });
+  nav.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", function () { setOpen(false); }); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") setOpen(false); });
+})();
 </script>
 </body>
 </html>

@@ -1,0 +1,6 @@
+# https://stark-bot.com
+User-agent: *
+Allow: /
+Disallow: /trust/
+
+Sitemap: https://stark-bot.com/sitemap.xml

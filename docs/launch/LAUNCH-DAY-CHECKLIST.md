@@ -56,7 +56,7 @@ Only after user says **launch**:
 
 Paste the **same** CA in main text / fields — never CA-only in a random reply:
 
-- [ ] **Landing** CA box — `starkcrypto.github.io/stark-tools`  
+- [ ] **Website** `docs/site-config.js` — set `contractAddress` to the mint and no other value. An empty string keeps stark-bot.com on “Coming at launch” and leaves Copy disabled. Do not invent an address.
 - [ ] **GitHub** hub `README.md` + `LANDING.md` + `docs/launch/*` CA placeholders  
 - [ ] Major teaser READMEs “Token CA” lines (as applicable)  
 - [ ] **Dexscreener** socials (website + X + YouTube + GitHub) when listing appears  
