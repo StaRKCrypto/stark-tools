@@ -1,21 +1,22 @@
-# $BOTS advanced create parameters — LOCKED (user confirmed SOL)
+# $STARKBOT advanced create parameters — LOCKED (user confirmed SOL)
 
-**Locked 2026-09-20:** Path **A · SOL pair**. Custom/Cashcat rejected. Typed 2% fee N/A on SOL UI.
+**Locked 2026-09-20:** Path **A · SOL pair**. Custom/Cashcat rejected. Fee percent is a placeholder — not set. Do not publish one.
 
 ## Create form
 
 | Field | Value |
 |-------|-------|
 | Name | StaRK Bots |
-| Ticker | BOTS |
+| Ticker | STARKBOT |
 | Description | from PUMPFUN-LISTING-PACK.md |
 | Website | https://starkcrypto.github.io/stark-tools/ |
 | X | https://x.com/StaRKCryptoBots |
+| YouTube | https://www.youtube.com/@starksystems-y2r |
 | Telegram | empty |
 | Pool pair | **SOL** |
 | Send creator rewards to | **Creator** |
 | Mayhem | **OFF** |
-| Creator fee (%) | not shown on SOL — do not market a 2% tax |
+| Creator fee (%) | Placeholder — not set. Do not publish a fee percent. |
 | Media | BOTS-logo-official.png (1000×1000) |
 | Banner | skip |
 | Initial buy | not on create screen — optional 2 SOL buy after mint |
@@ -45,5 +46,5 @@ Admin/creator wallet: see CREATOR-ADDRESS.txt
 
 
 ## Access model (2026-09-20)
-- Launch: **open to everyone** — no 0.5% wall on day one.
-- Later: new premium tools may require ~0.5% (5M $BOTS) hold.
+- Launch: **open to everyone**. Any later hold is a placeholder — not set.
+- Later: do not publish a hold size for $STARKBOT until it is decided.

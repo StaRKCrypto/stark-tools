@@ -1,9 +1,9 @@
-# $BOTS launch-day checklist (DRAFT · DO NOT LAUNCH YET)
+# $STARKBOT launch-day checklist (DRAFT · DO NOT LAUNCH YET)
 
 **Hard stop:** Do **not** create the coin, fund a creator buy, or post a CA until the user explicitly says **`launch`**.  
 This file is prep only.
 
-**Locked:** Name `StaRK Bots` · Ticker `BOTS` · 1B supply · no custom tax · ≤5 SOL creator buy (one wallet) · open access at launch · later premium ~0.5% = 5M · logo = hexagon official PNG.
+**Locked:** Name `StaRK Bots` · Ticker `$STARKBOT` · supply, fees, allocation, and liquidity are placeholders — not set · logo = hexagon official PNG.
 
 ---
 
@@ -15,7 +15,7 @@ This file is prep only.
   - Local: `/workspace/demo-capture/launch/BOTS-logo-official.png`  
   - Repo mirror: `docs/launch/BOTS-logo-official.png` (1000×1000 hexagon mark)  
 - [ ] Listing **description** copied from `PUMPFUN-LISTING-PACK.md` §2  
-- [ ] Socials ready: website `https://starkcrypto.github.io/stark-tools/` · X `https://x.com/StaRKCryptoBots` · GitHub `https://github.com/StaRKCrypto/stark-tools`  
+- [ ] Socials ready: website `https://starkcrypto.github.io/stark-tools/` · X `https://x.com/StaRKCryptoBots` · YouTube `https://www.youtube.com/@starksystems-y2r` · GitHub `https://github.com/StaRKCrypto/stark-tools`  
 - [ ] X cover optional: `starkbots-cover-1500x500.png`  
 - [ ] Tabs open (draft only): pump.fun create · landing editor · GitHub · Dexscreener · X @StaRKCryptoBots · X @_Starkcrypto  
 - [ ] User has said **`launch`** — if not, **STOP HERE**
@@ -29,11 +29,12 @@ Only after user says **launch**:
 | Field | Value |
 |-------|--------|
 | Name | `StaRK Bots` |
-| Ticker / symbol | `BOTS` |
+| Ticker / symbol | `STARKBOT` |
 | Image | `BOTS-logo-official.png` (hexagon) |
 | Description | Paste from listing pack |
 | Website | `https://starkcrypto.github.io/stark-tools/` |
 | Twitter/X | `https://x.com/StaRKCryptoBots` |
+| YouTube | `https://www.youtube.com/@starksystems-y2r` |
 | GitHub | `https://github.com/StaRKCrypto/stark-tools` |
 
 - [ ] Connect **creator** wallet only  
@@ -55,10 +56,10 @@ Only after user says **launch**:
 
 Paste the **same** CA in main text / fields — never CA-only in a random reply:
 
-- [ ] **Landing** CA box — `starkcrypto.github.io/stark-tools`  
+- [ ] **Website** `docs/site-config.js` — set `contractAddress` to the mint and no other value. An empty string keeps stark-bot.com on “Coming at launch” and leaves Copy disabled. Do not invent an address.
 - [ ] **GitHub** hub `README.md` + `LANDING.md` + `docs/launch/*` CA placeholders  
 - [ ] Major teaser READMEs “Token CA” lines (as applicable)  
-- [ ] **Dexscreener** socials (website + X + GitHub) when listing appears  
+- [ ] **Dexscreener** socials (website + X + YouTube + GitHub) when listing appears  
 - [ ] **Pin reply** on @StaRKCryptoBots pin thread (CA in reply body)  
 - [ ] **@_Starkcrypto** shout / pointer post with CA in main text  
 - [ ] **@StaRKCryptoBots** launch post (use draft in `SOLANA-LAUNCH-PLAN.md` §7)
