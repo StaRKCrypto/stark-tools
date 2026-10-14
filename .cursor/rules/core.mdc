@@ -1,0 +1,22 @@
+---
+description: Working rules for agents in the stark-tools repo
+alwaysApply: true
+---
+
+# Core agent rules
+
+These rules apply to every change in this repository.
+
+1. **Plan before coding.** Read the relevant code, name the outcome, and list the files you expect to touch before you edit. If the approach is unclear, write that plan first.
+
+2. **Keep the solution simple.** Use the smallest change that does the job. Do not add a dependency, a new layer, or a new pattern when the existing code can carry the change.
+
+3. **Stay surgical.** Edit only what the task requires. Do not reformat, rename, or refactor neighboring code in the same change.
+
+4. **Prove the result.** Define a check that would fail if the change were wrong, run it, and only then treat the task as done. A test, a lint command, or a concrete reproduction all count. Report what you ran.
+
+## Secrets
+
+Never read, print, or commit secrets, keys, seeds, or `.env` files. Do not open them, paste them into chat, logs, diffs, or pull requests, or stage them. This is a public teaser repo. Follow `STEP0-SECRET-CHECKLIST.md`.
+
+Longer notes and the vendored skills index are in `AGENTS.md`.
